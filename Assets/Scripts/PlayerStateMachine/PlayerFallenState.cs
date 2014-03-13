@@ -8,13 +8,17 @@ public class PlayerFallenState : FSMState<Player> {
 	{
 		p.fallen = true;
 		p.gameObject.layer = 8; //fallen layer
+		p.collider2D.enabled = false;
+		p.collider2D.enabled = true;
 		//p.collider2D.enabled = false;
 		p.StartCoroutine(Fall (p));
+		p.GetComponentInChildren<SpriteRenderer>().color = Color.gray;
+
 	}
 	
 	public override void Execute(Player p)
 	{
-		//p.collider2D.enabled = false;
+
 
 	}
 	
@@ -23,6 +27,8 @@ public class PlayerFallenState : FSMState<Player> {
 		p.fallen = false;
 		p.gameObject.layer = 0; 
 		//p.collider2D.enabled = true;
+		p.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+
 	}
 
 	public IEnumerator Fall(Player p)

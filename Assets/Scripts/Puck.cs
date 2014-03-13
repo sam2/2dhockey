@@ -38,9 +38,10 @@ public class Puck : MonoBehaviour {
 		
 	}
 	
-	public void Shoot(Vector2 forceVector){
+	public void Shoot(Vector2 forceVector)
+	{
 		rigidbody2D.AddForce(forceVector);
-		controllingPlayer.DisableBox(.5f);
+		controllingPlayer.DisableBox(.25f);
 		controllingPlayer = null;
 
 	}

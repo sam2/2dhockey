@@ -5,6 +5,8 @@ using System.Collections;
 
 public class Player : PlayerBase {
 
+	public Vector3 facing;
+
 	//*****************************************************************************
 
 
@@ -75,6 +77,7 @@ public class Player : PlayerBase {
 	//*****************************************************************************
 
 	void Start () {
+
 		RandomizeAttributes();
 		steering = new SteeringBehavior(rigidbody2D, speed);
 		facing = transform.forward;
@@ -94,19 +97,22 @@ public class Player : PlayerBase {
 	{	
 		FSM.UpdateStateMachine();
 		facing = rigidbody2D.velocity.normalized;
-		foreach(Player p in team.mPlayers)
+		if(!fallen)
 		{
-			rigidbody2D.AddForce(steering.Evade(p.rigidbody2D, separationDistance)*0.25f);
-		}
-
-		if(team.InControl())
-		{
-			foreach(Player p in team.opponent.mPlayers)
+			foreach(Player p in team.mPlayers)
 			{
-				rigidbody2D.AddForce(steering.Evade(p.rigidbody2D, separationDistance)*0.75f);
+				rigidbody2D.AddForce(steering.Evade(p.rigidbody2D, separationDistance)*0.25f);
 			}
 
-		
+			if(team.InControl())
+			{
+				foreach(Player p in team.opponent.mPlayers)
+				{
+					rigidbody2D.AddForce(steering.Evade(p.rigidbody2D, separationDistance)*0.25f);
+				}
+
+			
+			}
 		}
 
 
@@ -118,27 +124,7 @@ public class Player : PlayerBase {
 	}
 
 
-	//*****************************************************************************
 
-	float destinationTolerance = 0.1f;
-
-	public bool isAtDestination()
-	{
-		if((destinationPosition - new Vector2(transform.position.x, transform.position.y)).magnitude < destinationTolerance)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	public bool isAtHomePosition()
-	{
-		if((mHomePosition - new Vector2(transform.position.x, transform.position.y)).magnitude < destinationTolerance)
-		{
-			return true;
-		}
-		return false;
-	}
 
 	//*****************************************************************************
 
@@ -214,8 +200,12 @@ public class Player : PlayerBase {
 	{
 		int init = gameObject.layer;
 		gameObject.layer = 8;
+		collider2D.enabled = false;
+		collider2D.enabled = true;
 		yield return new WaitForSeconds(time);
 		gameObject.layer = init;
+		collider2D.enabled = false;
+		collider2D.enabled = true;
 	}
 
 	//*****************************************************************************

@@ -14,15 +14,36 @@ public class PlayerBase : MonoBehaviour {
 
 	public Vector2 destinationPosition;
 	public Vector2 mHomePosition;
-	public Vector3 facing;
 
 	// Use this for initialization
 	void Start () {
-	
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	//*****************************************************************************
+	
+	float destinationTolerance = 0.1f;
+	
+	public bool isAtDestination()
+	{
+		if((destinationPosition - new Vector2(transform.position.x, transform.position.y)).magnitude < destinationTolerance)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public bool isAtHomePosition()
+	{
+		if((mHomePosition - new Vector2(transform.position.x, transform.position.y)).magnitude < destinationTolerance)
+		{
+			return true;
+		}
+		return false;
 	}
 }
