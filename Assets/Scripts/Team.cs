@@ -1,0 +1,153 @@
+﻿using UnityEngine;
+using System.Collections;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+public class Team : MonoBehaviour{
+
+	public GameObject playerPrefab;
+
+	public List<Player> mPlayers;
+	public List<Vector2> mDefensivePositions;
+	public List<Vector2> mOffensivePositions;
+
+	public Team opponent;
+
+	public Player mControllingPlayer;
+	public Player mPlayerClosestToPuck;
+	public Player mReceivingPlayer;
+	public Player mSupportingPlayer;
+
+	public TeamAttackingState attackState = new TeamAttackingState();
+	public TeamDefendingState defendState = new TeamDefendingState();
+	public TeamFaceoffState faceoffState = new TeamFaceoffState();
+
+	private FiniteStateMachine<Team> FSM;
+
+	public int side; //-1 for left, 1 for right
+
+	void Awake()
+	{
+		SpawnPlayers();
+
+		FSM = new FiniteStateMachine<Team>();
+		FSM.Init();
+		FSM.Configure(this, faceoffState);
+	}
+
+	public void ChangeState(FSMState<Team> state)
+	{
+		FSM.ChangeState(state);
+	}
+
+	void Start()
+	{
+		Puck.puck.PuckControlChanged += new PuckControlChangedHandler(OnPlayerRecievedPuck);
+	}
+
+	void SpawnPlayers()
+	{
+		mPlayers = new List<Player>();
+		for(int i = 0; i < mDefensivePositions.Count; i++)
+		{
+			GameObject g = (GameObject) Instantiate(playerPrefab, mDefensivePositions[i], Quaternion.identity);
+			g.transform.parent = transform;
+			Player p = g.GetComponent<Player>();
+			p.team = this;
+			mPlayers.Add(p);
+		}
+	}
+
+	public void SetHomePositions(List<Vector2> positions)
+	{
+		for(int i = 0; i < mPlayers.Count; i++)
+		{
+			mPlayers[i].mHomePosition = positions[i];
+		}
+	}
+
+	public void SetDestinationPositionsToHome()
+	{
+		foreach(Player p in mPlayers)
+		{
+			p.destinationPosition = p.mHomePosition;
+		}
+	}
+
+	public bool InControl()
+	{
+		if(Puck.puck.controllingPlayer != null)
+		{
+			if(Puck.puck.controllingPlayer.team == this)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void OnPlayerRecievedPuck(Player p)
+	{
+		if(p.team == this)		                     
+			FSM.ChangeState(attackState);
+		else
+			FSM.ChangeState(defendState);
+	}
+
+
+	void Update()
+	{
+		mPlayerClosestToPuck = ClosestToPuck();
+		FSM.UpdateStateMachine();
+
+	}
+
+	Player ClosestToPuck()
+	{
+		float distance = 9999;
+		Player closest = null;
+		foreach(Player p in mPlayers)
+		{
+			float newDist = Vector2.Distance(p.transform.position, Puck.puck.transform.position);
+			if( newDist < distance && !p.fallen)
+			{
+				closest = p;
+				distance = newDist;
+			}
+		}
+
+		return closest;
+	}
+	
+	public Vector2 DetermineBestSupportingPosition()
+	{
+		float bestScore;
+		Vector2 spot = Vector2.zero;
+		foreach(SupportSpot s in ArenaGenerator.samples)
+		{
+			s.mScore = 0;
+		}
+		return spot;
+	}
+
+	public bool IsPassSafe(Vector2 target)
+	{
+		//Debug.DrawLine(Puck.puck.transform.position, target);
+		RaycastHit2D ray = Physics2D.Linecast(Puck.puck.transform.position, target);
+		if(ray)
+		{
+			Player hit = ray.collider.GetComponent<Player>();
+			if(hit && hit.team != this)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+
+
+}
