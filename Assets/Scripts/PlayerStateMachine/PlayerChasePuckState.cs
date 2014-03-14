@@ -21,9 +21,9 @@ public class PlayerChasePuckState : FSMState<Player> {
 		if(p.team.mPlayerClosestToPuck == p && Puck.puck.controllingPlayer != p)
 		{
 			p.destinationPosition = Puck.puck.transform.position;
-			if(Puck.puck.controllingPlayer != null)
-				p.rigidbody2D.AddForce(p.steering.Pursuit(Puck.puck.controllingPlayer.rigidbody2D));
-			else
+			//if(Puck.puck.controllingPlayer != null)
+			//	p.rigidbody2D.AddForce(p.steering.Pursuit(Puck.puck.controllingPlayer.rigidbody2D));
+			//else
 				p.rigidbody2D.AddForce(p.steering.Seek(p.destinationPosition));
 			return;
 		}

@@ -12,6 +12,7 @@ public class PlayerFallenState : FSMState<Player> {
 		p.collider2D.enabled = true;
 		//p.collider2D.enabled = false;
 		p.StartCoroutine(Fall (p));
+
 		p.GetComponentInChildren<SpriteRenderer>().color = Color.gray;
 
 	}

@@ -16,11 +16,12 @@ public class PlayerWaitState : FSMState<Player> {
 
 			if(p.IsThreatened())
 			{
-				Player passTarget = p.FindPass();
-				if(passTarget != null)
-				{
-					Puck.puck.Shoot((passTarget.transform.position - Puck.puck.transform.position).normalized*p.shotPower/1.5f);
-				}
+				//Player passTarget = p.FindPass();
+				//if(passTarget != null)
+				//{
+				//Puck.puck.Shoot((passTarget.transform.position - Puck.puck.transform.position).normalized*p.shotPower/1.5f);
+				//}
+				p.FindPass();
 			}
 		}
 

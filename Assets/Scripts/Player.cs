@@ -101,14 +101,14 @@ public class Player : PlayerBase {
 		{
 			foreach(Player p in team.mPlayers)
 			{
-				rigidbody2D.AddForce(steering.Evade(p.rigidbody2D, separationDistance)*0.25f);
+				rigidbody2D.AddForce(steering.Evade(p.rigidbody2D, separationDistance)*0.50f);
 			}
 
 			if(team.InControl())
 			{
 				foreach(Player p in team.opponent.mPlayers)
 				{
-					rigidbody2D.AddForce(steering.Evade(p.rigidbody2D, separationDistance)*0.25f);
+					rigidbody2D.AddForce(steering.Evade(p.rigidbody2D, separationDistance)*0.5f);
 				}
 
 			
@@ -167,7 +167,7 @@ public class Player : PlayerBase {
 	{
 		int balanceRoll = (Puck.puck.controllingPlayer.balance - 10)/2 + Random.Range(0,20);
 		int checkRoll = (checkPower - 10)/2 + Random.Range(0,20);
-		if(checkRoll > balanceRoll)
+		if(checkRoll + 2 > balanceRoll)
 			return true;
 		return false;
 	}
@@ -209,19 +209,25 @@ public class Player : PlayerBase {
 	}
 
 	//*****************************************************************************
-	public Player FindPass()
+	public void FindPass()
 	{
 		foreach(Player p in team.mPlayers)
 		{
-			if(p != this && team.IsPassSafe(p.transform.position) 
+			float puckSpeed = (shotPower/1.5f)*Time.fixedDeltaTime/Puck.puck.rigidbody2D.mass;
+			float timeToReachPlayer = Vector2.Distance(transform.position, p.transform.position) / puckSpeed;
+			Vector2 pos2D = p.transform.position;
+			Vector2 futurePos = pos2D + p.rigidbody2D.velocity * timeToReachPlayer;
+
+			if(p != this && team.IsPassSafe(futurePos) 
 			   && Vector2.Distance(p.transform.position, transform.position) > threatRange 
 			   && !p.IsThreatened()
 			   && Vector2.Distance(p.transform.position, transform.position) < passRange)
 			{
-				return p;
+				Vector2 puckPos2D = Puck.puck.transform.position;
+				Puck.puck.Shoot((futurePos - puckPos2D).normalized*shotPower/1.5f);
+				return;
 			}
 		}
-		return null;
 	}
 
 	public bool IsThreatened()
@@ -263,7 +269,10 @@ public class Player : PlayerBase {
 			Debug.DrawRay(Puck.puck.transform.position, (netPoint-Puck.puck.transform.position));
 			Puck.puck.Shoot((netPoint-Puck.puck.transform.position).normalized*shotPower);
 		}
+	}
 
+	public void LookForPass()
+	{
 
 	}
 
