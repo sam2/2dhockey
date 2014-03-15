@@ -8,6 +8,15 @@ using System.Text;
 public class Team : MonoBehaviour{
 
 	public GameObject playerPrefab;
+	public GameObject goaliePrefab;
+
+	public enum Side
+	{
+		left = -1,
+		right = 1
+	}
+
+	public Side side;
 
 	public List<Player> mPlayers;
 	public List<Vector2> mDefensivePositions;
@@ -25,8 +34,7 @@ public class Team : MonoBehaviour{
 	public TeamFaceoffState faceoffState = new TeamFaceoffState();
 
 	private FiniteStateMachine<Team> FSM;
-
-	public int side; //-1 for left, 1 for right
+	
 
 	void Awake()
 	{
@@ -123,7 +131,7 @@ public class Team : MonoBehaviour{
 	
 	public Vector2 DetermineBestSupportingPosition()
 	{
-		float bestScore;
+		//float bestScore;
 		Vector2 spot = Vector2.zero;
 		foreach(SupportSpot s in ArenaGenerator.samples)
 		{

@@ -1,17 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerStateMachine\PlayerChasePuckState.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player.cs">
     <Files>
-      <File FileName="..\2dhockey\Assets\Scripts\PlayerStateMachine\PlayerFallenState.cs" Line="1" Column="1" />
-      <File FileName="..\2dhockey\Assets\Scripts\Player.cs" Line="164" Column="2" />
-      <File FileName="Assets\Scripts\PlayerBase.cs" Line="48" Column="3" />
-      <File FileName="Assets\Scripts\Puck.cs" Line="46" Column="3" />
-      <File FileName="Assets\Scripts\PlayerStateMachine\PlayerFallenState.cs" Line="15" Column="3" />
-      <File FileName="Assets\Scripts\PlayerStateMachine\PlayerReturnState.cs" Line="18" Column="4" />
-      <File FileName="Assets\Scripts\Team.cs" Line="135" Column="40" />
-      <File FileName="Assets\SteeringBehavior.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayerStateMachine\PlayerWaitState.cs" Line="24" Column="11" />
-      <File FileName="Assets\Scripts\PlayerStateMachine\PlayerChasePuckState.cs" Line="26" Column="6" />
+      <File FileName="Assets\Scripts\Team.cs" Line="143" Column="20" />
+      <File FileName="Assets\Scripts\Player.cs" Line="227" Column="92" />
+      <File FileName="Assets\Scripts\Goalie.cs" Line="7" Column="26" />
+      <File FileName="Assets\Scripts\Puck.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerStateMachine\PlayerFallenState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerAnimationHandler.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SaveChecker.cs" Line="27" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

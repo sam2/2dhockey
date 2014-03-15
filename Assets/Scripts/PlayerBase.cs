@@ -15,9 +15,14 @@ public class PlayerBase : MonoBehaviour {
 	public Vector2 destinationPosition;
 	public Vector2 mHomePosition;
 
-	// Use this for initialization
-	void Start () {
+	int checkPower;
+	int balance;
 
+	// Use this for initialization
+	public void Init () {
+		steering = new SteeringBehavior(rigidbody2D, speed);
+		checkPower = Random.Range (10, 20);
+		balance = Random.Range(10, 20);
 	}
 	
 	// Update is called once per frame
@@ -44,6 +49,16 @@ public class PlayerBase : MonoBehaviour {
 		{
 			return true;
 		}
+		return false;
+	}
+
+	//DND RULES
+	public bool RollForChecked()
+	{
+		int balanceRoll = (Puck.puck.controllingPlayer.balance - 10)/2 + Random.Range(0,20);
+		int checkRoll = (checkPower - 10)/2 + Random.Range(0,20);
+		if(checkRoll + 2 > balanceRoll)
+			return true;
 		return false;
 	}
 }

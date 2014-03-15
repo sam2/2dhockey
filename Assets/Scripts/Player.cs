@@ -9,10 +9,7 @@ public class Player : PlayerBase {
 
 	//*****************************************************************************
 
-
-	int checkPower;
-	int balance;
-
+	
 
 	//AI***********************************************************************
 
@@ -57,8 +54,7 @@ public class Player : PlayerBase {
 		speed = Random.Range(0.75f, 1.25f)*speed;
 		turnSpeed = Random.Range(0.75f, 1.25f)*turnSpeed;
 		shotPower = Random.Range(0.75f, 1.25f)*shotPower;
-		checkPower = Random.Range (10, 20);
-		balance = Random.Range(10, 20);
+
 	}
 	//*****************************************************************************
 
@@ -76,8 +72,9 @@ public class Player : PlayerBase {
 
 	//*****************************************************************************
 
-	void Start () {
-
+	void Start () 
+	{
+		base.Init();
 		RandomizeAttributes();
 		steering = new SteeringBehavior(rigidbody2D, speed);
 		facing = transform.forward;
@@ -135,16 +132,16 @@ public class Player : PlayerBase {
 		    && !fallen && other.collider == Puck.puck.controllingPlayer.collider2D
 		    && Puck.puck.controllingPlayer.team != team )
 		{
-			Debug.Log("CHECKED");
+			Vector2 dir = other.collider.transform.position - transform.position;
 			if(RollForChecked())
 			{
-				Vector2 dir = other.collider.transform.position - transform.position;
-				Puck.puck.controllingPlayer.GetChecked();
-				Puck.puck.Shoot(dir.normalized*shotPower*Random.Range(.1f, .25f));
+
+				Puck.puck.controllingPlayer.GetChecked(dir);
+
 			}
 			else
 			{
-				GetChecked();
+				GetChecked(dir);
 			}
 			
 		}
@@ -162,21 +159,14 @@ public class Player : PlayerBase {
 		*/
 	}
 
-	//DND RULES
-	bool RollForChecked()
-	{
-		int balanceRoll = (Puck.puck.controllingPlayer.balance - 10)/2 + Random.Range(0,20);
-		int checkRoll = (checkPower - 10)/2 + Random.Range(0,20);
-		if(checkRoll + 2 > balanceRoll)
-			return true;
-		return false;
-	}
+
 
 	//*****************************************************************************
 
-	public void GetChecked()
+	public void GetChecked(Vector2 dir)
 	{
-
+		if(Puck.puck.controllingPlayer == this)
+			Puck.puck.Shoot(dir.normalized*shotPower*Random.Range(.1f, .25f));
 		FSM.ChangeState(fallenState);
 	}
 
@@ -234,7 +224,7 @@ public class Player : PlayerBase {
 	{
 		foreach(Player p in team.opponent.mPlayers)
 		{
-			if(Vector2.Distance(transform.position, p.transform.position) < threatRange)
+			if(Vector2.Distance(transform.position, p.transform.position) < threatRange && !p.fallen)
 				return true;
 		}
 		return false;
@@ -247,7 +237,7 @@ public class Player : PlayerBase {
 		RaycastHit2D hit = Physics2D.Raycast(Puck.puck.transform.position, dir);
 		if(hit.collider.tag != "Player")
 		{
-			if(Mathf.Sign(transform.position.x - (net.transform.position.x + 2*team.side)) == team.side)
+			if(Mathf.Sign(transform.position.x - (net.transform.position.x + 2*(int)team.side)) == (int)team.side)
 				return true;
 		}
 		return false;
@@ -256,7 +246,7 @@ public class Player : PlayerBase {
 	public void LookForShot()
 	{
 		Collider2D net;
-		if(team.side == -1)
+		if((int)team.side == -1)
 		{
 			net = ArenaGenerator.rightGoal.collider2D;
 		}
@@ -265,7 +255,7 @@ public class Player : PlayerBase {
 
 		if(Vector2.Distance(net.transform.position, transform.position) < shotRange && CanScore(net) && Puck.puck.controllingPlayer == this)
 		{
-			Vector3 netPoint = net.transform.position + new Vector3(net.transform.localScale.x/2*team.side, Random.Range(-net.transform.localScale.y*1.5f, net.transform.localScale.y*1.5f) , 0);
+			Vector3 netPoint = net.transform.position + new Vector3(net.transform.localScale.x/2*(int)team.side, Random.Range(-net.transform.localScale.y*1.5f, net.transform.localScale.y*1.5f) , 0);
 			Debug.DrawRay(Puck.puck.transform.position, (netPoint-Puck.puck.transform.position));
 			Puck.puck.Shoot((netPoint-Puck.puck.transform.position).normalized*shotPower);
 		}

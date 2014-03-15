@@ -27,7 +27,7 @@ public class Puck : MonoBehaviour {
 	void Update () {
 		if(controllingPlayer){
 
-			int flip = (int)Mathf.Sign(controllingPlayer.facing.x) * controllingPlayer.GetComponent<PlayerAnimationHandler>().flip;
+			int flip = (int)Mathf.Sign(controllingPlayer.facing.x) * -(int)controllingPlayer.team.side;
 			transform.position = controllingPlayer.transform.position + new Vector3(flip*controllingPlayer.puckCtrl.x, controllingPlayer.puckCtrl.y, 0);
 
 		}

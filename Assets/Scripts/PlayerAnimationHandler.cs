@@ -6,7 +6,6 @@ public class PlayerAnimationHandler : MonoBehaviour {
 
 	Animator animator;
 	Player p;
-	public int flip;
 	// Use this for initialization
 	void Start () {
 		p = GetComponent<Player>();
@@ -34,7 +33,7 @@ public class PlayerAnimationHandler : MonoBehaviour {
 		if(p.facing.x > 0.0f)
 		{
 			face = Facing.right;
-			animator.transform.localScale = new Vector3(flip*1, 1, 1);
+			animator.transform.localScale = new Vector3((int)p.team.side*-1f, 1, 1);
 			if(p.facing.y >= 0.5f)
 			{
 				face = Facing.upRight;
@@ -47,7 +46,7 @@ public class PlayerAnimationHandler : MonoBehaviour {
 		else if(p.facing.x <= 0.0f)
 		{
 			face = Facing.left;
-			animator.transform.localScale = new Vector3(flip*-1, 1, 1);
+			animator.transform.localScale = new Vector3((int)p.team.side*1, 1, 1);
 			if(p.facing.y >= 0.5f)
 			{
 				face = Facing.upLeft;

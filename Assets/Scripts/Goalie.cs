@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Goalie : MonoBehaviour {
+public class Goalie : PlayerBase {
 
-	SteeringBehavior steering;
-	public float maxSpeed;
 
+	public float saveChance;
 	public Vector2 anchor;
 
 	public float challengeDistance;
@@ -14,7 +13,7 @@ public class Goalie : MonoBehaviour {
 	public float leashdistance;
 	// Use this for initialization
 	void Start () {
-		steering = new SteeringBehavior(rigidbody2D, maxSpeed);
+		base.Init();
 
 	}
 	
@@ -39,5 +38,19 @@ public class Goalie : MonoBehaviour {
 	void OnDrawGizmosSelected()
 	{
 		Gizmos.DrawWireSphere(anchor, attackDistance);
+	}
+
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		if(collision.collider.tag == "Player")
+		{
+			Player p = collision.collider.GetComponent<Player>();
+
+			if(p && p.team!= team)
+			{
+				Vector2 dir = p.transform.position - transform.position;
+				p.GetChecked(dir);
+			}
+		}
 	}
 }
