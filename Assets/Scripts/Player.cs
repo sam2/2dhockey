@@ -5,11 +5,13 @@ using System.Collections;
 
 public class Player : PlayerBase {
 
+	public bool AI;
+
 	public Vector3 facing;
 
 	//*****************************************************************************
 
-	
+	TouchControls controls;
 
 	//AI***********************************************************************
 
@@ -37,6 +39,7 @@ public class Player : PlayerBase {
 	public PlayerChasePuckState chaseState = new PlayerChasePuckState();
 	public PlayerReturnState returnState = new PlayerReturnState();
 	public PlayerSupportState supportState = new PlayerSupportState();
+	public PlayerFaceoffState faceoffState = new PlayerFaceoffState();
 
 	public PlayerControlledState controlledState = new PlayerControlledState();
 
@@ -71,17 +74,23 @@ public class Player : PlayerBase {
 	}
 
 	//*****************************************************************************
-
+	void Awake()
+	{
+		FSM = new FiniteStateMachine<Player>();
+		FSM.Init();
+		FSM.Configure(this, waitState);
+	}
 	void Start () 
 	{
 		base.Init();
+		controls = GetComponentInChildren<TouchControls>();
+		SetControllable(!AI);
+		puckCtrl = new Vector2(puckCtrl.x*-(int)team.side, puckCtrl.y);
 		RandomizeAttributes();
 		steering = new SteeringBehavior(rigidbody2D, speed);
 		facing = transform.forward;
 
-		FSM = new FiniteStateMachine<Player>();
-		FSM.Init();
-		FSM.Configure(this, waitState);
+
 
 		destinationPosition = mHomePosition;
 		destDrawer = GetComponent<LineRenderer>();
@@ -115,11 +124,13 @@ public class Player : PlayerBase {
 
 	}
 
-	void Update()
+	public void SetControllable(bool ctrl)
 	{
-
+		if(controls)
+			controls.gameObject.SetActive(ctrl);
+		else
+			Debug.LogError("No controls found on player");
 	}
-
 
 
 

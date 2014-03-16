@@ -32,6 +32,7 @@ public class GoalZone : MonoBehaviour {
 	IEnumerator ResetPuck(float delay)
 	{
 		colder.enabled = false;
+
 		yield return new WaitForSeconds(delay);
 		colder.enabled = true;
 		Puck.puck.Reset();

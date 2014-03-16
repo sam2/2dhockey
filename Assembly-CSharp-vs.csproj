@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerCarryPuckState.cs" />
      <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerChasePuckState.cs" />
      <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerControlledState.cs" />
+     <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerFaceoffState.cs" />
      <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerFallenState.cs" />
      <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerReceivePuckState.cs" />
      <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerReturnState.cs" />

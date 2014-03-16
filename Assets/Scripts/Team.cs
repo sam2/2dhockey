@@ -8,6 +8,7 @@ using System.Text;
 public class Team : MonoBehaviour{
 
 	public GameObject playerPrefab;
+	public RuntimeAnimatorController controller;
 	public GameObject goaliePrefab;
 
 	public enum Side
@@ -34,7 +35,8 @@ public class Team : MonoBehaviour{
 	public TeamFaceoffState faceoffState = new TeamFaceoffState();
 
 	private FiniteStateMachine<Team> FSM;
-	
+
+	public bool AI;
 
 	void Awake()
 	{
@@ -61,13 +63,15 @@ public class Team : MonoBehaviour{
 		for(int i = 0; i < mDefensivePositions.Count; i++)
 		{
 			GameObject g = (GameObject) Instantiate(playerPrefab, mDefensivePositions[i], Quaternion.identity);
+			g.GetComponentInChildren<Animator>().runtimeAnimatorController = controller;
 			g.transform.parent = transform;
 			Player p = g.GetComponent<Player>();
 			p.team = this;
+			p.AI = AI;
 			mPlayers.Add(p);
 		}
 	}
-
+	
 	public void SetHomePositions(List<Vector2> positions)
 	{
 		for(int i = 0; i < mPlayers.Count; i++)
@@ -82,6 +86,18 @@ public class Team : MonoBehaviour{
 		{
 			p.destinationPosition = p.mHomePosition;
 		}
+	}
+
+	public bool TeamIsAtDest()
+	{
+		foreach(Player p in mPlayers)
+		{
+			if(!p.isAtDestination())
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public bool InControl()

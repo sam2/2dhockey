@@ -15,8 +15,7 @@ public class TeamFaceoffState : FSMState<Team> {
 	
 	public override void Execute(Team t)
 	{
-		//if all players at home
-		t.ChangeState(t.defendState);
+
 	}
 	
 	public override void Exit(Team t)
