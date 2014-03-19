@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{BA6E7D89-0978-D051-200C-9DFACEE71ECB}</ProjectGuid>
+	<ProjectGuid>{44F363F3-210E-408E-9E53-7D3F845D0617}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-Boo</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,43 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\ArenaGenerator.cs" />
-     <Compile Include="Assets\Scripts\DiskDrawer.cs" />
-     <Compile Include="Assets\Scripts\Drawing.cs" />
-     <Compile Include="Assets\Scripts\FSMState.cs" />
-     <Compile Include="Assets\Scripts\FiniteStateMachine.cs" />
-     <Compile Include="Assets\Scripts\GameManager.cs" />
-     <Compile Include="Assets\Scripts\GoalZone.cs" />
-     <Compile Include="Assets\Scripts\Goalie.cs" />
-     <Compile Include="Assets\Scripts\LeagueModel\LGame.cs" />
-     <Compile Include="Assets\Scripts\LeagueModel\LPlayer.cs" />
-     <Compile Include="Assets\Scripts\LeagueModel\LSeason.cs" />
-     <Compile Include="Assets\Scripts\LeagueModel\LTeam.cs" />
-     <Compile Include="Assets\Scripts\LeagueModel\League.cs" />
-     <Compile Include="Assets\Scripts\LineDrawer.cs" />
-     <Compile Include="Assets\Scripts\Player.cs" />
-     <Compile Include="Assets\Scripts\PlayerAnimationHandler.cs" />
-     <Compile Include="Assets\Scripts\PlayerBase.cs" />
-     <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerCarryPuckState.cs" />
-     <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerChasePuckState.cs" />
-     <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerControlledState.cs" />
-     <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerFaceoffState.cs" />
-     <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerFallenState.cs" />
-     <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerReceivePuckState.cs" />
-     <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerReturnState.cs" />
-     <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerShootPuckState.cs" />
-     <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerSupportState.cs" />
-     <Compile Include="Assets\Scripts\PlayerStateMachine\PlayerWaitState.cs" />
-     <Compile Include="Assets\Scripts\PlayerStateMachine\SupportSpot.cs" />
-     <Compile Include="Assets\Scripts\Puck.cs" />
-     <Compile Include="Assets\Scripts\SaveChecker.cs" />
-     <Compile Include="Assets\Scripts\Team.cs" />
-     <Compile Include="Assets\Scripts\TeamStateMachine\TeamAttackingState.cs" />
-     <Compile Include="Assets\Scripts\TeamStateMachine\TeamDefendingState.cs" />
-     <Compile Include="Assets\Scripts\TeamStateMachine\TeamFaceoffState.cs" />
-     <Compile Include="Assets\Scripts\TouchControls.cs" />
-     <Compile Include="Assets\Scripts\VectorLine.cs" />
-     <Compile Include="Assets\SteeringBehavior.cs" />
+     <Compile Include="Assets\Scripts\LeagueModel\NewBehaviourScript.boo" />
      <None Include="Assets\Art\Bauer.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

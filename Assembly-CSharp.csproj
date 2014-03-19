@@ -51,8 +51,14 @@
      <Compile Include="Assets\Scripts\Drawing.cs" />
      <Compile Include="Assets\Scripts\FSMState.cs" />
      <Compile Include="Assets\Scripts\FiniteStateMachine.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GoalZone.cs" />
      <Compile Include="Assets\Scripts\Goalie.cs" />
+     <Compile Include="Assets\Scripts\LeagueModel\LGame.cs" />
+     <Compile Include="Assets\Scripts\LeagueModel\LPlayer.cs" />
+     <Compile Include="Assets\Scripts\LeagueModel\LSeason.cs" />
+     <Compile Include="Assets\Scripts\LeagueModel\LTeam.cs" />
+     <Compile Include="Assets\Scripts\LeagueModel\League.cs" />
      <Compile Include="Assets\Scripts\LineDrawer.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\PlayerAnimationHandler.cs" />
