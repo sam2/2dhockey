@@ -44,11 +44,13 @@ Assets/Scripts/FiniteStateMachine.cs
 Assets/Scripts/GameManager.cs
 Assets/Scripts/GoalZone.cs
 Assets/Scripts/Goalie.cs
+Assets/Scripts/LeagueManager.cs
 Assets/Scripts/LeagueModel/LGame.cs
 Assets/Scripts/LeagueModel/LPlayer.cs
 Assets/Scripts/LeagueModel/LSeason.cs
 Assets/Scripts/LeagueModel/LTeam.cs
 Assets/Scripts/LeagueModel/League.cs
+Assets/Scripts/LeagueTest.cs
 Assets/Scripts/LineDrawer.cs
 Assets/Scripts/Player.cs
 Assets/Scripts/PlayerAnimationHandler.cs

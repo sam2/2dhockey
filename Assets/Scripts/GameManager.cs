@@ -2,24 +2,57 @@
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
-	int id;
 
 	int mScoreA;
 	int mScoreB;
+
+	Team teamA;
+	Team teamB;
+	public GameObject teamAPrefab;
+	public GameObject teamBPrefab;
 
 	public float mGameLength;
 	float timeLeft;
 
 	bool stopped = true;
 
+	void CreateTeams(LTeam lteamA, LTeam lteamB)
+	{
+		GameObject gA = (GameObject)Instantiate(teamAPrefab);
+		teamA = gA.GetComponent<Team>();
+
+		GameObject gB = (GameObject)Instantiate(teamBPrefab);
+		teamB = gB.GetComponent<Team>();
+
+		teamA.opponent = teamB;
+		teamB.opponent = teamA;
+		teamA.SpawnPlayers(lteamA);
+		teamA.Init();
+		teamB.SpawnPlayers(lteamB);
+		teamB.Init();
+	}
+
 	// Use this for initialization
-	void Start () {
+	public void LoadGame(LGame game)
+	{
 		timeLeft = mGameLength;
+		CreateTeams(game.mTeamA, game.mTeamB);
+		Debug.Log("Loading game: "+game.mTeamA.mName+" vs "+game.mTeamB.mName);
+	}
+
+	public void StartGame()
+	{
+		stopped = false;
+	}
+
+	public void StopGame()
+	{
+		stopped = true;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
+	void Update () 
+	{
 		if(!stopped)
 		{
 			timeLeft -= Time.deltaTime;
@@ -33,16 +66,7 @@ public class GameManager : MonoBehaviour {
 
 	void EndGame()
 	{
-
+		Debug.Log("game over: score of "+mScoreA+"-"+mScoreB);
 	}
-
-	public LGame GetGameStats()
-	{
-		LTeam teamA = new LTeam(null);
-		LTeam teamB = new LTeam(null);
-
-		LGame game = new LGame(teamA, teamB, mScoreA, mScoreB, id);
-		return game;
-
-	}
+	
 }

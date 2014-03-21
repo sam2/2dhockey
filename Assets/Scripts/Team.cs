@@ -38,9 +38,9 @@ public class Team : MonoBehaviour{
 
 	public bool AI;
 
-	void Awake()
+	public void Init()
 	{
-		SpawnPlayers();
+		//SpawnPlayers();
 
 		FSM = new FiniteStateMachine<Team>();
 		FSM.Init();
@@ -57,7 +57,7 @@ public class Team : MonoBehaviour{
 		Puck.puck.PuckControlChanged += new PuckControlChangedHandler(OnPlayerRecievedPuck);
 	}
 
-	void SpawnPlayers()
+	public void SpawnPlayers(LTeam team)
 	{
 		mPlayers = new List<Player>();
 		for(int i = 0; i < mDefensivePositions.Count; i++)
@@ -68,6 +68,7 @@ public class Team : MonoBehaviour{
 			Player p = g.GetComponent<Player>();
 			p.team = this;
 			p.AI = AI;
+			p.destinationPosition = p.transform.position;
 			mPlayers.Add(p);
 		}
 	}

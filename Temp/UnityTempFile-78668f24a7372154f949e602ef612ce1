@@ -44,6 +44,7 @@ Assets/Scripts/FiniteStateMachine.cs
 Assets/Scripts/GameManager.cs
 Assets/Scripts/GoalZone.cs
 Assets/Scripts/Goalie.cs
+Assets/Scripts/LeagueManager.cs
 Assets/Scripts/LeagueModel/LGame.cs
 Assets/Scripts/LeagueModel/LPlayer.cs
 Assets/Scripts/LeagueModel/LSeason.cs

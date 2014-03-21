@@ -3,21 +3,26 @@ using System.Collections;
 
 public class LGame
 {
-	public readonly int ID;
-
-	LTeam mTeamA;
-	LTeam mTeamB;
+	public LTeam mTeamA;
+	public LTeam mTeamB;
 
 	int mScoreA;
 	int mScoreB;
 
-	public LGame(LTeam teamA, LTeam teamB, int scoreA, int scoreB, int id)
+	public LGame(LTeam teamA, LTeam teamB, int scoreA, int scoreB)
 	{
 		mTeamA = teamA;
 		mTeamB = teamB;
 		mScoreA = scoreA;
 		mScoreB = scoreB;
-		ID = id;
+	}
+
+	public LGame(LTeam teamA, LTeam teamB)
+	{
+		mTeamA = teamA;
+		mTeamB = teamB;
+		mScoreA = 0;
+		mScoreB = 0;
 	}
 
 	public LTeam GetWinner()
