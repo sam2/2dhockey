@@ -259,10 +259,10 @@ public class Player : PlayerBase {
 		Collider2D net;
 		if((int)team.side == -1)
 		{
-			net = ArenaGenerator.rightGoal.collider2D;
+			net = GameManager.rightGoal.collider2D;
 		}
 		else
-			net = ArenaGenerator.leftGoal.collider2D;
+			net = GameManager.leftGoal.collider2D;
 
 		if(Vector2.Distance(net.transform.position, transform.position) < shotRange && CanScore(net) && Puck.puck.controllingPlayer == this)
 		{

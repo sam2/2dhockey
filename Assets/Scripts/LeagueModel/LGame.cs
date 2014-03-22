@@ -6,8 +6,8 @@ public class LGame
 	public LTeam mTeamA;
 	public LTeam mTeamB;
 
-	int mScoreA;
-	int mScoreB;
+	public int mScoreA;
+	public int mScoreB;
 
 	public LGame(LTeam teamA, LTeam teamB, int scoreA, int scoreB)
 	{

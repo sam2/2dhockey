@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public delegate void GoalHandler();
+
 public class GoalZone : MonoBehaviour {
 
-
-
-	public GUIText scoreText;
+	public event GoalHandler Goal;
+	
 	public ParticleSystem goalLight;
 	BoxCollider2D colder;
 	public int score;
@@ -16,7 +17,7 @@ public class GoalZone : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		scoreText.text = ""+score;
+
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
@@ -24,6 +25,7 @@ public class GoalZone : MonoBehaviour {
 		if(other.tag == "Puck")
 		{
 			score++;
+			Goal();
 			goalLight.Play();
 			StartCoroutine(ResetPuck(1));
 		}

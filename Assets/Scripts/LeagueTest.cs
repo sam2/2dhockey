@@ -10,7 +10,17 @@ public class LeagueTest : MonoBehaviour {
 	{
 		al = League.CreateNewLeague(4);
 		LGame game = new LGame(al.mCurrentSeason.mTeams[0], al.mCurrentSeason.mTeams[1]);
-		manager.LoadGame(game);
+		manager.LoadGame(al.mCurrentSeason.GetCurGame());
 		manager.StartGame();
+		manager.GameEnded += new GameEndedHandler(GetResult);
 	}
+
+	void GetResult(LGame g)
+	{
+		Debug.Log ("Game End: "+g.mTeamA.mName+" - "+g.mScoreA+", "+g.mTeamB.mName+" - "+g.mScoreB+"\n");
+		al.mCurrentSeason.GamePlayed(g);
+
+	}
+
+
 }

@@ -33,7 +33,7 @@ public class League
 			teams.Add(new LTeam("newTeam"+(j+1),roster));
 		}
 
-		LSeason season = new LSeason(teams);
+		LSeason season = new LSeason(teams, null);
 		List<LSeason> seasons = new List<LSeason>();
 		seasons.Add(season);
 		League league = new League(seasons, season);

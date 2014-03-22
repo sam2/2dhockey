@@ -6,15 +6,14 @@ public class ArenaGenerator : MonoBehaviour {
 
 	public GameObject scoredisplayPrefab;
 	public GameObject boardPrefab;
-	public GameObject netPrefab;
+
 
 	public float mWidth;
 	public float mHeight;
 
 	public float sampleDensity;
 
-	public static GoalZone leftGoal;
-	public static GoalZone rightGoal;
+
 	public static List<SupportSpot> samples;
 
 
@@ -69,28 +68,14 @@ public class ArenaGenerator : MonoBehaviour {
 		Camera.main.orthographicSize = mHeight/2;
 	}
 
-	void PlaceNets()
-	{
-		GameObject leftNet = (GameObject)Instantiate(netPrefab, new Vector3(-mWidth/2 + (mWidth/20), 0, 0), Quaternion.Euler(0,0,180));
-		leftGoal = leftNet.GetComponentInChildren<GoalZone>();
-		GameObject rightNet = (GameObject)Instantiate(netPrefab, new Vector3(mWidth/2 - (mWidth/20), 0, 0), Quaternion.identity);
-		rightGoal = rightNet.GetComponentInChildren<GoalZone>();
-	}
+
 	// Use this for initialization
 	void Awake () {
 		PlaceBoards(mWidth,mHeight);
 		SetCameraSize();
-		PlaceNets();
-		SamplePositions();
-		GameObject g = (GameObject)Instantiate(scoredisplayPrefab);
-		GUIText scoreText = g.GetComponent<GUIText>();
-		g.transform.position = new Vector3(0.6f, 0.9f, 0f);
-		leftGoal.scoreText = scoreText;
 
-		g = (GameObject)Instantiate(scoredisplayPrefab);
-		scoreText = g.GetComponent<GUIText>();
-		g.transform.position = new Vector3(0.4f, 0.9f, 0f);
-		rightGoal.scoreText = scoreText;
+		SamplePositions();
+
 	}
 	
 	// Update is called once per frame
