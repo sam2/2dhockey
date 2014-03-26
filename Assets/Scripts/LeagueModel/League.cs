@@ -40,4 +40,10 @@ public class League
 		return league;
 	}
 
+	public void Save()
+	{
+	
+
+	}
+
 }

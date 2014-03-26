@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
+[System.Serializable]
 public class LSeason
 {
 	public List<LTeam> mTeams;
 
 	public Queue<LGame> mUnplayedGames;
 	public Queue<LGame> mPlayedGames;
+	public List<LTeam> mStandings;
 	LGame _curGame;
 
 	public LSeason(List<LTeam> teams, Queue<LGame> games)
@@ -20,6 +21,7 @@ public class LSeason
 			mUnplayedGames = LSeason.CreateRoundRobin(teams);
 		mPlayedGames = new Queue<LGame>();
 		_curGame = mUnplayedGames.Dequeue();
+		mStandings = teams;
 	}
 
 	public void GamePlayed(LGame game)
@@ -31,6 +33,14 @@ public class LSeason
 		}
 		else
 			Debug.LogError("_curGame is null");
+	}
+
+	public void UpdateStandings()
+	{
+		mStandings.Sort( delegate(LTeam x, LTeam y) 
+		                { return (x.Points().CompareTo(y.Points())); }
+		);
+		mStandings.Reverse();
 	}
 
 	public LGame GetCurGame()

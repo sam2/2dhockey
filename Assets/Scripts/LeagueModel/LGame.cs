@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[System.Serializable]
 public class LGame
 {
 	public LTeam mTeamA;
@@ -32,6 +33,20 @@ public class LGame
 			return mTeamA;
 		}
 		else if(mScoreB > mScoreA)
+		{
+			return mTeamB;
+		}
+		else
+			return null;
+	}
+
+	public LTeam GetLoser()
+	{
+		if(mScoreA < mScoreB)
+		{
+			return mTeamA;
+		}
+		else if(mScoreB < mScoreA)
 		{
 			return mTeamB;
 		}

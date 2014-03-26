@@ -1,23 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LeagueModel\LSeason.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LeagueTest.cs">
     <Files>
-      <File FileName="Assets\Scripts\LeagueTest.cs" Line="22" Column="1" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="101" Column="3" />
-      <File FileName="Assets\Scripts\LeagueManager.cs" Line="6" Column="28" />
-      <File FileName="Assets\Scripts\LeagueModel\LSeason.cs" Line="78" Column="1" />
-      <File FileName="Assets\Scripts\Puck.cs" Line="8" Column="2" />
-      <File FileName="Assets\Scripts\Team.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LeagueModel\LGame.cs" Line="14" Column="18" />
-      <File FileName="Assets\Scripts\ArenaGenerator.cs" Line="78" Column="3" />
-      <File FileName="Assets\Scripts\Player.cs" Line="265" Column="21" />
-      <File FileName="Assets\Scripts\GoalZone.cs" Line="28" Column="1" />
+      <File FileName="Assets\Scripts\LeagueTestView.cs" Line="22" Column="26" />
+      <File FileName="Assets\Scripts\LeagueModel\LSeason.cs" Line="14" Column="1" />
+      <File FileName="Assets\Scripts\LeagueTest.cs" Line="30" Column="21" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="34" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="D:\Projects\2dhockey\Assets\Scripts\LeagueModel\LSeason.cs" line="78" />
-      <Breakpoint file="D:\Projects\2dhockey\Assets\Scripts\LeagueTest.cs" line="22" />
+      <Breakpoint file="D:\Projects\2dhockey\Assets\Scripts\LeagueModel\League.cs" line="55" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
