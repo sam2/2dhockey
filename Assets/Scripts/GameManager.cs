@@ -27,9 +27,11 @@ public class GameManager : MonoBehaviour {
 	{
 		GameObject gA = (GameObject)Instantiate(teamAPrefab);
 		teamA = gA.GetComponent<Team>();
+		gA.transform.parent = this.transform;
 
 		GameObject gB = (GameObject)Instantiate(teamBPrefab);
 		teamB = gB.GetComponent<Team>();
+		gB.transform.parent = this.transform;
 
 		teamA.opponent = teamB;
 		teamB.opponent = teamA;
@@ -43,8 +45,10 @@ public class GameManager : MonoBehaviour {
 	{
 		GameObject leftNet = (GameObject)Instantiate(netPrefab, new Vector3(-50/2 + (50/20), 0, 0), Quaternion.Euler(0,0,180));
 		leftGoal = leftNet.GetComponentInChildren<GoalZone>();
+		leftNet.transform.parent = this.transform;
 		GameObject rightNet = (GameObject)Instantiate(netPrefab, new Vector3(50/2 - (50/20), 0, 0), Quaternion.identity);
 		rightGoal = rightNet.GetComponentInChildren<GoalZone>();
+		rightNet.transform.parent = this.transform;
 		leftGoal.Goal+= new GoalHandler(LeftGoalScoredOn);
 		rightGoal.Goal+= new GoalHandler(RighttGoalScoredOn);
 

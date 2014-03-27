@@ -11,7 +11,7 @@ public class LeagueTestView : MonoBehaviour {
 	public void SetNextGame(LGame game)
 	{
 
-		nextGame.text = "Next Game\n"+game.mTeamA.mName+ " vs " +game.mTeamB.mName;
+		nextGame.text = game.mTeamA.mName+ " vs " +game.mTeamB.mName;
 	}
 
 	public void SetStandings(List<LTeam> standings)
@@ -26,7 +26,7 @@ public class LeagueTestView : MonoBehaviour {
 
 	public void SetSchedule(Queue<LGame> games)
 	{
-		string text = "Schedule\n";
+		string text = "Upcoming Games\n";
 		foreach(LGame game in games)
 		{
 			text+=game.mTeamA.mName+ " vs " +game.mTeamB.mName+"\n";

@@ -54,5 +54,11 @@ public class LGame
 			return null;
 	}
 
+	public void SimGame()
+	{
+		mScoreA = Random.Range(0,6);
+		mScoreB = Random.Range(0,6);
+	}
+
 
 }

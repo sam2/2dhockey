@@ -6,31 +6,42 @@ public class LeagueTest : MonoBehaviour {
 	public League al = new League();
 	public GameManager manager;
 
-	public LTeam[] standings;
+	public GameObject gamePrefab;
+	GameObject game;
+
 	public LeagueTestView view;
+
+	bool inGame = false;
+
+	void Awake()
+	{
+		DontDestroyOnLoad(gameObject);
+	}
 
 	void Start()
 	{
-		al = League.CreateNewLeague(4);
-		LGame game = new LGame(al.mCurrentSeason.mTeams[0], al.mCurrentSeason.mTeams[1]);
-		manager.LoadGame(al.mCurrentSeason.GetCurGame());
-		manager.StartGame();
-		manager.GameEnded += new GameEndedHandler(GetResult);
+		al = League.CreateNewLeague(8);
 		view.SetNextGame(al.mCurrentSeason.GetCurGame());
 		view.SetSchedule(al.mCurrentSeason.mUnplayedGames);
 		view.SetStandings(al.mCurrentSeason.mStandings);
-		view.gameObject.SetActive(false);
+		view.gameObject.SetActive(true);
 	}
-
-	bool viewOn = false;
+	
 	void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.X))
+		if(Input.GetKeyDown(KeyCode.Space) && !inGame)
 		{
-			viewOn = !viewOn;
-			view.gameObject.SetActive(viewOn);
-
+			inGame = true;
+			LoadGameLevel();
 		}
+		if(Input.GetKeyDown(KeyCode.X) &&!inGame)
+		{
+			inGame = true;
+			LGame game = new LGame(al.mCurrentSeason.GetCurGame().mTeamA, al.mCurrentSeason.GetCurGame().mTeamB);
+			game.SimGame();
+			GetResult(game);
+		}
+
 	}
 
 	void GetResult(LGame g)
@@ -42,6 +53,9 @@ public class LeagueTest : MonoBehaviour {
 		view.SetNextGame(al.mCurrentSeason.GetCurGame());
 		view.SetSchedule(al.mCurrentSeason.mUnplayedGames);
 		view.SetStandings(al.mCurrentSeason.mStandings);
+		inGame = false;
+		Destroy(game);
+		view.gameObject.SetActive(true);
 	}
 
 	void UpdateStandings(LGame g)
@@ -58,7 +72,17 @@ public class LeagueTest : MonoBehaviour {
 			g.mTeamB.mTies++;
 		}
 		al.mCurrentSeason.UpdateStandings();
-		standings = al.mCurrentSeason.mStandings.ToArray();
+
+	}
+
+	void LoadGameLevel()
+	{
+		view.gameObject.SetActive(false);
+		game = (GameObject)Instantiate(gamePrefab);
+		manager = game.GetComponent<GameManager>();
+		manager.GameEnded += new GameEndedHandler(GetResult);
+		manager.LoadGame(al.mCurrentSeason.GetCurGame());
+		manager.StartGame();
 
 	}
 }

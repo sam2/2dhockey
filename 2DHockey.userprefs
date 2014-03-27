@@ -1,11 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LeagueTest.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Team.cs">
     <Files>
-      <File FileName="Assets\Scripts\LeagueTestView.cs" Line="22" Column="26" />
-      <File FileName="Assets\Scripts\LeagueModel\LSeason.cs" Line="14" Column="1" />
-      <File FileName="Assets\Scripts\LeagueTest.cs" Line="30" Column="21" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="34" Column="26" />
+      <File FileName="Assets\Scripts\LeagueTest.cs" Line="56" Column="18" />
+      <File FileName="Assets\Scripts\LeagueTestView.cs" Line="14" Column="19" />
+      <File FileName="Assets\Scripts\LeagueModel\LSeason.cs" Line="23" Column="3" />
+      <File FileName="Assets\Scripts\LeagueTest.cs" Line="56" Column="18" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="27" Column="3" />
+      <File FileName="Assets\Scripts\ArenaGenerator.cs" Line="67" Column="40" />
+      <File FileName="Assets\Scripts\Team.cs" Line="72" Column="20" />
+      <File FileName="Assets\Scripts\LeagueModel\LGame.cs" Line="60" Column="29" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
