@@ -1,93 +1,122 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using ProtoBuf;
+using System;
 
-[System.Serializable]
+[Serializable]
+[ProtoContract]
 public class LSeason
 {
+	[ProtoMember(1)]
 	public List<LTeam> mTeams;
-
-	public Queue<LGame> mUnplayedGames;
-	public Queue<LGame> mPlayedGames;
+	[ProtoMember(2)]
+	public List<LGame> mGames;
+	[ProtoMember(3)]
 	public List<LTeam> mStandings;
-	LGame _curGame;
+	[ProtoMember(4)]
+	public int mCurGameIndex = 0;
 
-	public LSeason(List<LTeam> teams, Queue<LGame> games)
+	public LSeason()
+	{
+		mTeams = new List<LTeam>();
+		mGames = new List<LGame>();
+		mStandings = new List<LTeam>();
+		mCurGameIndex = 0;
+	}
+
+	public LSeason(List<LTeam> teams, List<LGame> games)
 	{
 		mTeams = teams;
 		if(games != null && games.Count > 0)
-			mUnplayedGames = games;
+			mGames = games;
 		else
-			mUnplayedGames = LSeason.CreateRoundRobin(teams);
-		mPlayedGames = new Queue<LGame>();
-		_curGame = mUnplayedGames.Dequeue();
+			mGames = CreateRoundRobin(teams.Count);
 		mStandings = teams;
 	}
 
-	public void GamePlayed(LGame game)
+	public bool HasNextGame()
 	{
-		if(_curGame != null)
+		if(mCurGameIndex >= mGames.Count)
+			return false;
+		return true;
+	}
+
+	public void GamePlayed(bool sim)
+	{
+
+		if(mCurGameIndex < mGames.Count)
 		{
-			_curGame = mUnplayedGames.Dequeue();
-			mPlayedGames.Enqueue(game);
+			if(sim)
+			{
+				mGames[mCurGameIndex].SimGame();
+			}
+			if(mGames[mCurGameIndex].mScoreA > mGames[mCurGameIndex].mScoreB)
+			{
+				mTeams[mGames[mCurGameIndex].mTeamA].mWins++;
+				mTeams[mGames[mCurGameIndex].mTeamB].mLosses++;
+			}
+			else if(mGames[mCurGameIndex].mScoreA < mGames[mCurGameIndex].mScoreB)
+			{
+				mTeams[mGames[mCurGameIndex].mTeamB].mWins++;
+				mTeams[mGames[mCurGameIndex].mTeamA].mLosses++;
+			}
+			else
+			{
+				mTeams[mGames[mCurGameIndex].mTeamA].mTies++;
+				mTeams[mGames[mCurGameIndex].mTeamB].mTies++;
+			}
+			Debug.Log ("Game played: "+mCurGameIndex+" "+mTeams[mGames[mCurGameIndex].mTeamA].mName+" vs "+mTeams[mGames[mCurGameIndex].mTeamB].mName);
+			mCurGameIndex++;
 		}
 		else
-			Debug.LogError("_curGame is null");
+			Debug.Log("No Games left");
+
+		UpdateStandings();
+
 	}
 
 	public void UpdateStandings()
 	{
+		mStandings = new List<LTeam>();
+		foreach(LTeam t in mTeams)
+		{
+			mStandings.Add (t);
+		}
 		mStandings.Sort( delegate(LTeam x, LTeam y) 
 		                { return (x.Points().CompareTo(y.Points())); }
 		);
 		mStandings.Reverse();
 	}
 
-	public LGame GetCurGame()
+	public static List<LGame> CreateRoundRobin(int numTeams)
 	{
-		return _curGame;
-	}
-
-	public static Queue<LGame> CreateRoundRobin(List<LTeam> ListTeam)
-	{
-		Queue<LGame> games = new Queue<LGame>();
-
-		if (ListTeam.Count % 2 != 0)
+		List<LGame> games = new List<LGame>();
+		for(int i = 0; i < numTeams; i++)
 		{
-			return null;
-		}
-		int numTeams = ListTeam.Count;
-		int numDays = (numTeams - 1);
-		int halfSize = numTeams / 2;
-		
-		List<LTeam> teams = new List<LTeam>();
-		
-		teams.AddRange(ListTeam); // Copy all the elements.
-		teams.RemoveAt(0);
-		
-		int teamsSize = teams.Count;
-		
-		for (int day = 0; day < numDays; day++)
-		{
-			//Debug.Log("Day "+(day + 1));
-			
-			int teamIdx = day % teamsSize;
-			
-			//Debug.Log(teams[teamIdx].mName+" VS "+ListTeam[0].mName);
-			LGame game = new LGame(teams[teamIdx], ListTeam[0]);
-			games.Enqueue(game);
-			
-			for (int idx = 1; idx < halfSize; idx++)
-			{   			
-				int firstTeam = (day + idx) % teamsSize;
-				int secondTeam = (day  + teamsSize - idx) % teamsSize;
-				//Debug.Log(teams[firstTeam].mName+" VS "+teams[secondTeam].mName);
-				game = new LGame(teams[firstTeam], teams[secondTeam]);
-				games.Enqueue(game);
+			for(int j = i+1; j < numTeams; j++)
+			{
+				LGame game = new LGame(i, j);
+				games.Add(game);
 			}
 		}
+		Shuffle (games);
 		return games;
 	}
+	public static void Shuffle<T>(IList<T> list)  
+	{  
+		System.Random rng = new System.Random();  
+		int n = list.Count;  
+		while (n > 1) {  
+			n--;  
+			int k = rng.Next(n + 1);  
+			T value = list[k];  
+			list[k] = list[n];  
+			list[n] = value;  
+		}  
+	}
+
+
 
 }
 

@@ -13,66 +13,65 @@ public class LeagueTest : MonoBehaviour {
 
 	bool inGame = false;
 
+
+	//debug:
+	League templeague = new League();
+
 	void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
 	}
 
+	void UpdateView()
+	{
+		if(al.mCurrentSeason.HasNextGame())
+			view.SetNextGame(al.mCurrentSeason.mGames[al.mCurrentSeason.mCurGameIndex]);
+		view.SetSchedule(al.mCurrentSeason.mGames, al.mCurrentSeason.mCurGameIndex);
+		view.SetStandings(al.mCurrentSeason.mStandings);
+	}
+
 	void Start()
 	{
 		al = League.CreateNewLeague(8);
-		view.SetNextGame(al.mCurrentSeason.GetCurGame());
-		view.SetSchedule(al.mCurrentSeason.mUnplayedGames);
-		view.SetStandings(al.mCurrentSeason.mStandings);
+		UpdateView();
 		view.gameObject.SetActive(true);
 	}
 	
 	void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Space) && !inGame)
+		if(!inGame)
 		{
-			inGame = true;
-			LoadGameLevel();
-		}
-		if(Input.GetKeyDown(KeyCode.X) &&!inGame)
-		{
-			inGame = true;
-			LGame game = new LGame(al.mCurrentSeason.GetCurGame().mTeamA, al.mCurrentSeason.GetCurGame().mTeamB);
-			game.SimGame();
-			GetResult(game);
+			if(Input.GetKeyDown(KeyCode.Space))
+			{
+				inGame = true;
+				LoadGameLevel();
+			}
+			if(Input.GetKeyDown(KeyCode.X))
+			{
+				inGame = true;
+				al.mCurrentSeason.GamePlayed(true);
+				GetResult();
+
+			}
+			if(Input.GetKeyDown(KeyCode.L))
+			{
+				templeague = al;
+				al = al.Load();
+				UpdateView();
+			}
+			if(Input.GetKeyDown(KeyCode.S))
+			{
+				al.Save();
+			}
 		}
 
 	}
 
-	void GetResult(LGame g)
+	void GetResult()
 	{
-		Debug.Log ("Game End: "+g.mTeamA.mName+" - "+g.mScoreA+", "+g.mTeamB.mName+" - "+g.mScoreB+"\n");
-		al.mCurrentSeason.GamePlayed(g);
-		UpdateStandings(g);
-		al.Save();
-		view.SetNextGame(al.mCurrentSeason.GetCurGame());
-		view.SetSchedule(al.mCurrentSeason.mUnplayedGames);
-		view.SetStandings(al.mCurrentSeason.mStandings);
+		UpdateView();
 		inGame = false;
 		Destroy(game);
-		view.gameObject.SetActive(true);
-	}
-
-	void UpdateStandings(LGame g)
-	{
-		LTeam winner = g.GetWinner();
-		if(winner!=null)
-		{
-			winner.mWins++;
-			g.GetLoser().mLosses++;
-		}
-		else
-		{
-			g.mTeamA.mTies++;
-			g.mTeamB.mTies++;
-		}
-		al.mCurrentSeason.UpdateStandings();
-
 	}
 
 	void LoadGameLevel()
@@ -81,7 +80,7 @@ public class LeagueTest : MonoBehaviour {
 		game = (GameObject)Instantiate(gamePrefab);
 		manager = game.GetComponent<GameManager>();
 		manager.GameEnded += new GameEndedHandler(GetResult);
-		manager.LoadGame(al.mCurrentSeason.GetCurGame());
+		manager.LoadGame(al.mCurrentSeason);
 		manager.StartGame();
 
 	}

@@ -1,20 +1,22 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Team.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LeagueTestView.cs">
     <Files>
-      <File FileName="Assets\Scripts\LeagueTest.cs" Line="56" Column="18" />
-      <File FileName="Assets\Scripts\LeagueTestView.cs" Line="14" Column="19" />
-      <File FileName="Assets\Scripts\LeagueModel\LSeason.cs" Line="23" Column="3" />
-      <File FileName="Assets\Scripts\LeagueTest.cs" Line="56" Column="18" />
-      <File FileName="Assets\Scripts\GameManager.cs" Line="27" Column="3" />
-      <File FileName="Assets\Scripts\ArenaGenerator.cs" Line="67" Column="40" />
-      <File FileName="Assets\Scripts\Team.cs" Line="72" Column="20" />
-      <File FileName="Assets\Scripts\LeagueModel\LGame.cs" Line="60" Column="29" />
+      <File FileName="Assets\Scripts\LeagueModel\LSeason.cs" Line="106" Column="36" />
+      <File FileName="Assets\Scripts\LeagueTest.cs" Line="29" Column="77" />
+      <File FileName="Assets\Scripts\LeagueManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LeagueModel\League.cs" Line="50" Column="20" />
+      <File FileName="Assets\Scripts\LeagueModel\LSeason.cs" Line="103" Column="19" />
+      <File FileName="Assets\Scripts\LeagueModel\LGame.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LeagueModel\LPlayer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LeagueModel\LTeam.cs" Line="32" Column="11" />
+      <File FileName="Assets\Scripts\LeagueTestView.cs" Line="32" Column="43" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="74" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="D:\Projects\2dhockey\Assets\Scripts\LeagueModel\League.cs" line="55" />
+      <Breakpoint file="D:\Projects\2dhockey\Assets\Scripts\LeagueModel\League.cs" line="80" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

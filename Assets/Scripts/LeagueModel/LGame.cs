@@ -1,32 +1,39 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using ProtoBuf;
+using System;
 
-[System.Serializable]
+[Serializable]
+[ProtoContract]
 public class LGame
 {
-	public LTeam mTeamA;
-	public LTeam mTeamB;
-
+	[ProtoMember(1)]
+	public int mTeamA;
+	[ProtoMember(2)]
+	public int mTeamB;
+	
+	[ProtoMember(3)]
 	public int mScoreA;
+	[ProtoMember(4)]
 	public int mScoreB;
-
-	public LGame(LTeam teamA, LTeam teamB, int scoreA, int scoreB)
+	
+	public LGame()
 	{
-		mTeamA = teamA;
-		mTeamB = teamB;
-		mScoreA = scoreA;
-		mScoreB = scoreB;
-	}
-
-	public LGame(LTeam teamA, LTeam teamB)
-	{
-		mTeamA = teamA;
-		mTeamB = teamB;
+		mTeamA = 0;
+		mTeamB = 0;
 		mScoreA = 0;
 		mScoreB = 0;
 	}
 
-	public LTeam GetWinner()
+	public LGame(int a, int b)
+	{
+		mTeamA = a;
+		mTeamB = b;
+		mScoreA = 0;
+		mScoreB = 0;
+	}
+	
+	
+	int GetWinner()
 	{
 		if(mScoreA > mScoreB)
 		{
@@ -37,10 +44,10 @@ public class LGame
 			return mTeamB;
 		}
 		else
-			return null;
+			return -1;
 	}
-
-	public LTeam GetLoser()
+	
+	int GetLoser()
 	{
 		if(mScoreA < mScoreB)
 		{
@@ -51,14 +58,14 @@ public class LGame
 			return mTeamB;
 		}
 		else
-			return null;
+			return -1;
 	}
-
+	
 	public void SimGame()
 	{
-		mScoreA = Random.Range(0,6);
-		mScoreB = Random.Range(0,6);
+		mScoreA = UnityEngine.Random.Range(0,6);
+		mScoreB = UnityEngine.Random.Range(0,6);
 	}
-
-
+	
+	
 }

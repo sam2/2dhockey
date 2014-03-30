@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public delegate void GameEndedHandler(LGame game);
+public delegate void GameEndedHandler();
 
 public class GameManager : MonoBehaviour {
 
@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
 	public static GoalZone leftGoal;
 	public static GoalZone rightGoal;
 
-	LGame mGame;
+	LSeason mSeason;
 
 	Team teamA; //left team
 	Team teamB; //right team
@@ -56,24 +56,22 @@ public class GameManager : MonoBehaviour {
 
 	void LeftGoalScoredOn()
 	{
-		mGame.mScoreB++;
-		Debug.Log("Score: "+mGame.mScoreA+" - "+ mGame.mScoreB);
+		mSeason.mGames[mSeason.mCurGameIndex].mScoreB++;
 	}
 
 	void RighttGoalScoredOn()
 	{
-		mGame.mScoreA++;
-		Debug.Log("Score: "+mGame.mScoreA+" - "+ mGame.mScoreB);
+		mSeason.mGames[mSeason.mCurGameIndex].mScoreA++;
+
 	}
 
 	// Use this for initialization
-	public void LoadGame(LGame game)
+	public void LoadGame(LSeason season)
 	{
-		mGame = game;
+		mSeason = season;
 		timeLeft = mGameLength;
-		CreateTeams(game.mTeamA, game.mTeamB);
+		CreateTeams(season.mTeams[season.mGames[season.mCurGameIndex].mTeamA], season.mTeams[season.mGames[season.mCurGameIndex].mTeamB]);
 		PlaceNets();
-		Debug.Log("Loading game: "+game.mTeamA.mName+" vs "+game.mTeamB.mName);
 	}
 
 	public void StartGame()
@@ -103,7 +101,7 @@ public class GameManager : MonoBehaviour {
 	void EndGame()
 	{
 
-		GameEnded(mGame);
+		GameEnded();
 	}
 
 	

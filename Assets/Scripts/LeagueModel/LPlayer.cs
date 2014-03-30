@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ProtoBuf;
+using System;
 
-[System.Serializable]
+[ProtoContract]
 public class LPlayer 
 {
-	int ID;
-	public LPlayer(int id)
+	[ProtoMember(1)]
+	public int id;
+
+	public LPlayer()
 	{
-		ID = id;
+		id = 0;
 	}
 }

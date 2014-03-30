@@ -11,7 +11,7 @@ public class LeagueTestView : MonoBehaviour {
 	public void SetNextGame(LGame game)
 	{
 
-		nextGame.text = game.mTeamA.mName+ " vs " +game.mTeamB.mName;
+		nextGame.text = game.mTeamA+ " vs " +game.mTeamB;
 	}
 
 	public void SetStandings(List<LTeam> standings)
@@ -19,17 +19,20 @@ public class LeagueTestView : MonoBehaviour {
 		string text = "Standings\n";
 		foreach(LTeam team in standings)
 		{
-			text+=team.mName+"    "+team.Points()+"\n";
+			text+=team.mName+"    "+team.Points()+"  ("+team.mWins+"-"+team.mLosses+"-"+team.mTies+")\n";
 		}
 		standingsdisplay.text = text;
 	}
 
-	public void SetSchedule(Queue<LGame> games)
+	public void SetSchedule(List<LGame> games, int curGame)
 	{
 		string text = "Upcoming Games\n";
-		foreach(LGame game in games)
+		for(int  i = 0; i < games.Count; i++)
 		{
-			text+=game.mTeamA.mName+ " vs " +game.mTeamB.mName+"\n";
+			text+=games[i].mTeamA+ " vs " +games[i].mTeamB;
+			if(i == curGame)
+				text+=" <--- ";
+			text+='\n';
 		}
 		schedule.text = text;
 	}
