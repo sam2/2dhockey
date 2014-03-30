@@ -41,17 +41,16 @@ public class LeagueTest : MonoBehaviour {
 	{
 		if(!inGame)
 		{
-			if(Input.GetKeyDown(KeyCode.Space))
+			if(Input.GetKeyDown(KeyCode.Space) && al.mCurrentSeason.GetCurrentGame()!=null)
 			{
 				inGame = true;
 				LoadGameLevel();
 			}
-			if(Input.GetKeyDown(KeyCode.X))
+			if(Input.GetKeyDown(KeyCode.X) && al.mCurrentSeason.GetCurrentGame()!=null)
 			{
 				inGame = true;
-				al.mCurrentSeason.GamePlayed(true);
-				GetResult();
-
+				al.mCurrentSeason.GetCurrentGame().SimGame();
+				GetResult(al.mCurrentSeason.GetCurrentGame());
 			}
 			if(Input.GetKeyDown(KeyCode.L))
 			{
@@ -67,8 +66,10 @@ public class LeagueTest : MonoBehaviour {
 
 	}
 
-	void GetResult()
+	void GetResult(LGame lgame)
 	{
+		al.mCurrentSeason.GamePlayed(lgame);
+		view.gameObject.SetActive(true);
 		UpdateView();
 		inGame = false;
 		Destroy(game);
@@ -80,7 +81,8 @@ public class LeagueTest : MonoBehaviour {
 		game = (GameObject)Instantiate(gamePrefab);
 		manager = game.GetComponent<GameManager>();
 		manager.GameEnded += new GameEndedHandler(GetResult);
-		manager.LoadGame(al.mCurrentSeason);
+		LGame lgame = al.mCurrentSeason.GetCurrentGame();
+		manager.LoadGame(lgame, al.mCurrentSeason.GetTeam(lgame.mTeamA), al.mCurrentSeason.GetTeam(lgame.mTeamB));
 		manager.StartGame();
 
 	}

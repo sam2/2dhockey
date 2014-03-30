@@ -42,15 +42,12 @@ public class LSeason
 		return true;
 	}
 
-	public void GamePlayed(bool sim)
+	public void GamePlayed(LGame game)
 	{
 
 		if(mCurGameIndex < mGames.Count)
 		{
-			if(sim)
-			{
-				mGames[mCurGameIndex].SimGame();
-			}
+			mGames[mCurGameIndex] = game;
 			if(mGames[mCurGameIndex].mScoreA > mGames[mCurGameIndex].mScoreB)
 			{
 				mTeams[mGames[mCurGameIndex].mTeamA].mWins++;
@@ -114,6 +111,22 @@ public class LSeason
 			list[k] = list[n];  
 			list[n] = value;  
 		}  
+	}
+	public LGame GetCurrentGame()
+	{
+		if(mGames.Count > mCurGameIndex)
+			return mGames[mCurGameIndex];
+		else return null;
+	}
+	
+	public LGame GetGame(int index)
+	{
+		return mGames[index];
+	}
+	
+	public LTeam GetTeam(int index)
+	{
+		return mTeams[index];
 	}
 
 

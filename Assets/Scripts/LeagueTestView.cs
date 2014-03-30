@@ -32,6 +32,10 @@ public class LeagueTestView : MonoBehaviour {
 			text+=games[i].mTeamA+ " vs " +games[i].mTeamB;
 			if(i == curGame)
 				text+=" <--- ";
+			else if(i < curGame)
+			{
+				text+=" ("+games[i].mScoreA+" - "+games[i].mScoreB+")";
+			}
 			text+='\n';
 		}
 		schedule.text = text;
