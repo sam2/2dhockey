@@ -26,7 +26,7 @@ public class LeagueTestView : MonoBehaviour {
 
 	public void SetSchedule(List<LGame> games, int curGame)
 	{
-		string text = "Upcoming Games\n";
+		string text = "Schedule\n";
 		for(int  i = 0; i < games.Count; i++)
 		{
 			text+=games[i].mTeamA+ " vs " +games[i].mTeamB;
