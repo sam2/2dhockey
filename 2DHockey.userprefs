@@ -1,8 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LeagueTestView.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameView.cs">
     <Files>
-      <File FileName="Assets\Scripts\LeagueTestView.cs" Line="29" Column="26" />
+      <File FileName="Assets\Scripts\GameManager.cs" Line="104" Column="31" />
+      <File FileName="Assets\Scripts\LeagueTestView.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameView.cs" Line="20" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

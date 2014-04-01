@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 
 	public float mGameLength;
 	float timeLeft;
+	public GameView view;
 
 	bool stopped = true;
 
@@ -57,12 +58,13 @@ public class GameManager : MonoBehaviour {
 	void LeftGoalScoredOn()
 	{
 		mScore.mScoreB++;
+		view.UpdateScores (mScore.mScoreA, mScore.mScoreB);
 	}
 
 	void RighttGoalScoredOn()
 	{
 		mScore.mScoreA++;
-
+		view.UpdateScores (mScore.mScoreA, mScore.mScoreB);
 	}
 
 	// Use this for initialization
@@ -99,6 +101,7 @@ public class GameManager : MonoBehaviour {
 				stopped = true;
 				EndGame();
 			}
+			view.UpdateTimer(timeLeft);
 		}
 	}
 
