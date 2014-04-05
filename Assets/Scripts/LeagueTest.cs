@@ -83,7 +83,6 @@ public class LeagueTest : MonoBehaviour {
 		manager.GameEnded += new GameEndedHandler(GetResult);
 		LGame lgame = al.mCurrentSeason.GetCurrentGame();
 		manager.LoadGame(lgame, al.mCurrentSeason.GetTeam(lgame.mTeamA), al.mCurrentSeason.GetTeam(lgame.mTeamB));
-		manager.StartGame();
 
 	}
 }

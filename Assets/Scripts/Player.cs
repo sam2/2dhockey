@@ -76,6 +76,7 @@ public class Player : PlayerBase {
 	//*****************************************************************************
 	void Awake()
 	{
+		controls = GetComponentInChildren<TouchControls>();
 		FSM = new FiniteStateMachine<Player>();
 		FSM.Init();
 		FSM.Configure(this, waitState);
@@ -83,7 +84,7 @@ public class Player : PlayerBase {
 	void Start () 
 	{
 		base.Init();
-		controls = GetComponentInChildren<TouchControls>();
+
 		SetControllable(!AI);
 		puckCtrl = new Vector2(puckCtrl.x*-(int)team.side, puckCtrl.y);
 		RandomizeAttributes();

@@ -5,6 +5,10 @@ public delegate void GameEndedHandler(LGame game);
 
 public class GameManager : MonoBehaviour {
 
+	//temp
+	public GUIText goalText;
+
+
 	public GameObject netPrefab;
 	public event GameEndedHandler GameEnded;
 
@@ -13,16 +17,24 @@ public class GameManager : MonoBehaviour {
 
 	LGame mScore;
 
-	Team teamA; //left team
-	Team teamB; //right team
+	public Team teamA; //left team
+	public Team teamB; //right team
 	public GameObject teamAPrefab;
 	public GameObject teamBPrefab;
 
 	public float mGameLength;
-	float timeLeft;
+	public float timeLeft;
 	public GameView view;
 
-	bool stopped = true;
+	FiniteStateMachine<GameManager> fsm;
+	public GMFaceoffState gmFaceoffState = new GMFaceoffState();
+	public GMPlayState gmPlayState = new GMPlayState();
+
+	public void ChangeState(FSMState<GameManager> state)
+	{
+		fsm.ChangeState(state);
+	}
+
 
 	void CreateTeams(LTeam lteamA, LTeam lteamB)
 	{
@@ -44,10 +56,10 @@ public class GameManager : MonoBehaviour {
 
 	void PlaceNets()
 	{
-		GameObject leftNet = (GameObject)Instantiate(netPrefab, new Vector3(-50/2 + (50/20), 0, 0), Quaternion.Euler(0,0,180));
+		GameObject leftNet = (GameObject)Instantiate(netPrefab, new Vector3(-50/2 + (50/20) + .5f, 0, 0), Quaternion.Euler(0,0,180));
 		leftGoal = leftNet.GetComponentInChildren<GoalZone>();
 		leftNet.transform.parent = this.transform;
-		GameObject rightNet = (GameObject)Instantiate(netPrefab, new Vector3(50/2 - (50/20), 0, 0), Quaternion.identity);
+		GameObject rightNet = (GameObject)Instantiate(netPrefab, new Vector3(50/2 - (50/20) - .5f, 0, 0), Quaternion.identity);
 		rightGoal = rightNet.GetComponentInChildren<GoalZone>();
 		rightNet.transform.parent = this.transform;
 		leftGoal.Goal+= new GoalHandler(LeftGoalScoredOn);
@@ -57,12 +69,16 @@ public class GameManager : MonoBehaviour {
 
 	void LeftGoalScoredOn()
 	{
+		goalText.gameObject.SetActive(true);
+		ChangeState(gmFaceoffState);
 		mScore.mScoreB++;
 		view.UpdateScores (mScore.mScoreA, mScore.mScoreB);
 	}
 
 	void RighttGoalScoredOn()
 	{
+		goalText.gameObject.SetActive(true);
+		ChangeState(gmFaceoffState);
 		mScore.mScoreA++;
 		view.UpdateScores (mScore.mScoreA, mScore.mScoreB);
 	}
@@ -78,34 +94,20 @@ public class GameManager : MonoBehaviour {
 		mScore.mScoreB = 0;
 		CreateTeams(teamA, teamB);
 		PlaceNets();
+		fsm = new FiniteStateMachine<GameManager>();
+		fsm.Init();
+		fsm.Configure(this, gmFaceoffState);
 	}
 
-	public void StartGame()
-	{
-		stopped = false;
-	}
 
-	public void StopGame()
-	{
-		stopped = true;
-	}
-	
 	// Update is called once per frame
 	void Update () 
 	{
-		if(!stopped)
-		{
-			timeLeft -= Time.deltaTime;
-			if(timeLeft <= 0)
-			{
-				stopped = true;
-				EndGame();
-			}
-			view.UpdateTimer(timeLeft);
-		}
+		fsm.UpdateStateMachine();
+
 	}
 
-	void EndGame()
+	public void EndGame()
 	{
 
 		GameEnded(mScore);

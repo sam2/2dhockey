@@ -32,7 +32,7 @@ public class PlayerBase : MonoBehaviour {
 
 	//*****************************************************************************
 	
-	float destinationTolerance = 0.1f;
+	float destinationTolerance = 0.25f;
 	
 	public bool isAtDestination()
 	{

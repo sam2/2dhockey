@@ -11,7 +11,10 @@ public class GameView : MonoBehaviour {
 	{
 		int minutes = (int)timeLeft / 60;
 		int seconds = (int)timeLeft - (minutes * 60);
-		timer.text = minutes + ":" + seconds;
+		timer.text = minutes + ":";
+		if(seconds < 10)
+			timer.text+="0";
+		timer.text+=""+seconds;
 	}
 
 	public void UpdateScores(int a, int b)

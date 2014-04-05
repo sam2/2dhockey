@@ -172,7 +172,10 @@ public class Team : MonoBehaviour{
 		return true;
 	}
 
-
-
-
+	public void SetControllable(bool controllable)
+	{
+		foreach(Player p in mPlayers)
+			p.SetControllable(controllable);
+	}
+	
 }

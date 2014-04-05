@@ -22,7 +22,12 @@ public class Puck : MonoBehaviour {
 		
 		beingShot = false;
 	}
-	
+
+	public void InPlay(bool inplay)
+	{
+		gameObject.SetActive(inplay);
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if(controllingPlayer){
@@ -69,6 +74,7 @@ public class Puck : MonoBehaviour {
 		controllingPlayer = null;
 		rigidbody2D.velocity = Vector2.zero;
 		transform.position =Vector3.zero;
+		InPlay(false);
 	}
 
 	public Vector2 FuturePosition(float time)
