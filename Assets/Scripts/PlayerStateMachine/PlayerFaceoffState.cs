@@ -6,6 +6,7 @@ public class PlayerFaceoffState : FSMState<Player> {
 	
 	public override void Enter(Player p)
 	{
+
 		p.gameObject.layer = 8; //fallen layer
 		p.collider2D.enabled = false;
 		p.collider2D.enabled = true;
@@ -15,7 +16,8 @@ public class PlayerFaceoffState : FSMState<Player> {
 	{
 		if(!p.isAtDestination())
 		{
-			p.rigidbody2D.AddForce(p.steering.Arrive(p.destinationPosition, SteeringBehavior.Deceleration.normal));
+			p.SetControllable(false); //TEMP FIX THIS BUG FOR START OF GAME
+			p.rigidbody2D.AddForce(p.steering.Arrive(p.destinationPosition, SteeringBehavior.Deceleration.fast)*2f);
 			return;
 		}
 

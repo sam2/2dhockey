@@ -15,8 +15,8 @@ public class GMFaceoffState : FSMState<GameManager> {
 	{
 		if(gm.teamA.TeamIsAtDest() && gm.teamB.TeamIsAtDest())
 		{
-			gm.teamA.ChangeState(gm.teamA.defendState);
-			gm.teamB.ChangeState(gm.teamB.defendState);
+			gm.teamA.ChangeState(gm.teamA.attackState);
+			gm.teamB.ChangeState(gm.teamB.attackState);
 			gm.ChangeState(gm.gmPlayState);
 		}
 	

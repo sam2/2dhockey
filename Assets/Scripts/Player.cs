@@ -42,7 +42,7 @@ public class Player : PlayerBase {
 	public PlayerFaceoffState faceoffState = new PlayerFaceoffState();
 
 	public PlayerControlledState controlledState = new PlayerControlledState();
-
+	public bool controlled = false;
 	//*****************************************************************************
 
 	public bool fallen;

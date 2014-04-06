@@ -6,7 +6,7 @@ public class PlayerControlledState : FSMState<Player> {
 	float enterTime = Mathf.Infinity;
 	public override void Enter(Player p)
 	{
-
+		p.controlled = true;
 	}
 	
 	public override void Execute(Player p)
@@ -31,6 +31,7 @@ public class PlayerControlledState : FSMState<Player> {
 	
 	public override void Exit(Player p)
 	{
+		p.controlled = false;
 		p.ClearLine();
 		enterTime = Mathf.Infinity;
 	}

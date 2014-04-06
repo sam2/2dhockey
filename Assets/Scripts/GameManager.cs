@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour {
 		fsm = new FiniteStateMachine<GameManager>();
 		fsm.Init();
 		fsm.Configure(this, gmFaceoffState);
+		gmFaceoffState.Enter(this);
 	}
 
 

@@ -22,6 +22,7 @@ public class Team : MonoBehaviour{
 	public List<Player> mPlayers;
 	public List<Vector2> mDefensivePositions;
 	public List<Vector2> mOffensivePositions;
+	public List<Vector2> mFaceoffPositions;
 
 	public Team opponent;
 
@@ -41,7 +42,7 @@ public class Team : MonoBehaviour{
 	public void Init()
 	{
 		//SpawnPlayers();
-
+		Puck.puck.PuckControlChanged += new PuckControlChangedHandler(OnPlayerRecievedPuck);
 		FSM = new FiniteStateMachine<Team>();
 		FSM.Init();
 		FSM.Configure(this, faceoffState);
@@ -54,7 +55,7 @@ public class Team : MonoBehaviour{
 
 	void Start()
 	{
-		Puck.puck.PuckControlChanged += new PuckControlChangedHandler(OnPlayerRecievedPuck);
+
 	}
 
 	public void SpawnPlayers(LTeam team)
@@ -62,7 +63,7 @@ public class Team : MonoBehaviour{
 		mPlayers = new List<Player>();
 		for(int i = 0; i < mDefensivePositions.Count; i++)
 		{
-			GameObject g = (GameObject) Instantiate(playerPrefab, mDefensivePositions[i], Quaternion.identity);
+			GameObject g = (GameObject) Instantiate(playerPrefab, new Vector2((int)side*5, -14), Quaternion.identity);
 			g.GetComponentInChildren<Animator>().runtimeAnimatorController = controller;
 			g.transform.parent = transform;
 			Player p = g.GetComponent<Player>();
@@ -81,11 +82,19 @@ public class Team : MonoBehaviour{
 		}
 	}
 
-	public void SetDestinationPositionsToHome()
+	public void SetDestinationPositionsToHome(bool includeControlled)
 	{
 		foreach(Player p in mPlayers)
 		{
-			p.destinationPosition = p.mHomePosition;
+			if(includeControlled)
+			{
+				p.destinationPosition = p.mHomePosition;
+			}
+			else
+			{
+				if(!p.controlled)
+					p.destinationPosition = p.mHomePosition;
+			}
 		}
 	}
 
