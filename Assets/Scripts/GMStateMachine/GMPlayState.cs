@@ -15,7 +15,7 @@ public class GMPlayState : FSMState<GameManager> {
 		gm.timeLeft -= Time.deltaTime;
 		if(gm.timeLeft <= 0)
 		{
-			gm.EndGame();
+			gm.ChangeState(gm.gmEndGameState);
 		}
 		gm.view.UpdateTimer(gm.timeLeft);
 		

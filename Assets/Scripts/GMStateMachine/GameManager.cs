@@ -6,7 +6,8 @@ public delegate void GameEndedHandler(LGame game);
 public class GameManager : MonoBehaviour {
 
 	//temp
-	public GUIText goalText;
+
+
 
 
 	public GameObject netPrefab;
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour {
 	public static GoalZone leftGoal;
 	public static GoalZone rightGoal;
 
-	LGame mScore;
+	public LGame mScore;
 
 	public Team teamA; //left team
 	public Team teamB; //right team
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour {
 	FiniteStateMachine<GameManager> fsm;
 	public GMFaceoffState gmFaceoffState = new GMFaceoffState();
 	public GMPlayState gmPlayState = new GMPlayState();
+	public GMEndGameState gmEndGameState = new GMEndGameState();
 
 	public void ChangeState(FSMState<GameManager> state)
 	{
@@ -59,17 +61,19 @@ public class GameManager : MonoBehaviour {
 		GameObject leftNet = (GameObject)Instantiate(netPrefab, new Vector3(-50/2 + (50/20) + .5f, 0, 0), Quaternion.Euler(0,0,180));
 		leftGoal = leftNet.GetComponentInChildren<GoalZone>();
 		leftNet.transform.parent = this.transform;
+		leftGoal.Goal+= new GoalHandler(LeftGoalScoredOn);
+
 		GameObject rightNet = (GameObject)Instantiate(netPrefab, new Vector3(50/2 - (50/20) - .5f, 0, 0), Quaternion.identity);
 		rightGoal = rightNet.GetComponentInChildren<GoalZone>();
 		rightNet.transform.parent = this.transform;
-		leftGoal.Goal+= new GoalHandler(LeftGoalScoredOn);
 		rightGoal.Goal+= new GoalHandler(RighttGoalScoredOn);
 
 	}
 
 	void LeftGoalScoredOn()
 	{
-		goalText.gameObject.SetActive(true);
+
+		view.goalText.gameObject.SetActive(true);
 		ChangeState(gmFaceoffState);
 		mScore.mScoreB++;
 		view.UpdateScores (mScore.mScoreA, mScore.mScoreB);
@@ -77,7 +81,7 @@ public class GameManager : MonoBehaviour {
 
 	void RighttGoalScoredOn()
 	{
-		goalText.gameObject.SetActive(true);
+		view.goalText.gameObject.SetActive(true);
 		ChangeState(gmFaceoffState);
 		mScore.mScoreA++;
 		view.UpdateScores (mScore.mScoreA, mScore.mScoreB);

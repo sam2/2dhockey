@@ -6,6 +6,7 @@ public class GameView : MonoBehaviour {
 	public GUIText scoreA;
 	public GUIText scoreB;
 	public GUIText timer;
+	public GUIText goalText;
 
 	public void UpdateTimer(float timeLeft)
 	{
@@ -30,5 +31,10 @@ public class GameView : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void SetGoalText(string text)
+	{
+		goalText.text = text;
 	}
 }

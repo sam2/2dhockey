@@ -32,7 +32,7 @@ public class GMFaceoffState : FSMState<GameManager> {
 		{
 			gm.teamA.SetControllable(true);
 		}
-		gm.goalText.gameObject.SetActive(false);
+		gm.view.goalText.gameObject.SetActive(false);
 	}
 	
 }

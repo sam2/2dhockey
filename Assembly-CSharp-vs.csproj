@@ -51,9 +51,10 @@
      <Compile Include="Assets\Scripts\Drawing.cs" />
      <Compile Include="Assets\Scripts\FSMState.cs" />
      <Compile Include="Assets\Scripts\FiniteStateMachine.cs" />
+     <Compile Include="Assets\Scripts\GMStateMachine\GMEndGameState.cs" />
      <Compile Include="Assets\Scripts\GMStateMachine\GMFaceoffState.cs" />
      <Compile Include="Assets\Scripts\GMStateMachine\GMPlayState.cs" />
-     <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\GMStateMachine\GameManager.cs" />
      <Compile Include="Assets\Scripts\GameView.cs" />
      <Compile Include="Assets\Scripts\GoalZone.cs" />
      <Compile Include="Assets\Scripts\Goalie.cs" />

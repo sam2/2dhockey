@@ -1,15 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Team.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GMStateMachine\GMEndGameState.cs">
     <Files>
-      <File FileName="Assets\Scripts\GameManager.cs" Line="100" Column="30" />
-      <File FileName="Assets\Scripts\GMStateMachine\GMFaceoffState.cs" Line="25" Column="43" />
-      <File FileName="Assets\Scripts\TeamStateMachine\TeamFaceoffState.cs" Line="15" Column="39" />
-      <File FileName="Assets\Scripts\PlayerStateMachine\PlayerControlledState.cs" Line="34" Column="24" />
-      <File FileName="Assets\Scripts\TeamStateMachine\TeamDefendingState.cs" Line="9" Column="5" />
-      <File FileName="Assets\Scripts\Team.cs" Line="66" Column="81" />
-      <File FileName="Assets\Scripts\Player.cs" Line="45" Column="33" />
-      <File FileName="Assets\Scripts\PlayerStateMachine\PlayerFaceoffState.cs" Line="19" Column="67" />
+      <File FileName="Assets\Scripts\GMStateMachine\GMFaceoffState.cs" Line="35" Column="3" />
+      <File FileName="Assets\Scripts\GMStateMachine\GMPlayState.cs" Line="18" Column="38" />
+      <File FileName="Assets\Scripts\GMStateMachine\GMEndGameState.cs" Line="10" Column="37" />
+      <File FileName="Assets\Scripts\GMStateMachine\GameManager.cs" Line="15" Column="2" />
+      <File FileName="Assets\Scripts\GameView.cs" Line="36" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
