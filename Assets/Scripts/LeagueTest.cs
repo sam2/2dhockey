@@ -14,8 +14,7 @@ public class LeagueTest : MonoBehaviour {
 	bool inGame = false;
 
 
-	//debug:
-	League templeague = new League();
+
 
 	void Awake()
 	{
@@ -54,7 +53,6 @@ public class LeagueTest : MonoBehaviour {
 			}
 			if(Input.GetKeyDown(KeyCode.L))
 			{
-				templeague = al;
 				al = al.Load();
 				UpdateView();
 			}

@@ -1,18 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GMStateMachine\GMEndGameState.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\StateMachines\ControlsStateMachine\ControlMoveState.cs">
     <Files>
-      <File FileName="Assets\Scripts\GMStateMachine\GMFaceoffState.cs" Line="35" Column="3" />
-      <File FileName="Assets\Scripts\GMStateMachine\GMPlayState.cs" Line="18" Column="38" />
-      <File FileName="Assets\Scripts\GMStateMachine\GMEndGameState.cs" Line="10" Column="37" />
-      <File FileName="Assets\Scripts\GMStateMachine\GameManager.cs" Line="15" Column="2" />
-      <File FileName="Assets\Scripts\GameView.cs" Line="36" Column="9" />
+      <File FileName="Assets\Scripts\StateMachines\ControlsStateMachine\ControlShootState.cs" Line="24" Column="3" />
+      <File FileName="Assets\Scripts\StateMachines\ControlsStateMachine\ControlMoveState.cs" Line="20" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="D:\Projects\2dhockey\Assets\Scripts\LeagueModel\League.cs" line="80" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

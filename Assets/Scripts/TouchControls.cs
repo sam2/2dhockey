@@ -40,14 +40,14 @@ public class TouchControls : MonoBehaviour {
 	// Update is called once per frame
 	void OnMouseDown () 
 	{
-		state = ControlState.moving;
-		mClickStartTime = Time.realtimeSinceStartup;
+		state = ControlState.moving;//
+		mClickStartTime = Time.realtimeSinceStartup;//
 		diskDrawer.lineRenderer.enabled = true;
-		diskDrawer.lineRenderer.SetPosition(0, transform.position);
-		diskDrawer.lineRenderer.SetPosition(1, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+		diskDrawer.lineRenderer.SetPosition(0, transform.position);//
+		diskDrawer.lineRenderer.SetPosition(1, Camera.main.ScreenToWorldPoint(Input.mousePosition));//
 		diskDrawer.enabled = true;
-		Time.timeScale = 0f;
-		Time.fixedDeltaTime = 0f;
+		Time.timeScale = 0f;//
+		Time.fixedDeltaTime = 0f;//
 	}
 
 	void OnMouseDrag()
