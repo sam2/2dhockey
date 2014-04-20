@@ -6,9 +6,12 @@ using System.Collections.Generic;
 public class PlayerControlsView : MonoBehaviour {
 
 	LineRenderer lineRenderer;
+	public ParticleSystem slapShot;
 	// Use this for initialization
 	void Awake () {
 		lineRenderer = GetComponent<LineRenderer>();
+		lineRenderer.material = new Material (Shader.Find("Self-Illumin/Diffuse"));
+		ChangeLineColor(Color.blue);
 	}
 	
 	// Update is called once per frame
@@ -27,9 +30,14 @@ public class PlayerControlsView : MonoBehaviour {
 		lineRenderer.SetPosition(1, b);
 	}
 
+	public void ChangeLineColor(Color c)
+	{
+		lineRenderer.SetColors(c,c);
+		lineRenderer.material.color = c;
+	}
+
 	public void DrawPath(Queue<Vector2> nodes)
 	{
-		lineRenderer.SetColors(Color.blue, Color.blue);
 		Queue<Vector2> copy = new Queue<Vector2>(nodes);
 		if(nodes.Count > 0)
 		{
@@ -61,7 +69,6 @@ public class PlayerControlsView : MonoBehaviour {
 
 	public void DrawShot(Vector2 puckPos)
 	{
-		lineRenderer.SetColors(Color.red, Color.red);
 		DrawToMouse(puckPos);
 	}
 }

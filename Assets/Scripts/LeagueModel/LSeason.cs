@@ -129,6 +129,15 @@ public class LSeason
 		return mTeams[index];
 	}
 
+	public int GetNextGame(int team)
+	{
+		for(int i = mCurGameIndex; i < mGames.Count; i++)
+		{
+			if(mGames[i].mTeamA == team || mGames[i].mTeamB == team)
+				return i;
+		}
+		return -1;
+	}
 
 
 }

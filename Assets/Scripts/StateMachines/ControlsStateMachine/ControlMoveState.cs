@@ -15,7 +15,6 @@ public class ControlMoveState : FSMState<PlayerControls> {
 	{
 		queued = false;
 		enterTime = Time.realtimeSinceStartup;
-		c.StartCoroutine(Util.ChangeTime(Time.timeScale, 0.0f, .5f));
 	}
 	
 	public override void Execute(PlayerControls c)
@@ -51,7 +50,6 @@ public class ControlMoveState : FSMState<PlayerControls> {
 			c.player.ChangeState(c.player.controlledState);
 			c.path.Enqueue(mousePos);
 			c.ChangeState(c.waitState);
-			c.StartCoroutine(Util.ChangeTime(0, 1, .05f));
 		}
 		
 	}

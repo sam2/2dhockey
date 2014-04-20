@@ -25,6 +25,8 @@ public class PlayerAnimationHandler : MonoBehaviour {
 		}
 		else
 			animator.SetInteger("Facing", (int)face%3);
+
+		animator.SetBool("slapshot", p.slapshot);
 	
 	}
 

@@ -18,6 +18,8 @@ public class PlayerControls : MonoBehaviour {
 
 	public Queue<Vector2> path = new Queue<Vector2>();
 
+
+	bool paused = false;
 	void Awake () 
 	{
 		controls.Init();
@@ -32,12 +34,34 @@ public class PlayerControls : MonoBehaviour {
 			view.DrawPath(path);
 		if(player.fallen)
 		{
-			Time.timeScale = 1f;
-			Time.fixedDeltaTime = 0.02f*Time.timeScale;
+
 			ChangeState(waitState);
 			path.Clear();
 			view.ClearLineRenderer();
 		}
+
+		if(Input.GetMouseButtonDown(1) && Puck.puck.controllingPlayer == player)
+		{
+			ChangeState(shootState);
+		}
+
+		/*
+		if(Input.GetKeyDown(KeyCode.Space))
+		{
+			paused = !paused;
+		}
+
+		if(paused)
+		{
+			Time.timeScale = 1.0f;
+			Time.fixedDeltaTime = 0.02f*Time.timeScale;
+		}
+		else
+		{
+			Time.timeScale = 0f;
+			Time.fixedDeltaTime = 0.02f*Time.timeScale;
+		}
+		*/
 	}
 
 	void OnMouseDown () 

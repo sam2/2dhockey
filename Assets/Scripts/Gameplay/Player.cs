@@ -45,7 +45,7 @@ public class Player : PlayerBase {
 	//*****************************************************************************
 
 	public bool fallen;
-
+	public bool slapshot;
 
 
 
@@ -76,7 +76,7 @@ public class Player : PlayerBase {
 
 		SetControllable(!AI);
 		puckCtrl = new Vector2(puckCtrl.x*-(int)team.side, puckCtrl.y);
-		RandomizeAttributes();
+		//RandomizeAttributes();
 		steering = new SteeringBehavior(rigidbody2D, speed);
 		facing = transform.forward;
 
