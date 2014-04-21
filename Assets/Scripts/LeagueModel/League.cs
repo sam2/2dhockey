@@ -29,9 +29,16 @@ public class League
 	public static League CreateNewLeague(int numTeams)
 	{
 		List<LTeam> teams = new List<LTeam>();
-		for(int j = 0; j < numTeams; j++)
+		List<LPlayer> roster = new List<LPlayer>();
+		for(int i = 0; i < 5; i++)
 		{
-			List<LPlayer> roster = new List<LPlayer>();
+			LPlayer player = new LPlayer();
+			roster.Add (player);
+		}
+		teams.Add(new LTeam("Hometeam",roster));
+		for(int j = 1; j < numTeams; j++)
+		{
+			roster = new List<LPlayer>();
 			for(int i = 0; i < 5; i++)
 			{
 				LPlayer player = new LPlayer();

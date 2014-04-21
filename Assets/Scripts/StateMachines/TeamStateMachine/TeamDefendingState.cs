@@ -14,7 +14,7 @@ public class TeamDefendingState : FSMState<Team> {
 	
 	public override void Execute(Team t)
 	{
-		if(t.InControl())
+		if((Mathf.Sign(Puck.puck.transform.position.x)*(-(int)t.side) > 0) && Puck.puck.controllingPlayer == null)
 		{
 			t.ChangeState(t.attackState);
 		}

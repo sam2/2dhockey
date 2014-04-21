@@ -6,6 +6,7 @@ public class LeagueTestView : MonoBehaviour {
 
 	public GUIText nextGame;
 	public GUIText schedule;
+	public GUIText leagueSchedule;
 	public GUIText standingsdisplay;
 
 	public void SetNextGame(LGame game)
@@ -24,12 +25,12 @@ public class LeagueTestView : MonoBehaviour {
 		standingsdisplay.text = text;
 	}
 
-	public void SetSchedule(List<LGame> games, int curGame)
+	public void SetSchedule(List<LGame> games, int curGame, List<LTeam> teams)
 	{
-		string text = "Schedule\n";
+		string text = "Team Schedule\n";
 		for(int  i = 0; i < games.Count; i++)
 		{
-			text+=games[i].mTeamA+ " vs " +games[i].mTeamB;
+			text+=teams[games[i].mTeamA].mName+ " vs " +teams[games[i].mTeamB].mName;
 			if(i == curGame)
 				text+=" <--- ";
 			else if(i < curGame)
@@ -39,5 +40,25 @@ public class LeagueTestView : MonoBehaviour {
 			text+='\n';
 		}
 		schedule.text = text;
+	}
+
+	public void SetLeagueSchedule(League league)
+	{
+		string text = "League Schedule\n";
+		List<LGame> games = league.mCurrentSeason.mGames;
+		int curGame = league.mCurrentSeason.mCurGameIndex;
+		List<LTeam> teams = league.mCurrentSeason.mTeams;
+		for(int  i = 0; i < games.Count; i++)
+		{
+			text+=teams[games[i].mTeamA].mName+ " vs " +teams[games[i].mTeamB].mName;
+			if(i == curGame)
+				text+=" <--- ";
+			else if(i < curGame)
+			{
+				text+=" ("+games[i].mScoreA+" - "+games[i].mScoreB+")";
+			}
+			text+='\n';
+		}
+		leagueSchedule.text = text;
 	}
 }

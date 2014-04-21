@@ -55,7 +55,7 @@ public class Player : PlayerBase {
 	{
 		speed = Random.Range(0.75f, 1.25f)*speed;
 		turnSpeed = Random.Range(0.75f, 1.25f)*turnSpeed;
-		shotPower = Random.Range(0.75f, 1.25f)*shotPower;
+		//shotPower = Random.Range(0.75f, 1.25f)*shotPower;
 
 	}
 	//*****************************************************************************
@@ -76,7 +76,7 @@ public class Player : PlayerBase {
 
 		SetControllable(!AI);
 		puckCtrl = new Vector2(puckCtrl.x*-(int)team.side, puckCtrl.y);
-		//RandomizeAttributes();
+		RandomizeAttributes();
 		steering = new SteeringBehavior(rigidbody2D, speed);
 		facing = transform.forward;
 

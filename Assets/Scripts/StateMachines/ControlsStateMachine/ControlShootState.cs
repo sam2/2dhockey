@@ -26,7 +26,7 @@ public class ControlShootState : FSMState<PlayerControls> {
 			c.view.slapShot.Play();
 			slapper = true;
 			multiplier = 1.5f;
-
+			c.player.rigidbody2D.velocity = Vector2.zero;
 
 		}
 
