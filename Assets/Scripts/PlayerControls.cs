@@ -39,10 +39,14 @@ public class PlayerControls : MonoBehaviour {
 			path.Clear();
 			view.ClearLineRenderer();
 		}
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		
+		RaycastHit hit = new RaycastHit();
 
-		if(Input.GetMouseButtonDown(1) && Puck.puck.controllingPlayer == player)
+		if(Input.GetMouseButtonDown(1)&& Puck.puck.controllingPlayer == player && Physics.Raycast(ray, out hit))
 		{
-			ChangeState(shootState);
+			if(hit.collider.gameObject == this.gameObject)
+				ChangeState(shootState);
 		}
 
 		/*

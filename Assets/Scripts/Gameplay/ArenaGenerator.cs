@@ -75,8 +75,8 @@ public class ArenaGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		PlaceBoards(mWidth,mHeight);
-		SetCameraSize();
+		//PlaceBoards(mWidth,mHeight);
+		//SetCameraSize();
 
 		SamplePositions();
 

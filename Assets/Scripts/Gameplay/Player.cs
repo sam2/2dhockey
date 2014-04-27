@@ -73,7 +73,6 @@ public class Player : PlayerBase {
 	void Start () 
 	{
 		base.Init();
-
 		SetControllable(!AI);
 		puckCtrl = new Vector2(puckCtrl.x*-(int)team.side, puckCtrl.y);
 		RandomizeAttributes();
