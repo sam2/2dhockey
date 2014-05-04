@@ -47,9 +47,11 @@ public class DrawRinkTest : MonoBehaviour {
 
 		List<Vector2> verts = new List<Vector2>();
 		//start top middle
-		verts.Add(transform.position);
 
-		Vector2 pos = transform.position;
+
+		Vector2 pos = transform.position + new Vector3(0,height/2, 0);
+
+		verts.Add(pos);
 
 		//top left corner
 		Vector2 center = new Vector2(-width/2 + curveRadius, -curveRadius);
@@ -79,7 +81,7 @@ public class DrawRinkTest : MonoBehaviour {
 			verts.Add(v+pos);
 		}
 
-		verts.Add(transform.position);
+		verts.Add(pos);
 		return verts;
 	}
 	

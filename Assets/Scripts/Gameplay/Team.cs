@@ -63,7 +63,7 @@ public class Team : MonoBehaviour{
 		mPlayers = new List<Player>();
 		for(int i = 0; i < mDefensivePositions.Count; i++)
 		{
-			GameObject g = (GameObject) Instantiate(playerPrefab, new Vector2((int)side*5, -12), Quaternion.identity);
+			GameObject g = (GameObject) Instantiate(playerPrefab, new Vector2((int)side*5, -8), Quaternion.identity);
 			g.GetComponentInChildren<Animator>().runtimeAnimatorController = controller;
 			g.transform.parent = transform;
 			Player p = g.GetComponent<Player>();

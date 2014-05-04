@@ -166,8 +166,9 @@ public class Player : PlayerBase {
 	public void GetChecked(Vector2 dir)
 	{
 		if(Puck.puck.controllingPlayer == this)
-			Puck.puck.Shoot(dir.normalized*shotPower*Random.Range(.1f, .25f));
-		FSM.ChangeState(fallenState);
+			Puck.puck.Shoot(dir.normalized*shotPower*0.5f);
+		if(Random.Range(0,10) > 7.5f)
+			FSM.ChangeState(fallenState);
 	}
 
 	//*****************************************************************************

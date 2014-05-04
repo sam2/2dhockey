@@ -97,6 +97,7 @@
      <Compile Include="Assets\Scripts\VectorLine.cs" />
      <Compile Include="Assets\SteeringBehavior.cs" />
      <Compile Include="Assets\Util.cs" />
+     <None Include="Assets\Art\Texture Only.shader" />
      <None Include="Assets\Art\Bauer.txt" />
  <Reference Include="protobuf-net">
  <HintPath>Assets\Plugins\protobuf-net.dll</HintPath>

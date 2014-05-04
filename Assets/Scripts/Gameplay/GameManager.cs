@@ -58,12 +58,12 @@ public class GameManager : MonoBehaviour {
 
 	void PlaceNets()
 	{
-		GameObject leftNet = (GameObject)Instantiate(netPrefab, new Vector3(-50/2 + (50/20) + .5f, 0, 0), Quaternion.Euler(0,0,180));
+		GameObject leftNet = (GameObject)Instantiate(netPrefab, new Vector3(-60/2 + (60/20) - .2f, -.25f, 0), Quaternion.Euler(0,0,180));
 		leftGoal = leftNet.GetComponentInChildren<GoalZone>();
 		leftNet.transform.parent = this.transform;
 		leftGoal.Goal+= new GoalHandler(LeftGoalScoredOn);
 
-		GameObject rightNet = (GameObject)Instantiate(netPrefab, new Vector3(50/2 - (50/20) - .5f, 0, 0), Quaternion.identity);
+		GameObject rightNet = (GameObject)Instantiate(netPrefab, new Vector3(60/2 - (60/20) + .2f, -.25f, 0), Quaternion.identity);
 		rightGoal = rightNet.GetComponentInChildren<GoalZone>();
 		rightNet.transform.parent = this.transform;
 		rightGoal.Goal+= new GoalHandler(RighttGoalScoredOn);

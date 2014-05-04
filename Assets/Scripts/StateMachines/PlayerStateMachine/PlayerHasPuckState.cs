@@ -2,10 +2,11 @@
 using System.Collections;
 
 public class PlayerHasPuckState : FSMState<Player> {
-	
-	
+
+	float enterTime = Mathf.Infinity;
 	public override void Enter(Player p)
 	{
+		enterTime = Time.time;
 		if(!p.team.AI)
 		{
 			p.ChangeState(p.controlledState);
@@ -24,7 +25,7 @@ public class PlayerHasPuckState : FSMState<Player> {
 			return;
 		}
 		p.LookForShot();
-		if(p.IsThreatened())
+		if(p.IsThreatened() && (Time.time - enterTime) > 0.5f)
 		{
 			p.FindPass();
 		}
@@ -38,7 +39,7 @@ public class PlayerHasPuckState : FSMState<Player> {
 	
 	public override void Exit(Player p)
 	{
-		
+		enterTime = Mathf.Infinity;
 	}
 	
 }

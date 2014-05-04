@@ -11,6 +11,7 @@ public class Puck : MonoBehaviour {
 	public static Puck puck;
 	public static bool beingShot;
 	public Player controllingPlayer;
+	public Player lastControllingPlayer;
 
 	public GameObject highlightCircle;
 	// Use this for initialization
@@ -49,6 +50,7 @@ public class Puck : MonoBehaviour {
 		{
 			rigidbody2D.AddForce(forceVector);
 			controllingPlayer.DisableBox(.25f);
+			lastControllingPlayer = controllingPlayer;
 			controllingPlayer = null;
 		}
 
