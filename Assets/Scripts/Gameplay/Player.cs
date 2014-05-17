@@ -128,6 +128,14 @@ public class Player : PlayerBase {
 	void OnCollisionStay2D(Collision2D other)
 	{
 
+		if(other.gameObject.tag == "Player")
+		{
+			Vector2 dir = other.collider.transform.position - transform.position;
+			other.rigidbody.AddForce(dir.normalized*speed*7.5f);
+		}
+
+
+
 		if (Puck.puck.controllingPlayer && !Puck.puck.controllingPlayer.fallen 
 		    && !fallen && other.collider == Puck.puck.controllingPlayer.collider2D
 		    && Puck.puck.controllingPlayer.team != team )

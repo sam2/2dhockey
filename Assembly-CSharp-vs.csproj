@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\Gameplay\Puck.cs" />
      <Compile Include="Assets\Scripts\Gameplay\SaveChecker.cs" />
      <Compile Include="Assets\Scripts\Gameplay\Team.cs" />
+     <Compile Include="Assets\Scripts\Gameplay\TimeManager.cs" />
      <Compile Include="Assets\Scripts\LeagueManager.cs" />
      <Compile Include="Assets\Scripts\LeagueModel\LGame.cs" />
      <Compile Include="Assets\Scripts\LeagueModel\LPlayer.cs" />

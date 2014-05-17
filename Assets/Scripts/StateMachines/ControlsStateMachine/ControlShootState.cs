@@ -21,6 +21,7 @@ public class ControlShootState : FSMState<PlayerControls> {
 	{
 
 
+
 		if(Time.realtimeSinceStartup - enterTime > c.shotHoldTime && !slapper)
 		{
 			c.view.slapShot.Play();
@@ -45,6 +46,11 @@ public class ControlShootState : FSMState<PlayerControls> {
 
 		}
 		c.player.slapshot = slapper;
+
+		if(c.player != Puck.puck.controllingPlayer)
+		{
+			c.ChangeState(c.waitState);
+		}
 	}
 	
 	public override void Exit(PlayerControls c)

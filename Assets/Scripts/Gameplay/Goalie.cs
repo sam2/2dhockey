@@ -23,16 +23,23 @@ public class Goalie : PlayerBase {
 	void FixedUpdate () {
 
 		Vector2 puckVector = new Vector2(Puck.puck.transform.position.x, Puck.puck.transform.position.y) - GetRearInterposeTarget();
-		
-		Vector2 desiredPos = GetRearInterposeTarget();
-
-
-		if(Vector2.Distance(Puck.puck.transform.position, anchor) <= attackDistance && Puck.puck.controllingPlayer == null)
+		Vector2 desiredPos = new Vector2();
+		if(puckVector.magnitude <= attackDistance)
 		{
-			rigidbody2D.AddForce(steering.Pursuit(Puck.puck.rigidbody2D));
+			desiredPos = new Vector2((26*side) + (side*-1), Mathf.Clamp(Puck.puck.transform.position.y, -1.5f, 1.5f));
 		}
 		else
-			rigidbody2D.AddForce(steering.Arrive(desiredPos, SteeringBehavior.Deceleration.fast));
+		{
+			float puckYSpeed = Puck.puck.rigidbody2D.velocity.y;
+			float y = Mathf.Clamp(Puck.puck.transform.position.y + (puckYSpeed * 0.25f), -1.5f, 1.5f)*0.9f;
+			desiredPos = new Vector2((26*side) + (side*-1), y);
+		}
+
+
+
+
+		rigidbody2D.AddForce(steering.Arrive(desiredPos, SteeringBehavior.Deceleration.fast));
+
 
 
 	
