@@ -19,7 +19,7 @@
 	<DebugType>full</DebugType>
 	<Optimize>false</Optimize>
 	<OutputPath>Temp\bin\Debug\</OutputPath>
-	<DefineConstants>DEBUG;TRACE;UNITY_WEBPLAYER;WEBPLUG;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_GENERICS;ENABLE_SUBSTANCE;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;UNITY_4_3_4;UNITY_4_3;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+	<DefineConstants>DEBUG;TRACE;UNITY_4_6_1;UNITY_4_6;UNITY_ANDROID;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;UNITY_ANDROID_API;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
 	<ErrorReport>prompt</ErrorReport>
 	<WarningLevel>4</WarningLevel>
 	<NoWarn>0169</NoWarn>
@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\Gameplay\SaveChecker.cs" />
      <Compile Include="Assets\Scripts\Gameplay\Team.cs" />
      <Compile Include="Assets\Scripts\Gameplay\TimeManager.cs" />
+     <Compile Include="Assets\Scripts\IPlayerControls.cs" />
      <Compile Include="Assets\Scripts\LeagueManager.cs" />
      <Compile Include="Assets\Scripts\LeagueModel\LGame.cs" />
      <Compile Include="Assets\Scripts\LeagueModel\LPlayer.cs" />
@@ -67,12 +68,16 @@
      <Compile Include="Assets\Scripts\LeagueModel\League.cs" />
      <Compile Include="Assets\Scripts\LeagueTest.cs" />
      <Compile Include="Assets\Scripts\LeagueTestView.cs" />
+     <Compile Include="Assets\Scripts\MousePlayerControls.cs" />
      <Compile Include="Assets\Scripts\PlayerAnimationHandler.cs" />
-     <Compile Include="Assets\Scripts\PlayerControls.cs" />
      <Compile Include="Assets\Scripts\PlayerControlsView.cs" />
      <Compile Include="Assets\Scripts\StateMachines\ControlsStateMachine\ControlMoveState.cs" />
+     <Compile Include="Assets\Scripts\StateMachines\ControlsStateMachine\ControlOneTimerState.cs" />
      <Compile Include="Assets\Scripts\StateMachines\ControlsStateMachine\ControlShootState.cs" />
      <Compile Include="Assets\Scripts\StateMachines\ControlsStateMachine\ControlWaitState.cs" />
+     <Compile Include="Assets\Scripts\StateMachines\ControlsStateMachine\TimeStateMachine\TimeNormalState.cs" />
+     <Compile Include="Assets\Scripts\StateMachines\ControlsStateMachine\TimeStateMachine\TimePauseState.cs" />
+     <Compile Include="Assets\Scripts\StateMachines\ControlsStateMachine\TimeStateMachine\TimeSlowState.cs" />
      <Compile Include="Assets\Scripts\StateMachines\FSMState.cs" />
      <Compile Include="Assets\Scripts\StateMachines\FiniteStateMachine.cs" />
      <Compile Include="Assets\Scripts\StateMachines\GMStateMachine\GMEndGameState.cs" />
@@ -100,8 +105,11 @@
      <Compile Include="Assets\Util.cs" />
      <None Include="Assets\Art\Texture Only.shader" />
      <None Include="Assets\Art\Bauer.txt" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>D:/Program Files (x86)/Unity/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
+ </Reference>
  <Reference Include="protobuf-net">
- <HintPath>Assets\Plugins\protobuf-net.dll</HintPath>
+ <HintPath>D:/Projects/2dhockey/Assets/Plugins/protobuf-net.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

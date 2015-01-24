@@ -6,7 +6,7 @@ public class TeamAttackingState : FSMState<Team> {
 	public override void Enter(Team t)
 	{
 		t.SetHomePositions(t.mOffensivePositions);
-		t.SetDestinationPositionsToHome(t.AI);
+		t.SetDestinationPositionsToHome();
 	}
 
 	public override void Execute(Team t)

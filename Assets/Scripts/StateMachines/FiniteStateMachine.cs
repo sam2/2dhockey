@@ -16,6 +16,7 @@ public class FiniteStateMachine <T>  {
 	
 	public void Configure(T owner, FSMState<T> InitialState) {
 		Owner = owner;
+
 		ChangeState(InitialState);
 	}
 	

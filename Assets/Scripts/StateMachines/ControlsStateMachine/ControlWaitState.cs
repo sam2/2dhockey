@@ -1,22 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ControlWaitState : FSMState<PlayerControls> {
+public class ControlWaitState : FSMState<MousePlayerControls> {
 	
 	
-	public override void Enter(PlayerControls c)
+	public override void Enter(MousePlayerControls c)
 	{
-		Time.timeScale = 1f;
-		Time.fixedDeltaTime = 0.02f*Time.timeScale;
+
 	}
 	
-	public override void Execute(PlayerControls c)
+	public override void Execute(MousePlayerControls c)
 	{
 		
 		
 	}
 	
-	public override void Exit(PlayerControls c)
+	public override void Exit(MousePlayerControls c)
 	{
 		
 	}

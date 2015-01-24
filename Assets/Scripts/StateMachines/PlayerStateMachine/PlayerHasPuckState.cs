@@ -7,18 +7,10 @@ public class PlayerHasPuckState : FSMState<Player> {
 	public override void Enter(Player p)
 	{
 		enterTime = Time.time;
-		if(!p.team.AI)
-		{
-			p.ChangeState(p.controlledState);
-		}
 	}
 	
 	public override void Execute(Player p)
 	{
-		if(!p.team.AI)
-		{
-			Debug.LogError(p.name+": human player in AI state");
-		}
 		if(Puck.puck.controllingPlayer != p)
 		{
 			p.ChangeState(p.returnState);
@@ -34,7 +26,6 @@ public class PlayerHasPuckState : FSMState<Player> {
 			p.rigidbody2D.AddForce(p.steering.Arrive(p.destinationPosition, SteeringBehavior.Deceleration.normal));
 			return;
 		}
-
 	}
 	
 	public override void Exit(Player p)

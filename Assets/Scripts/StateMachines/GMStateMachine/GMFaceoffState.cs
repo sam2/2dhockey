@@ -23,15 +23,7 @@ public class GMFaceoffState : FSMState<GameManager> {
 	}
 	
 	public override void Exit(GameManager gm)
-	{
-		if(!gm.teamB.AI)
-		{
-			gm.teamB.SetControllable(true);
-		}
-		if(!gm.teamA.AI)
-		{
-			gm.teamA.SetControllable(true);
-		}
+	{	
 		gm.view.goalText.gameObject.SetActive(false);
 	}
 	

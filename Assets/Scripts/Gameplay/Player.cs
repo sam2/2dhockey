@@ -5,14 +5,12 @@ using System.Collections;
 
 public class Player : PlayerBase {
 
-	public bool AI;
 
 	public Vector3 facing;
 
-
+	public PlayerControlsView mView;
 	//*****************************************************************************
 
-	public PlayerControls controls;
 
 	//AI***********************************************************************
 
@@ -65,15 +63,14 @@ public class Player : PlayerBase {
 	//*****************************************************************************
 	void Awake()
 	{
-		controls = GetComponentInChildren<PlayerControls>();
 		FSM = new FiniteStateMachine<Player>();
 		FSM.Init();
 		FSM.Configure(this, waitState);
+		mView = GetComponentInChildren<PlayerControlsView>();
 	}
 	void Start () 
 	{
 		base.Init();
-		SetControllable(!AI);
 		puckCtrl = new Vector2(puckCtrl.x*-(int)team.side, puckCtrl.y);
 		RandomizeAttributes();
 		steering = new SteeringBehavior(rigidbody2D, speed);
@@ -113,13 +110,7 @@ public class Player : PlayerBase {
 
 	}
 
-	public void SetControllable(bool ctrl)
-	{
-		if(controls)
-			controls.gameObject.SetActive(ctrl);
-		else
-			Debug.LogError("No controls found on player");
-	}
+
 
 
 
@@ -189,7 +180,7 @@ public class Player : PlayerBase {
 		if(statedebug)
 		{
 			string newState = s.ToString();
-			Debug.Log(curState+" -> "+newState);
+			//Debug.Log(curState+" -> "+newState);
 
 		}
 		curState = s.ToString();
@@ -232,10 +223,20 @@ public class Player : PlayerBase {
 			   && Vector2.Distance(p.transform.position, transform.position) < passRange)
 			{
 				Vector2 puckPos2D = Puck.puck.transform.position;
-				Puck.puck.Shoot((futurePos - puckPos2D).normalized*shotPower/1.5f);
+				Puck.puck.Shoot((futurePos - puckPos2D).normalized*shotPower);
 				return;
 			}
 		}
+	}
+
+	public Vector2 GetPassVector(Player to)
+	{
+		float puckSpeed = (shotPower/1.5f)*Time.fixedDeltaTime/Puck.puck.rigidbody2D.mass;
+		float timeToReachPlayer = Vector2.Distance(transform.position, to.transform.position) / puckSpeed;
+		Vector2 pos2D = to.transform.position;
+		Vector2 futurePos = pos2D + to.rigidbody2D.velocity * timeToReachPlayer;
+		Vector2 puckPos2D = Puck.puck.transform.position;
+		return ((futurePos - puckPos2D).normalized);
 	}
 
 	public bool IsThreatened()

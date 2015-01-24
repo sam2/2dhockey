@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ControlShootState : FSMState<PlayerControls> {
+public class ControlShootState : FSMState<MousePlayerControls> {
 
 	float enterTime = Mathf.Infinity;
 	bool slapper = false;
-	public override void Enter(PlayerControls c)
+	public override void Enter(MousePlayerControls c)
 	{
 		slapper = false;
 		enterTime = Time.realtimeSinceStartup;
 		Puck.puck.highlightCircle.SetActive(true);
 		c.path.Clear();
-		c.StartCoroutine(Util.ChangeTime(1,.25f,0.1f));
 		multiplier = 1;
 		c.view.ChangeLineColor(Color.red);
+
+		if(!TimeManager.Instance.paused)
+			TimeManager.Instance.ChangeState(TimeManager.Instance.slowState);
 	}
 
 	float multiplier = 1;
-	public override void Execute(PlayerControls c)
+	public override void Execute(MousePlayerControls c)
 	{
 
 
@@ -31,36 +33,45 @@ public class ControlShootState : FSMState<PlayerControls> {
 
 		}
 
-		c.view.DrawShot(Puck.puck.transform.position);
+		c.view.DrawShot(new Vector2(c.player.transform.position.x, c.player.transform.position.y) + c.player.puckCtrl);
 
 		if(!Input.GetMouseButton(1))
 		{
-
+			if(c.player != Puck.puck.controllingPlayer)
+			{
+				c.ChangeState(c.oneTimer);
+			}
+			else
+			{
 		
-			Vector3 mousePos3d = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Vector2 mousePos = new Vector2(mousePos3d.x, mousePos3d.y);
-			Vector2 pos2D = Puck.puck.transform.position;
-			Vector2 shotVector = (mousePos - pos2D).normalized;
-			Puck.puck.Shoot(shotVector*c.player.shotPower*multiplier);
-			c.ChangeState(c.waitState);
+				Vector3 mousePos3d = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				Vector2 mousePos = new Vector2(mousePos3d.x, mousePos3d.y);
+				Vector2 pos2D = Puck.puck.transform.position;
+				Vector2 shotVector = (mousePos - pos2D).normalized;
+				Puck.puck.Shoot(shotVector*c.player.shotPower*multiplier);
+				c.ChangeState(c.waitState);
+
+			}
 
 		}
 		c.player.slapshot = slapper;
 
+		/*
 		if(c.player != Puck.puck.controllingPlayer)
 		{
 			c.ChangeState(c.waitState);
 		}
+		*/
 	}
 	
-	public override void Exit(PlayerControls c)
+	public override void Exit(MousePlayerControls c)
 	{
+		if(!TimeManager.Instance.paused)
+			TimeManager.Instance.ChangeState(TimeManager.Instance.normalState);
 		Puck.puck.highlightCircle.SetActive(false);
-		Time.timeScale = 1f;
-		Time.fixedDeltaTime = 0.02f*Time.timeScale;
 		slapper = false;
 		c.player.slapshot = slapper;
-		c.view.ChangeLineColor(Color.blue);
+
 	}
 	
 }

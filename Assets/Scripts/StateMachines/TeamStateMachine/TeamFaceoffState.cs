@@ -5,13 +5,17 @@ public class TeamFaceoffState : FSMState<Team> {
 	
 	public override void Enter(Team t)
 	{
-		t.SetControllable(false);
+		TouchControls tc = t.GetComponent<TouchControls>();
+		if(tc!=null)
+		{
+			tc.Toggle(false);
+		}
 		t.mControllingPlayer = null;
 		t.mSupportingPlayer = null;
 		t.mReceivingPlayer = null;
 		t.mPlayerClosestToPuck = null;
 		t.SetHomePositions(t.mFaceoffPositions);
-		t.SetDestinationPositionsToHome(true);
+		t.SetDestinationPositionsToHome();
 		foreach(Player p in t.mPlayers)
 		{
 			p.ChangeState(p.faceoffState);
@@ -30,8 +34,11 @@ public class TeamFaceoffState : FSMState<Team> {
 		{
 			p.ChangeState(p.returnState);
 		}
-		if(!t.AI)
-			t.SetControllable(true);
+		TouchControls tc = t.GetComponent<TouchControls>();
+		if(tc!=null)
+		{
+			tc.Toggle(true);
+		}
 	
 	}
 	

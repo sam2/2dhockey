@@ -16,7 +16,6 @@ public class PlayerFaceoffState : FSMState<Player> {
 	{
 		if(!p.isAtDestination())
 		{
-			p.SetControllable(false); //TEMP FIX THIS BUG FOR START OF GAME
 			p.rigidbody2D.AddForce(p.steering.Arrive(p.destinationPosition, SteeringBehavior.Deceleration.fast)*2f);
 			return;
 		}

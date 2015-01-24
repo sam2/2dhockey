@@ -25,7 +25,7 @@ public class PlayerControlledState : FSMState<Player> {
 			}
 		}
 		*/
-		p.controls.UpdatePath();
+
 		if(p.team.AI)
 		{
 			Debug.LogError(p.name+": AI player in controlled state");
@@ -40,8 +40,6 @@ public class PlayerControlledState : FSMState<Player> {
 	public override void Exit(Player p)
 	{
 		p.controlled = false;
-		p.controls.view.ClearLineRenderer();
-		p.controls.path.Clear();
 		enterTime = Mathf.Infinity;
 	}
 	

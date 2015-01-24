@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class ControlMoveState : FSMState<PlayerControls> {
+public class ControlMoveState : FSMState<MousePlayerControls> {
 	
 
 	float enterTime = Mathf.Infinity;
@@ -11,13 +11,14 @@ public class ControlMoveState : FSMState<PlayerControls> {
 	float timescale;
 
 	bool queued = false;
-	public override void Enter(PlayerControls c)
+	public override void Enter(MousePlayerControls c)
 	{
+		c.view.ChangeLineColor(Color.blue);
 		queued = false;
 		enterTime = Time.realtimeSinceStartup;
 	}
 	
-	public override void Execute(PlayerControls c)
+	public override void Execute(MousePlayerControls c)
 	{
 
 		Vector3 mousePos3d = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -32,7 +33,7 @@ public class ControlMoveState : FSMState<PlayerControls> {
 			{
 				c.ChangeState(c.shootState);
 			}
-			*/
+
 			if(Input.GetKeyDown(KeyCode.Space))
 			{
 				queued = true;
@@ -40,7 +41,7 @@ public class ControlMoveState : FSMState<PlayerControls> {
 				c.ChangeState(c.moveState);
 
 			}
-
+			*/
 			DrawControl(c);
 		}
 		//release
@@ -54,12 +55,12 @@ public class ControlMoveState : FSMState<PlayerControls> {
 		
 	}
 	
-	public override void Exit(PlayerControls c)
+	public override void Exit(MousePlayerControls c)
 	{
 		enterTime = Mathf.Infinity;
 	}
 
-	void DrawControl(PlayerControls c)
+	void DrawControl(MousePlayerControls c)
 	{
 		Vector2 root = c.transform.position;
 		if(c.path.Count > 0)

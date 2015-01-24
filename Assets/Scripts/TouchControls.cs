@@ -3,121 +3,219 @@ using System.Collections;
 
 public class TouchControls : MonoBehaviour {
 
-	enum ControlState
-	{
-		shooting,
-		moving,
-		none
-	}
+	Team mTeam;
 
-	public float shotCancelRange;
+	bool mShoot;
+	Player mTarget;
 
-	public Player player;
-	ControlState state;
+	public float TOUCH_RANGE;
+	public float SNAP_RANGE;
 
-	float mClickStartTime;
-	public float shotHoldTime;
-
-	public DiskDrawer diskDrawer;
-
+	bool snapped;
 	// Use this for initialization
-	Color lineColor;
-	void Awake () {
-		diskDrawer = GetComponent<DiskDrawer>();
-		state = ControlState.none;
-		lineColor = diskDrawer.lineRenderer.material.color;
+	void Start () {
+		mTeam = GetComponent<Team>();
 	}
-	Player prevController;
-	void Update()
-	{
-		if(Puck.puck.controllingPlayer == player && prevController != player)
-		{
-			player.ChangeState(player.controlledState);
-		}
-		prevController = Puck.puck.controllingPlayer;
-	}
+
+	int mShotFingerID = -1;
 	
 	// Update is called once per frame
-	void OnMouseDown () 
+	void Update () 
 	{
-		state = ControlState.moving;//
-		mClickStartTime = Time.realtimeSinceStartup;//
-		diskDrawer.lineRenderer.enabled = true;
-		diskDrawer.lineRenderer.SetPosition(0, transform.position);//
-		diskDrawer.lineRenderer.SetPosition(1, Camera.main.ScreenToWorldPoint(Input.mousePosition));//
-		diskDrawer.enabled = true;
-		Time.timeScale = 0f;//
-		Time.fixedDeltaTime = 0f;//
+#if UNITY_EDITOR
+		Vector2 mousePos =  Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+		if(Input.GetMouseButtonDown(0))
+		{
+			mTarget = FindClosestPlayerToPoint(mousePos, TOUCH_RANGE);
+			Debug.Log(mTarget);
+		}
+		mShoot = Input.GetKey(KeyCode.Space) && (mTarget == Puck.puck.controllingPlayer); //Touch.touchCount > 1;
+		if(mTarget != null)
+		{
+			if(mShoot)
+			{
+				mTarget.mView.ChangeLineColor(Color.red);
+				mTarget.mView.DrawToMouse(mTarget.transform.position);
+				if(Input.GetMouseButtonUp(0))
+				{
+					Vector2 shotVector = mousePos - (Vector2)mTarget.transform.position;
+					Puck.puck.Shoot(shotVector.normalized*mTarget.shotPower);
+					mTarget.mView.ClearPlayerView();
+				}
+			}
+			else
+			{
+				if(Input.GetMouseButtonUp(0))
+				{
+					ClearTarget();
+				}
+				if(Input.GetMouseButton(0))
+				{
+					mTarget.mView.ChangeLineColor(Color.blue);
+					mTarget.mView.DrawToMouse(mTarget.transform.position);
+					mTarget.ChangeState(mTarget.controlledState);
+					mTarget.destinationPosition = mousePos;
+					Debug.Log("drawing to "+mTarget);
+				}
+			}
+		}
+#else
+	/*	if(Input.touchCount > 1)
+		{
+			if(Input.GetTouch(1).phase == TouchPhase.Began)
+			{
+				mShotFingerID = Input.GetTouch(1).fingerId;
+				mShoot = true;
+			}
+			if(Input.GetTouch(1).phase == TouchPhase.Ended)
+			{
+				mShotFingerID = -1;
+				mShoot = false;
+			}
+		}
+		if(Input.touchCount > 0)
+		{
+			Touch t0 = Input.GetTouch(0);
+			Vector2 touchPos = Camera.main.ScreenToWorldPoint(t0.position);
+			if(t0.phase == TouchPhase.Began && t0.fingerId != mShotFingerID)
+			{
+				mTarget = FindClosestPlayerToPoint(touchPos, TOUCH_RANGE);
+			}
+			if(mTarget != null)
+			{
+				if(mShoot)
+				{
+					mTarget.mView.ChangeLineColor(Color.red);
+					mTarget.mView.DrawToMouse(mTarget.transform.position);
+					if(t0.phase == TouchPhase.Ended)
+					{
+						Vector2 shotVector = touchPos - (Vector2)mTarget.transform.position;
+						Puck.puck.Shoot(shotVector.normalized*mTarget.shotPower);
+						mTarget.mView.ClearPlayerView();
+					}
+				}
+				else
+				{
+					if(t0.phase == TouchPhase.Ended)
+					{
+						ClearTarget();
+					}
+					if(t0.phase == TouchPhase.Moved)
+					{
+						mTarget.mView.ChangeLineColor(Color.blue);
+						mTarget.mView.DrawLine(mTarget.transform.position, touchPos); 
+						mTarget.ChangeState(mTarget.controlledState);
+						mTarget.destinationPosition = touchPos;
+						Debug.Log("drawing to "+mTarget);
+					}
+				}
+			}
+		} */
+		if(Input.touchCount > 0)
+		{
+			//shoot
+			if(Input.touchCount > 1)
+			{
+				switch(Input.GetTouch(1).phase)
+				{
+
+				case TouchPhase.Began:
+					mShoot = true;
+					if(mTarget != null)
+					{
+						mTarget.mView.ChangeLineColor(Color.red);
+					}
+					break;
+
+				case TouchPhase.Ended:
+					if(mShoot)
+					{
+						mShoot = false;
+						Vector2 shotVector = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position) - mTarget.transform.position;
+						Puck.puck.Shoot(shotVector.normalized*mTarget.shotPower);
+						ClearTarget();
+					}
+					break;
+
+				case TouchPhase.Moved:
+				case TouchPhase.Stationary:
+					if(mTarget != null)
+					{
+						mTarget.mView.DrawToMouse(mTarget.transform.position);
+					}
+					break;
+				}
+			
+			}
+
+			if(Input.touchCount == 1)
+			{
+				Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+				
+				switch(Input.GetTouch(0).phase)
+				{
+					
+				case TouchPhase.Began:
+					mTarget = FindClosestPlayerToPoint(touchPos, TOUCH_RANGE);
+					if(mTarget != null)
+					{
+						mTarget.mView.ChangeLineColor(Color.blue);
+						mTarget.ChangeState(mTarget.controlledState);
+					}
+					break;
+					
+				case TouchPhase.Ended:
+					ClearTarget();
+					break;
+					
+				case TouchPhase.Moved:
+				case TouchPhase.Stationary:
+					if(mTarget != null)
+					{
+						mTarget.destinationPosition = touchPos;
+						mTarget.mView.DrawToMouse(mTarget.transform.position);
+					}
+					break;
+				}
+
+			}
+		}
+#endif
+
 	}
 
-	void OnMouseDrag()
+	void ClearTarget()
 	{
-		Vector2 lineVector = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		if(Time.realtimeSinceStartup - mClickStartTime > shotHoldTime && Puck.puck.controllingPlayer == player && !isInCancelZone())
+		if(mTarget!=null)
 		{
-			diskDrawer.lineRenderer.enabled = true;
-			diskDrawer.lineRenderer.material.color = Color.red;
-			state = ControlState.shooting;
-			diskDrawer.lineRenderer.SetPosition(0, Puck.puck.transform.position);
-
-			Puck.puck.highlightCircle.SetActive(true);
-			Time.timeScale = 0.05f;
-			Time.fixedDeltaTime = 0.02f*Time.timeScale;
-			Vector2.ClampMagnitude(lineVector, 1);
-			//lineVector = (lineVector + new Vector2(Puck.puck.transform.position.x, Puck.puck.transform.position.y));
-
+			mTarget.mView.ClearPlayerView();
+			mTarget = null;
 		}
-		else if(state == ControlState.shooting)
-		{
-			Puck.puck.highlightCircle.SetActive(false);
-			diskDrawer.lineRenderer.enabled = false;
-			state = ControlState.none;
-		}
-		diskDrawer.lineRenderer.SetPosition(1, lineVector);
-	}
-
-	void OnMouseUp()
-	{
-		mClickStartTime = 0;
-		diskDrawer.enabled = false;
-		diskDrawer.lineRenderer.material.color = lineColor;
-		Vector3 mousePos3d = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		Vector2 mousePos = new Vector2(mousePos3d.x, mousePos3d.y);
-		Vector2 pos2D = Puck.puck.transform.position;
-
-		if(state == ControlState.shooting)
-		{
-			Puck.puck.highlightCircle.SetActive(false);
-			Vector2 shotVector = (mousePos - pos2D).normalized;
-			Puck.puck.Shoot(shotVector*player.shotPower);
-			//SHOOT THE PUCK
-
-			state = ControlState.none;
-		}
-
-		if(state == ControlState.moving && !player.fallen)
-		{
-			player.ChangeState(player.controlledState);
-			player.destinationPosition = mousePos;
-		}
-		Time.timeScale = 1f;
-		Time.fixedDeltaTime = 0.02f*Time.timeScale;
-
-		diskDrawer.lineRenderer.enabled = false;
-	}
-
-	bool isInCancelZone()
-	{
-		Vector3 mousePos3d = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		Vector2 mousePos = new Vector2(mousePos3d.x, mousePos3d.y);
-		Vector2 puckPos = new Vector2(Puck.puck.transform.position.x, Puck.puck.transform.position.y);
-		if(Vector2.Distance(mousePos, puckPos) < shotCancelRange)
-		{
-			return true;
-		}
-		return false;
 	}
 
 
 
+	public Player FindClosestPlayerToPoint(Vector2 point, float minRange)
+	{
+		Player closest = null;
+
+		foreach(Player p in mTeam.mPlayers)
+		{
+			float dist = Vector2.Distance(point, p.transform.position);
+			Debug.Log("Dist: "+dist);
+			if(dist < minRange)
+			{
+				minRange = dist;
+				closest = p;
+			}
+		}
+
+		return closest;
+	}
+
+	public void Toggle(bool on)
+	{
+		enabled = on;
+	}
 }

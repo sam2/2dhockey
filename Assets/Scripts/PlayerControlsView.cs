@@ -19,13 +19,14 @@ public class PlayerControlsView : MonoBehaviour {
 	
 	}
 
-	public void ClearLineRenderer()
+	public void ClearPlayerView()
 	{
 		lineRenderer.SetVertexCount(0);
 	}
 
-	void DrawLine(Vector2 a, Vector2 b)
+	public void DrawLine(Vector2 a, Vector2 b)
 	{
+		lineRenderer.SetVertexCount(2);
 		lineRenderer.SetPosition(0, a);
 		lineRenderer.SetPosition(1, b);
 	}
@@ -62,7 +63,7 @@ public class PlayerControlsView : MonoBehaviour {
 	{
 		lineRenderer.SetVertexCount(2);
 		lineRenderer.SetPosition(0, root);
-		Vector3 mousePos3d = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		Vector3 mousePos3d = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
 		Vector2 mousePos = new Vector2(mousePos3d.x, mousePos3d.y);
 		lineRenderer.SetPosition(1,mousePos);
 	}

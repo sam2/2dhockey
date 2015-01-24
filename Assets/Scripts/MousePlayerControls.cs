@@ -1,22 +1,40 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerControls : MonoBehaviour {
+public class MousePlayerControls : MonoBehaviour, IPlayerControls {
 
 	public Player player;
 
 	public PlayerControlsView view;
 
-	FiniteStateMachine<PlayerControls> controls = new FiniteStateMachine<PlayerControls>();
+	FiniteStateMachine<MousePlayerControls> controls = new FiniteStateMachine<MousePlayerControls>();
 	public ControlMoveState moveState = new ControlMoveState();
 	public ControlShootState shootState = new ControlShootState();
 	public ControlWaitState waitState = new ControlWaitState();
+	public ControlOneTimerState oneTimer = new ControlOneTimerState();
+
+
 
 	//tunables
 	public float shotHoldTime;
 
 	public Queue<Vector2> path = new Queue<Vector2>();
+
+	public GameObject GetGameObject()
+	{
+		return gameObject;
+	}
+
+	public PlayerControlsView GetView()
+	{
+		return view;
+	}
+
+	public Queue<Vector2> GetPath()
+	{
+		return path;
+	}
 
 
 	bool paused = false;
@@ -24,12 +42,19 @@ public class PlayerControls : MonoBehaviour {
 	{
 		controls.Init();
 		controls.Configure(this, waitState);
+
 	}
+
+	void FixedUpdate()
+	{
+		controls.UpdateStateMachine();
+	}
+
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		controls.UpdateStateMachine();
+
 		if(path.Count > 0)
 			view.DrawPath(path);
 		if(player.fallen)
@@ -37,35 +62,24 @@ public class PlayerControls : MonoBehaviour {
 
 			ChangeState(waitState);
 			path.Clear();
-			view.ClearLineRenderer();
+			view.ClearPlayerView();
 		}
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		
 		RaycastHit hit = new RaycastHit();
 
-		if(Input.GetMouseButtonDown(1)&& Puck.puck.controllingPlayer == player && Physics.Raycast(ray, out hit))
+		if(Input.GetMouseButtonDown(1) && Physics.Raycast(ray, out hit))
 		{
 			if(hit.collider.gameObject == this.gameObject)
 				ChangeState(shootState);
 		}
 
-		/*
-		if(Input.GetKeyDown(KeyCode.Space))
-		{
-			paused = !paused;
-		}
+	
 
-		if(paused)
-		{
-			Time.timeScale = 1.0f;
-			Time.fixedDeltaTime = 0.02f*Time.timeScale;
-		}
-		else
-		{
-			Time.timeScale = 0f;
-			Time.fixedDeltaTime = 0.02f*Time.timeScale;
-		}
-		*/
+
+
+
+
 	}
 
 	void OnMouseDown () 
@@ -75,10 +89,12 @@ public class PlayerControls : MonoBehaviour {
 
 	}
 
-	public void ChangeState(FSMState<PlayerControls> s)
+	public void ChangeState(FSMState<MousePlayerControls> s)
 	{
 		controls.ChangeState(s);
 	}
+
+
 
 	public void UpdatePath()
 	{

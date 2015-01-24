@@ -42,7 +42,7 @@ public class LeagueTest : MonoBehaviour {
 	{
 		if(!inGame)
 		{
-			if(Input.GetKeyDown(KeyCode.Space) && al.mCurrentSeason.GetCurrentGame()!=null)
+			if((Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0) && al.mCurrentSeason.GetCurrentGame()!=null)
 			{
 				SimToNextGame();
 				inGame = true;

@@ -67,8 +67,7 @@ public class Team : MonoBehaviour{
 			g.GetComponentInChildren<Animator>().runtimeAnimatorController = controller;
 			g.transform.parent = transform;
 			Player p = g.GetComponent<Player>();
-			p.team = this;
-			p.AI = AI;
+			p.team = this;		
 			p.destinationPosition = p.transform.position;
 			mPlayers.Add(p);
 		}
@@ -82,19 +81,11 @@ public class Team : MonoBehaviour{
 		}
 	}
 
-	public void SetDestinationPositionsToHome(bool includeControlled)
+	public void SetDestinationPositionsToHome()
 	{
 		foreach(Player p in mPlayers)
 		{
-			if(includeControlled)
-			{
-				p.destinationPosition = p.mHomePosition;
-			}
-			else
-			{
-				if(!p.controlled)
-					p.destinationPosition = p.mHomePosition;
-			}
+			p.destinationPosition = p.mHomePosition;
 		}
 	}
 
@@ -180,11 +171,4 @@ public class Team : MonoBehaviour{
 		}
 		return true;
 	}
-
-	public void SetControllable(bool controllable)
-	{
-		foreach(Player p in mPlayers)
-			p.SetControllable(controllable);
-	}
-	
 }
