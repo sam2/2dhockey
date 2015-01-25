@@ -9,9 +9,10 @@ public class TouchControls : MonoBehaviour {
 	Player mTarget;
 
 	public float TOUCH_RANGE;
-	public float SNAP_RANGE;
 
-	bool snapped;
+	public float SNAP_RANGE;
+	bool mSnapped;
+	Player mSnappedTo;
 	// Use this for initialization
 	void Start () {
 		mTeam = GetComponent<Team>();
@@ -23,29 +24,78 @@ public class TouchControls : MonoBehaviour {
 	void Update () 
 	{
 #if UNITY_EDITOR
-		Vector2 mousePos =  Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		UpdateMouse();
+#else
+		UpdateTouch();
 
+
+
+#endif
+
+	}
+
+	void ClearTarget()
+	{
+		if(mTarget!=null)
+		{
+			mTarget.mView.ClearPlayerView();
+			mShoot = false;
+			mTarget = null;
+		}
+	}
+
+	void UpdateMouse()
+	{
+		Vector2 mousePos =  Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		
 		if(Input.GetMouseButtonDown(0))
 		{
 			mTarget = FindClosestPlayerToPoint(mousePos, TOUCH_RANGE);
 			Debug.Log(mTarget);
 		}
-		mShoot = Input.GetKey(KeyCode.Space) && (mTarget == Puck.puck.controllingPlayer); //Touch.touchCount > 1;
+		if(Input.GetKeyDown(KeyCode.Space) && (mTarget == Puck.puck.controllingPlayer))
+		{
+			mShoot = true;
+		}
 		if(mTarget != null)
 		{
 			if(mShoot)
 			{
-				mTarget.mView.ChangeLineColor(Color.red);
-				mTarget.mView.DrawToMouse(mTarget.transform.position);
-				if(Input.GetMouseButtonUp(0))
+				Time.timeScale = 0.25f;
+				Time.fixedDeltaTime = 0.02f * Time.timeScale;
+				mSnappedTo = FindClosestPlayerToPoint(mousePos, SNAP_RANGE);
+				mSnapped = (mSnappedTo != null);
+				
+				if(mSnapped)
 				{
-					Vector2 shotVector = mousePos - (Vector2)mTarget.transform.position;
-					Puck.puck.Shoot(shotVector.normalized*mTarget.shotPower);
+					mTarget.mView.ChangeLineColor(Color.green);
+					mTarget.mView.DrawLine(mTarget.transform.position, mSnappedTo.transform.position);
+				}
+				else
+				{
+					mTarget.mView.ChangeLineColor(Color.red);
+					mTarget.mView.DrawToMouse(mTarget.transform.position);
+				}
+				if(Input.GetKeyUp(KeyCode.Space))
+				{
+					mShoot = false;
+					Time.timeScale = 1f;
+					Time.fixedDeltaTime = 0.02f * Time.timeScale;
+					if(!mSnapped)
+					{
+						Vector2 shotVector = mousePos - (Vector2)mTarget.transform.position;
+						Puck.puck.Shoot(shotVector.normalized*mTarget.shotPower);
+					}
+					else
+					{
+						Puck.puck.Shoot(mTarget.GetPassVector(mSnappedTo)*mTarget.shotPower);
+					}
 					mTarget.mView.ClearPlayerView();
 				}
 			}
 			else
 			{
+
 				if(Input.GetMouseButtonUp(0))
 				{
 					ClearTarget();
@@ -56,62 +106,14 @@ public class TouchControls : MonoBehaviour {
 					mTarget.mView.DrawToMouse(mTarget.transform.position);
 					mTarget.ChangeState(mTarget.controlledState);
 					mTarget.destinationPosition = mousePos;
-					Debug.Log("drawing to "+mTarget);
+
 				}
 			}
 		}
-#else
-	/*	if(Input.touchCount > 1)
-		{
-			if(Input.GetTouch(1).phase == TouchPhase.Began)
-			{
-				mShotFingerID = Input.GetTouch(1).fingerId;
-				mShoot = true;
-			}
-			if(Input.GetTouch(1).phase == TouchPhase.Ended)
-			{
-				mShotFingerID = -1;
-				mShoot = false;
-			}
-		}
-		if(Input.touchCount > 0)
-		{
-			Touch t0 = Input.GetTouch(0);
-			Vector2 touchPos = Camera.main.ScreenToWorldPoint(t0.position);
-			if(t0.phase == TouchPhase.Began && t0.fingerId != mShotFingerID)
-			{
-				mTarget = FindClosestPlayerToPoint(touchPos, TOUCH_RANGE);
-			}
-			if(mTarget != null)
-			{
-				if(mShoot)
-				{
-					mTarget.mView.ChangeLineColor(Color.red);
-					mTarget.mView.DrawToMouse(mTarget.transform.position);
-					if(t0.phase == TouchPhase.Ended)
-					{
-						Vector2 shotVector = touchPos - (Vector2)mTarget.transform.position;
-						Puck.puck.Shoot(shotVector.normalized*mTarget.shotPower);
-						mTarget.mView.ClearPlayerView();
-					}
-				}
-				else
-				{
-					if(t0.phase == TouchPhase.Ended)
-					{
-						ClearTarget();
-					}
-					if(t0.phase == TouchPhase.Moved)
-					{
-						mTarget.mView.ChangeLineColor(Color.blue);
-						mTarget.mView.DrawLine(mTarget.transform.position, touchPos); 
-						mTarget.ChangeState(mTarget.controlledState);
-						mTarget.destinationPosition = touchPos;
-						Debug.Log("drawing to "+mTarget);
-					}
-				}
-			}
-		} */
+	}
+
+	void UpdateTouch()
+	{
 		if(Input.touchCount > 0)
 		{
 			//shoot
@@ -119,36 +121,65 @@ public class TouchControls : MonoBehaviour {
 			{
 				switch(Input.GetTouch(1).phase)
 				{
-
+					
 				case TouchPhase.Began:
-					mShoot = true;
 					if(mTarget != null)
 					{
+						mShoot = true;
 						mTarget.mView.ChangeLineColor(Color.red);
+						Time.timeScale = 0.25f;
+						Time.fixedDeltaTime = 0.02f * Time.timeScale;
 					}
 					break;
-
+					
 				case TouchPhase.Ended:
 					if(mShoot)
 					{
 						mShoot = false;
-						Vector2 shotVector = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position) - mTarget.transform.position;
-						Puck.puck.Shoot(shotVector.normalized*mTarget.shotPower);
+						Time.timeScale = 1f;
+						Time.fixedDeltaTime = 0.02f * Time.timeScale;
+						if(!mSnapped)
+						{
+							Vector2 shotVector = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position) - mTarget.transform.position;
+							Puck.puck.Shoot(shotVector.normalized*mTarget.shotPower);
+						}
+						else
+						{
+							Puck.puck.Shoot(mTarget.GetPassVector(mSnappedTo)*mTarget.shotPower);
+						}
 						ClearTarget();
 					}
 					break;
-
+					
 				case TouchPhase.Moved:
 				case TouchPhase.Stationary:
 					if(mTarget != null)
 					{
-						mTarget.mView.DrawToMouse(mTarget.transform.position);
+						
+						Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+						
+						//snap passing
+						mSnappedTo = FindClosestPlayerToPoint(touchPos, SNAP_RANGE);
+						mSnapped = (mSnappedTo != null);
+						
+						if(mSnapped)
+						{
+							mTarget.mView.ChangeLineColor(Color.green);
+							mTarget.mView.DrawLine(mTarget.transform.position, mSnappedTo.transform.position);
+						}
+						else
+						{
+							mTarget.mView.ChangeLineColor(Color.red);
+							mTarget.mView.DrawToMouse(mTarget.transform.position);
+						}
+						
+						
 					}
 					break;
 				}
-			
+				
 			}
-
+			
 			if(Input.touchCount == 1)
 			{
 				Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
@@ -178,22 +209,10 @@ public class TouchControls : MonoBehaviour {
 					}
 					break;
 				}
-
+				
 			}
 		}
-#endif
-
 	}
-
-	void ClearTarget()
-	{
-		if(mTarget!=null)
-		{
-			mTarget.mView.ClearPlayerView();
-			mTarget = null;
-		}
-	}
-
 
 
 	public Player FindClosestPlayerToPoint(Vector2 point, float minRange)
@@ -203,7 +222,7 @@ public class TouchControls : MonoBehaviour {
 		foreach(Player p in mTeam.mPlayers)
 		{
 			float dist = Vector2.Distance(point, p.transform.position);
-			Debug.Log("Dist: "+dist);
+
 			if(dist < minRange)
 			{
 				minRange = dist;

@@ -48,7 +48,8 @@ public class Puck : MonoBehaviour {
 	{
 		if(controllingPlayer != null)
 		{
-			rigidbody2D.AddForce(forceVector*Time.deltaTime);
+			Debug.Log("Adding force to puck: "+forceVector);
+			rigidbody2D.AddForce(forceVector);
 			controllingPlayer.DisableBox(.25f);
 			lastControllingPlayer = controllingPlayer;
 			controllingPlayer = null;

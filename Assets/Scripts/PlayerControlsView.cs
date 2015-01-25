@@ -63,7 +63,11 @@ public class PlayerControlsView : MonoBehaviour {
 	{
 		lineRenderer.SetVertexCount(2);
 		lineRenderer.SetPosition(0, root);
+#if UNITY_ANDROID || UNITY_IPHONE
 		Vector3 mousePos3d = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+#else
+		Vector3 mousePos3d = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+#endif
 		Vector2 mousePos = new Vector2(mousePos3d.x, mousePos3d.y);
 		lineRenderer.SetPosition(1,mousePos);
 	}
