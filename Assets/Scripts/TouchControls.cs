@@ -51,6 +51,10 @@ public class TouchControls : MonoBehaviour {
 		if(Input.GetMouseButtonDown(0))
 		{
 			mTarget = FindClosestPlayerToPoint(mousePos, TOUCH_RANGE);
+			if(mTarget != null)
+			{
+				mTarget.ChangeState(mTarget.controlledState);
+			}
 			Debug.Log(mTarget);
 		}
 		if(Input.GetKeyDown(KeyCode.Space) && (mTarget == Puck.puck.controllingPlayer))
@@ -100,11 +104,10 @@ public class TouchControls : MonoBehaviour {
 				{
 					ClearTarget();
 				}
-				if(Input.GetMouseButton(0))
+				else if(Input.GetMouseButton(0))
 				{
 					mTarget.mView.ChangeLineColor(Color.blue);
 					mTarget.mView.DrawToMouse(mTarget.transform.position);
-					mTarget.ChangeState(mTarget.controlledState);
 					mTarget.destinationPosition = mousePos;
 
 				}

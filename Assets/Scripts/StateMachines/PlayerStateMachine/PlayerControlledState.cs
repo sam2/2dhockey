@@ -7,6 +7,7 @@ public class PlayerControlledState : FSMState<Player> {
 	public override void Enter(Player p)
 	{
 		p.controlled = true;
+		Debug.Log("entering controlled state");
 	}
 	
 	public override void Execute(Player p)
@@ -41,6 +42,7 @@ public class PlayerControlledState : FSMState<Player> {
 	{
 		p.controlled = false;
 		enterTime = Mathf.Infinity;
+		Debug.Log("exiting controlled state");
 	}
 	
 }

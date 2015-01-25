@@ -1,19 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\TouchControls.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\StateMachines\TeamStateMachine\TeamFaceoffState.cs">
     <Files>
-      <File FileName="Assets\Scripts\TouchControls.cs" Line="125" Column="27" />
-      <File FileName="Assets\Scripts\PlayerControlsView.cs" Line="66" Column="34" />
-      <File FileName="Assets\Scripts\LeagueTest.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Gameplay\Player.cs" Line="103" Column="18" />
+      <File FileName="Assets\Scripts\Gameplay\Player.cs" Line="30" Column="2" />
       <File FileName="Assets\Scripts\Gameplay\Team.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Gameplay\Puck.cs" Line="52" Column="21" />
-      <File FileName="Assets\Scripts\StateMachines\ControlsStateMachine\ControlShootState.cs" Line="51" Column="53" />
-      <File FileName="Assets\Scripts\Gameplay\PlayerBase.cs" Line="24" Column="29" />
-      <File FileName="Assets\Scripts\StateMachines\PlayerStateMachine\PlayerChasePuckState.cs" Line="29" Column="40" />
-      <File FileName="Assets\SteeringBehavior.cs" Line="21" Column="68" />
-      <File FileName="Assets\Scripts\StateMachines\GMStateMachine\GMPlayState.cs" Line="15" Column="18" />
-      <File FileName="Assets\Scripts\StateMachines\PlayerStateMachine\PlayerControlledState.cs" Line="43" Column="30" />
+      <File FileName="Assets\Scripts\StateMachines\TeamStateMachine\TeamAttackingState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\StateMachines\TeamStateMachine\TeamDefendingState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\StateMachines\TeamStateMachine\TeamFaceoffState.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
