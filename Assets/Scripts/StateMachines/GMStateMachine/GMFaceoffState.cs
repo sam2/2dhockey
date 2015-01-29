@@ -6,17 +6,17 @@ public class GMFaceoffState : FSMState<GameManager> {
 	public override void Enter(GameManager gm)
 	{
 
-		gm.teamA.ChangeState(gm.teamA.faceoffState);
-		gm.teamB.ChangeState(gm.teamB.faceoffState);
+		gm.teamA.GoToFaceoff();
+		gm.teamB.GoToFaceoff();
 
 	}
 	
 	public override void Execute(GameManager gm)
 	{
-		if(gm.teamA.TeamIsAtDest() && gm.teamB.TeamIsAtDest())
+		if(gm.teamA.IsReady() && gm.teamB.IsReady())
 		{
-			gm.teamA.ChangeState(gm.teamA.attackState);
-			gm.teamB.ChangeState(gm.teamB.attackState);
+			gm.teamA.DropPuck();
+			gm.teamB.DropPuck();
 			gm.ChangeState(gm.gmPlayState);
 		}
 	

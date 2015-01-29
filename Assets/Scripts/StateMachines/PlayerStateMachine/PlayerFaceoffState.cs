@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerFaceoffState : FSMState<Player> {
@@ -6,7 +6,7 @@ public class PlayerFaceoffState : FSMState<Player> {
 	
 	public override void Enter(Player p)
 	{
-
+	
 		p.gameObject.layer = 8; //fallen layer
 		p.collider2D.enabled = false;
 		p.collider2D.enabled = true;
@@ -14,11 +14,9 @@ public class PlayerFaceoffState : FSMState<Player> {
 	
 	public override void Execute(Player p)
 	{
-		if(!p.isAtDestination())
-		{
-			p.rigidbody2D.AddForce(p.steering.Arrive(p.destinationPosition, SteeringBehavior.Deceleration.fast)*2f);
-			return;
-		}
+
+		p.rigidbody2D.AddForce(p.steering.Arrive(p.destinationPosition, SteeringBehavior.Deceleration.fast)*2f);
+
 
 	}
 	

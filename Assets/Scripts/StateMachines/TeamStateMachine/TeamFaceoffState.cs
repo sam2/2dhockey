@@ -1,38 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TeamFaceoffState : FSMState<Team> {
+public class TeamFaceoffState : FSMState<TeamAI> {
 	
-	public override void Enter(Team t)
+	public override void Enter(TeamAI t)
 	{
 		TouchControls tc = t.GetComponent<TouchControls>();
 		if(tc!=null)
 		{
 			tc.Toggle(false);
 		}
-		t.mControllingPlayer = null;
-		t.mSupportingPlayer = null;
-		t.mReceivingPlayer = null;
-		t.mPlayerClosestToPuck = null;
-		t.SetHomePositions(t.mFaceoffPositions);
-		t.SetDestinationPositionsToHome();
-		foreach(Player p in t.mPlayers)
+	
+		t.SetHomePositions(t.mDefensivePositions);
+		foreach(Player p in t.mTeam.mPlayers)
 		{
 			p.ChangeState(p.faceoffState);
 		}
 
 	}
 	
-	public override void Execute(Team t)
+	public override void Execute(TeamAI t)
 	{
 
 	}
 	
-	public override void Exit(Team t)
+	public override void Exit(TeamAI t)
 	{
-		foreach(Player p in t.mPlayers)
+		foreach(Player p in t.mTeam.mPlayers)
 		{
-			p.ChangeState(p.returnState);
+			p.ChangeState(p.playState);
 		}
 		TouchControls tc = t.GetComponent<TouchControls>();
 		if(tc!=null)

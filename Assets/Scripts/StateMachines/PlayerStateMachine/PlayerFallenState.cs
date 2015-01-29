@@ -38,7 +38,7 @@ public class PlayerFallenState : FSMState<Player> {
 	public IEnumerator Fall(Player p)
 	{
 		yield return new WaitForSeconds(p.checkedTime);
-		p.ChangeState(p.returnState);
+		p.ChangeState(p.playState);
 	}
 	
 	

@@ -14,40 +14,6 @@ public class ArenaGenerator : MonoBehaviour {
 	public float sampleDensity;
 
 
-	public static List<SupportSpot> samples;
-
-
-
-	public void SamplePositions()
-	{
-		if(sampleDensity<=0)
-		{
-			Debug.LogError("ArenaGenerator: Invalid sampling density");
-			return;
-		}
-		samples = new List<SupportSpot>();
-		for(float x = (-mWidth/2 + 1); x < mWidth/2; x+=sampleDensity)
-		{
-			for(float y = (-mHeight/2 + 1); y < mHeight/2; y+=sampleDensity)
-			{
-				samples.Add(new SupportSpot(x,y,0));
-			}
-		}
-	}
-
-	void DrawSamples()
-	{
-		foreach(SupportSpot sample in samples)
-		{
-			Gizmos.DrawCube(sample.mPos, new Vector3(.1f,.1f,.1f));
-		}
-	}
-
-	void OnDrawGizmosSelected()
-	{
-		DrawSamples();
-	}
-
 	public void PlaceBoards(float width, float height)
 	{
 		GameObject leftSide = (GameObject)Instantiate(boardPrefab, new Vector3(-width/2, 0, 0), Quaternion.identity);
@@ -73,12 +39,9 @@ public class ArenaGenerator : MonoBehaviour {
 	}
 
 
-	// Use this for initialization
-	void Awake () {
-		//PlaceBoards(mWidth,mHeight);
-		//SetCameraSize();
 
-		SamplePositions();
+	void Awake () {
+	
 
 	}
 	

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public delegate void GoalHandler();
@@ -37,7 +37,7 @@ public class GoalZone : MonoBehaviour {
 
 		yield return new WaitForSeconds(delay);
 		colder.enabled = true;
-		Puck.puck.Reset();
+		Puck.Instance.Reset();
 	}
 
 

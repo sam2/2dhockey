@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class GMPlayState : FSMState<GameManager> {
@@ -6,7 +6,7 @@ public class GMPlayState : FSMState<GameManager> {
 	
 	public override void Enter(GameManager gm)
 	{
-		Puck.puck.InPlay(true);
+		Puck.Instance.InPlay(true);
 	}
 	
 	public override void Execute(GameManager gm)

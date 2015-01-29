@@ -1,25 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TeamAttackingState : FSMState<Team> {
+public class TeamAttackingState : FSMState<TeamAI> {
 
-	public override void Enter(Team t)
+	public override void Enter(TeamAI t)
 	{
+		foreach(PlayerAI p in t.mPlayerAIs)
+		{
+			p.mTeamState = PlayerAI.TeamState.Attacking;
+		}
 		t.SetHomePositions(t.mOffensivePositions);
-		t.SetDestinationPositionsToHome();
 	}
 
-	public override void Execute(Team t)
+	public override void Execute(TeamAI t)
 	{
-		if(Mathf.Sign(Puck.puck.transform.position.x)*(-(int)t.side) < 0 && Puck.puck.controllingPlayer == null && Puck.puck.lastControllingPlayer != null && Puck.puck.lastControllingPlayer.team != t)
+		//if(Mathf.Sign(Puck.puck.transform.position.x)*(-(int)t.mTeam.side) < 0 && Puck.puck.controllingPlayer == null && Puck.puck.lastControllingPlayer != null && Puck.puck.lastControllingPlayer.team != t)
+		//{
+		//	t.ChangeState(t.defendState);
+		//}
+
+		//calculate best support spot
+		if(Puck.Instance.controllingPlayer != null && !t.IsOnTeam(Puck.Instance.controllingPlayer))
 		{
 			t.ChangeState(t.defendState);
 		}
-
-		//calculate best support spot
 	}
 
-	public override void Exit(Team t)
+	public override void Exit(TeamAI t)
 	{
 		
 	}

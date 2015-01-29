@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class SaveChecker : MonoBehaviour {
@@ -21,7 +21,7 @@ public class SaveChecker : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if(other.gameObject == Puck.puck.gameObject)
+		if(other.gameObject == Puck.Instance.gameObject)
 		{
 			if(Random.Range(0f,1f) > goalie.saveChance)
 				StartCoroutine(MakePassable());

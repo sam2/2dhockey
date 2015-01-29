@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TouchControls : MonoBehaviour {
@@ -18,7 +18,6 @@ public class TouchControls : MonoBehaviour {
 		mTeam = GetComponent<Team>();
 	}
 
-	int mShotFingerID = -1;
 	
 	// Update is called once per frame
 	void Update () 
@@ -51,13 +50,13 @@ public class TouchControls : MonoBehaviour {
 		if(Input.GetMouseButtonDown(0))
 		{
 			mTarget = FindClosestPlayerToPoint(mousePos, TOUCH_RANGE);
-			if(mTarget != null)
+			if(mTarget != null && !mTarget.controlled)
 			{
 				mTarget.ChangeState(mTarget.controlledState);
 			}
 			Debug.Log(mTarget);
 		}
-		if(Input.GetKeyDown(KeyCode.Space) && (mTarget == Puck.puck.controllingPlayer))
+		if(Input.GetKeyDown(KeyCode.Space) && (mTarget == Puck.Instance.controllingPlayer))
 		{
 			mShoot = true;
 		}
@@ -88,11 +87,11 @@ public class TouchControls : MonoBehaviour {
 					if(!mSnapped)
 					{
 						Vector2 shotVector = mousePos - (Vector2)mTarget.transform.position;
-						Puck.puck.Shoot(shotVector.normalized*mTarget.shotPower);
+						Puck.Instance.Shoot(shotVector.normalized*mTarget.shotPower);
 					}
 					else
 					{
-						Puck.puck.Shoot(mTarget.GetPassVector(mSnappedTo)*mTarget.shotPower);
+						Puck.Instance.Shoot(mTarget.GetPassVector(mSnappedTo)*mTarget.shotPower);
 					}
 					mTarget.mView.ClearPlayerView();
 				}
@@ -144,11 +143,11 @@ public class TouchControls : MonoBehaviour {
 						if(!mSnapped)
 						{
 							Vector2 shotVector = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position) - mTarget.transform.position;
-							Puck.puck.Shoot(shotVector.normalized*mTarget.shotPower);
+							Puck.Instance.Shoot(shotVector.normalized*mTarget.shotPower);
 						}
 						else
 						{
-							Puck.puck.Shoot(mTarget.GetPassVector(mSnappedTo)*mTarget.shotPower);
+							Puck.Instance.Shoot(mTarget.GetPassVector(mSnappedTo)*mTarget.shotPower);
 						}
 						ClearTarget();
 					}

@@ -8,7 +8,7 @@ public class Puck : MonoBehaviour {
 	public event PuckControlChangedHandler PuckControlChanged;
 
 
-	public static Puck puck;
+	public static Puck Instance;
 	public static bool beingShot;
 	public Player controllingPlayer;
 	public Player lastControllingPlayer;
@@ -17,7 +17,7 @@ public class Puck : MonoBehaviour {
 	// Use this for initialization
 	void Awake(){
 		controllingPlayer = null;
-		puck = this;	
+		Instance = this;	
 	}
 	void Start () {
 		
@@ -48,7 +48,6 @@ public class Puck : MonoBehaviour {
 	{
 		if(controllingPlayer != null)
 		{
-			Debug.Log("Adding force to puck: "+forceVector);
 			rigidbody2D.AddForce(forceVector);
 			controllingPlayer.DisableBox(.25f);
 			lastControllingPlayer = controllingPlayer;

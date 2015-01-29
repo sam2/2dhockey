@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour {
 	public GMPlayState gmPlayState = new GMPlayState();
 	public GMEndGameState gmEndGameState = new GMEndGameState();
 
+	bool mLoading = false;
+
 	public void ChangeState(FSMState<GameManager> state)
 	{
 		fsm.ChangeState(state);
@@ -50,10 +52,10 @@ public class GameManager : MonoBehaviour {
 
 		teamA.opponent = teamB;
 		teamB.opponent = teamA;
-		teamA.SpawnPlayers(lteamA);
-		teamA.Init();
-		teamB.SpawnPlayers(lteamB);
-		teamB.Init();
+		teamA.SpawnPlayers(lteamA,5);
+		teamB.SpawnPlayers(lteamB,5);
+		teamA.GetComponent<TeamAI>().Init();
+		teamB.GetComponent<TeamAI>().Init();
 	}
 
 	void PlaceNets()
@@ -90,6 +92,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	public void LoadGame(LGame game, LTeam teamA, LTeam teamB)
 	{
+		mLoading = true;
 		timeLeft = mGameLength;
 		mScore = new LGame();
 		mScore.mTeamA = game.mTeamA;
@@ -102,14 +105,15 @@ public class GameManager : MonoBehaviour {
 		fsm.Init();
 		fsm.Configure(this, gmFaceoffState);
 		gmFaceoffState.Enter(this);
+		mLoading = false;
 	}
 
 
 	// Update is called once per frame
 	void Update () 
 	{
-		fsm.UpdateStateMachine();
-
+		if(!mLoading)
+			fsm.UpdateStateMachine();
 	}
 
 	public void EndGame()
