@@ -32,16 +32,17 @@ public class TeamAI : MonoBehaviour {
 
 	public void Init()
 	{
+		mTeam = GetComponent<Team>();
 		foreach(Player p in mTeam.mPlayers)
 		{
 			mPlayerAIs.Add(p.GetComponent<PlayerAI>());
 		}
 		//SpawnPlayers();
 		Puck.Instance.PuckControlChanged += new PuckControlChangedHandler(OnPlayerRecievedPuck);
-		mTeam = GetComponent<Team>();
+
 		FSM = new FiniteStateMachine<TeamAI>();
 		FSM.Init();
-		FSM.Configure(this, faceoffState);
+		FSM.Configure(this, defendState);
 
 
 	}
@@ -52,6 +53,14 @@ public class TeamAI : MonoBehaviour {
 		for(int i = 0; i < mPlayerAIs.Count;i++)
 		{
 			mPlayerAIs[i].mHomePosition = positions[i];
+		}
+	}
+
+	public void SetDestToHomePositions()
+	{
+		for(int i = 0; i < mPlayerAIs.Count;i++)
+		{
+			mPlayerAIs[i].SetDestination(mPlayerAIs[i].mHomePosition);
 		}
 	}
 		

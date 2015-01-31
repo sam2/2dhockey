@@ -12,6 +12,7 @@ public class TeamFaceoffState : FSMState<TeamAI> {
 		}
 	
 		t.SetHomePositions(t.mDefensivePositions);
+		t.SetDestToHomePositions();
 		foreach(Player p in t.mTeam.mPlayers)
 		{
 			p.ChangeState(p.faceoffState);

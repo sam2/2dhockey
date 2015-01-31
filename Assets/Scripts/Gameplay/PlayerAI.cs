@@ -85,11 +85,9 @@ public class PlayerAI : MonoBehaviour {
 	{
 		Vector2 puckVector  = (Vector2)Puck.Instance.transform.position - mHomePosition;
 		Vector2 pos = Vector2.zero;
-		if((Puck.Instance.controllingPlayer != null && PointInRectangle(Puck.Instance.controllingPlayer.transform.position, mHomePosition, mDZoneSize)))
-		{
-			pos = Puck.Instance.controllingPlayer.transform.position;
-		}
-		else if(PointInRectangle(Puck.Instance.transform.position, mHomePosition, mDZoneSize))
+	
+		if(PointInRectangle(Puck.Instance.transform.position, mHomePosition, mDZoneSize)
+			|| (Puck.Instance.controllingPlayer != null && !Puck.Instance.controllingPlayer.team.mTeamAI.InControl()))
 			pos = Puck.Instance.transform.position;
 		else
 		{
@@ -111,6 +109,11 @@ public class PlayerAI : MonoBehaviour {
 		float botSide = rCenter.y - rExtents.y;
 
 		return (point.x < rightSide && point.x > leftSide) && (point.y < topSide && point.y > botSide);
+	}
+
+	public void SetDestination(Vector2 pos)
+	{
+		mPlayer.destinationPosition = pos;
 	}
 
 
