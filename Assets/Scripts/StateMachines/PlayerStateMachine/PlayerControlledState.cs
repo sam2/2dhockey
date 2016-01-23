@@ -15,10 +15,11 @@ public class PlayerControlledState : FSMState<Player> {
 	{
 
 
+		if(Time.time > enterTime + 5)
+			p.ChangeState(p.playState);
 
 
-
-		p.rigidbody2D.AddForce(p.steering.Seek(p.destinationPosition));
+		p.GetComponent<Rigidbody2D>().AddForce(p.steering.Seek(p.destinationPosition));
 
 		
 	}

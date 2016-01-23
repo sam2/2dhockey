@@ -39,7 +39,7 @@ public class Puck : MonoBehaviour {
 		}
 		else
 		{
-			collider2D.enabled = true;
+			GetComponent<Collider2D>().enabled = true;
 		}
 		
 	}
@@ -48,7 +48,7 @@ public class Puck : MonoBehaviour {
 	{
 		if(controllingPlayer != null)
 		{
-			rigidbody2D.AddForce(forceVector);
+			GetComponent<Rigidbody2D>().AddForce(forceVector);
 			controllingPlayer.DisableBox(.25f);
 			lastControllingPlayer = controllingPlayer;
 			controllingPlayer = null;
@@ -63,8 +63,8 @@ public class Puck : MonoBehaviour {
 			Player p = other.collider.GetComponent<Player>();
 			if(controllingPlayer == null && !p.fallen)
 			{
-				rigidbody2D.velocity = Vector2.zero;
-				collider2D.enabled = false;
+				GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+				GetComponent<Collider2D>().enabled = false;
 				controllingPlayer = p;
 				if(PuckControlChanged != null)
 				{
@@ -77,17 +77,17 @@ public class Puck : MonoBehaviour {
 	public void Reset()
 	{
 		controllingPlayer = null;
-		rigidbody2D.velocity = Vector2.zero;
+		GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		transform.position =Vector3.zero;
 		InPlay(false);
 	}
 
 	public Vector2 FuturePosition(float time)
 	{
-		Vector2 ut = rigidbody2D.velocity*time;
-		float halfATSquared = 0.5f*rigidbody2D.drag*time*time;
+		Vector2 ut = GetComponent<Rigidbody2D>().velocity*time;
+		float halfATSquared = 0.5f*GetComponent<Rigidbody2D>().drag*time*time;
 
-		Vector2 scalar2Vector = halfATSquared*rigidbody2D.velocity.normalized;
+		Vector2 scalar2Vector = halfATSquared*GetComponent<Rigidbody2D>().velocity.normalized;
 		Vector2 pos2d = transform.position;
 		return (pos2d + ut + scalar2Vector);
 	}

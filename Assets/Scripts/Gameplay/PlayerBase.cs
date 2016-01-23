@@ -21,7 +21,7 @@ public class PlayerBase : MonoBehaviour {
 	// Use this for initialization
 	public void Init () 
 	{
-		steering = new SteeringBehavior(rigidbody2D, speed);
+		steering = new SteeringBehavior(GetComponent<Rigidbody2D>(), speed);
 		checkPower = Random.Range (10, 20);
 		balance = Random.Range(10, 20);
 	}

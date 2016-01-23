@@ -13,7 +13,7 @@ public class Profile {
 
 	public int GetNextGame()
 	{
-		return mLeague.mCurrentSeason.GetNextGame(mTeam);
+		return mLeague.CurrentSeason.GetNextGame(mTeam);
 	}
 
 	 

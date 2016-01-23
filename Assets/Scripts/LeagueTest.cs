@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class LeagueTest : MonoBehaviour {
 
-	public League al = new League();
-	public GameManager manager;
+	public League LeagueData = new League();
+	public GameManager GameManager;
 
 	public GameObject gamePrefab;
 	GameObject game;
@@ -24,16 +25,16 @@ public class LeagueTest : MonoBehaviour {
 
 	void UpdateView()
 	{
-		if(al.mCurrentSeason.HasNextGame())
-			view.SetNextGame(al.mCurrentSeason.mGames[al.mCurrentSeason.mCurGameIndex]);
-		view.SetSchedule(GetSchedule(0), curGame, al.mCurrentSeason.mTeams);
-		view.SetStandings(al.mCurrentSeason.mStandings);
-		view.SetLeagueSchedule(al);
+		if(LeagueData.CurrentSeason.HasNextGame())
+			view.SetNextGame(LeagueData.CurrentSeason.mGames[LeagueData.CurrentSeason.mCurGameIndex]);
+		view.SetSchedule(GetSchedule(0), curGame, LeagueData.CurrentSeason.mTeams);
+		view.SetStandings(LeagueData.CurrentSeason.mStandings);
+		view.SetLeagueSchedule(LeagueData);
 	}
 
 	void Start()
 	{
-		al = League.CreateNewLeague(8);
+		LeagueData = League.CreateNewLeague(8);
 		UpdateView();
 		view.gameObject.SetActive(true);
 	}
@@ -42,7 +43,7 @@ public class LeagueTest : MonoBehaviour {
 	{
 		if(!inGame)
 		{
-			if((Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0) && al.mCurrentSeason.GetCurrentGame()!=null)
+			if((Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0) && LeagueData.CurrentSeason.GetCurrentGame()!=null)
 			{
 				SimToNextGame();
 				inGame = true;
@@ -59,13 +60,13 @@ public class LeagueTest : MonoBehaviour {
 			*/
 			if(Input.GetKeyDown(KeyCode.L))
 			{
-				al = al.Load();
+				LeagueData = LeagueData.Load();
 				curGame = PlayerPrefs.GetInt("curGame");
 				UpdateView();
 			}
 			if(Input.GetKeyDown(KeyCode.S))
 			{
-				al.Save();
+				LeagueData.Save();
 				PlayerPrefs.SetInt("curGame", curGame);
 			}
 		}
@@ -74,7 +75,7 @@ public class LeagueTest : MonoBehaviour {
 
 	void GetResult(LGame lgame)
 	{
-		al.mCurrentSeason.GamePlayed(lgame);
+		LeagueData.CurrentSeason.GamePlayed(lgame);
 		view.gameObject.SetActive(true);
 		UpdateView();
 		inGame = false;
@@ -83,21 +84,20 @@ public class LeagueTest : MonoBehaviour {
 	}
 
 	void LoadGameLevel()
-	{
-		view.gameObject.SetActive(false);
-		game = (GameObject)Instantiate(gamePrefab);
-		manager = game.GetComponent<GameManager>();
-		manager.GameEnded += new GameEndedHandler(GetResult);
-		LGame lgame = al.mCurrentSeason.GetCurrentGame();
-		manager.LoadGame(lgame, al.mCurrentSeason.GetTeam(lgame.mTeamA), al.mCurrentSeason.GetTeam(lgame.mTeamB));
+	{		
+		LGame lgame = LeagueData.CurrentSeason.GetCurrentGame();       
+        GameData.Instance.Game = lgame;
+        GameData.Instance.TeamA = LeagueData.CurrentSeason.GetTeam(lgame.TeamA_ID);
+        GameData.Instance.TeamB = LeagueData.CurrentSeason.GetTeam(lgame.TeamB_ID);
+        SceneManager.LoadScene("Hockey");
 
 	}
 
 	int GetNextGame(int team)
 	{
-		for(int i = al.mCurrentSeason.mCurGameIndex; i < al.mCurrentSeason.mGames.Count; i++)
+		for(int i = LeagueData.CurrentSeason.mCurGameIndex; i < LeagueData.CurrentSeason.mGames.Count; i++)
 		{
-			if(al.mCurrentSeason.mGames[i].mTeamA == team || al.mCurrentSeason.mGames[i].mTeamB == team)
+			if(LeagueData.CurrentSeason.mGames[i].TeamA_ID == team || LeagueData.CurrentSeason.mGames[i].TeamB_ID == team)
 			{
 				return i;
 			}
@@ -108,9 +108,9 @@ public class LeagueTest : MonoBehaviour {
 	List<LGame> GetSchedule(int team)
 	{
 		List<LGame> sched = new List<LGame>();
-		foreach(LGame game in al.mCurrentSeason.mGames)
+		foreach(LGame game in LeagueData.CurrentSeason.mGames)
 		{
-			if(game.mTeamA == team || game.mTeamB == team)
+			if(game.TeamA_ID == team || game.TeamB_ID == team)
 			{
 				sched.Add(game);
 			}
@@ -120,10 +120,10 @@ public class LeagueTest : MonoBehaviour {
 
 	void SimToNextGame()
 	{
-		while(al.mCurrentSeason.mCurGameIndex < GetNextGame(0))
+		while(LeagueData.CurrentSeason.mCurGameIndex < GetNextGame(0))
 		{
-			al.mCurrentSeason.GetCurrentGame().SimGame();
-			GetResult(al.mCurrentSeason.GetCurrentGame());
+			LeagueData.CurrentSeason.GetCurrentGame().SimGame();
+			GetResult(LeagueData.CurrentSeason.GetCurrentGame());
 		}
 	}
 }

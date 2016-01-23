@@ -12,18 +12,18 @@ public class League
 	[ProtoMember(1)]
 	public List<LSeason> mSeasons;
 	[ProtoMember(2)]
-	public LSeason mCurrentSeason;
+	public LSeason CurrentSeason;
 
 	public League()
 	{
 		mSeasons = new List<LSeason>();
-		mCurrentSeason = new LSeason();
+		CurrentSeason = new LSeason();
 	}
 
 	public League(List<LSeason> seasons, LSeason currentSeason)
 	{
 		mSeasons = seasons;
-		mCurrentSeason = currentSeason;
+		CurrentSeason = currentSeason;
 	}
 
 	public static League CreateNewLeague(int numTeams)

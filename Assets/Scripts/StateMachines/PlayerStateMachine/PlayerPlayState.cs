@@ -14,7 +14,7 @@ public class PlayerPlayState : FSMState<Player> {
 	
 	public override void Execute(Player p)
 	{
-		p.rigidbody2D.AddForce(p.steering.Seek(p.destinationPosition));
+		p.GetComponent<Rigidbody2D>().AddForce(p.steering.Seek(p.destinationPosition));
 		i++;
 		pAI.UpdateAI();
 

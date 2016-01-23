@@ -23,7 +23,7 @@ public class VectorLine : MonoBehaviour
 		                            "} } }");
 		lineMaterial.hideFlags = HideFlags.HideAndDontSave;
 		lineMaterial.shader.hideFlags = HideFlags.HideAndDontSave;
-		cam = camera;
+		cam = GetComponent<Camera>();
 	}
 	
 	// Creates a simple two point line

@@ -22,7 +22,7 @@ public class GMEndGameState : FSMState<GameManager> {
 
 	public IEnumerator EndGamePresentation(GameManager manager)
 	{
-		manager.view.SetGoalText("GAME OVER\n"+manager.mScore.mScoreA+" - "+manager.mScore.mScoreB);
+		manager.view.SetGoalText("GAME OVER\n"+manager.Game.TeamA_Score+" - "+manager.Game.TeamB_Score);
 		manager.view.goalText.gameObject.SetActive(true);
 		yield return new WaitForSeconds(5.0f);
 		manager.view.goalText.gameObject.SetActive(false);

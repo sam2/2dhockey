@@ -68,14 +68,14 @@ public class PlayerAI : MonoBehaviour {
 		{
 			foreach(Player p in mPlayer.team.mPlayers)
 			{
-				rigidbody2D.AddForce(mSteering.Evade(p.rigidbody2D, SEPARATION_DISTANCE)*0.50f);
+				GetComponent<Rigidbody2D>().AddForce(mSteering.Evade(p.GetComponent<Rigidbody2D>(), SEPARATION_DISTANCE)*0.50f);
 			}
 			
 			if(mPlayer.team.mTeamAI.InControl())
 			{
 				foreach(Player p in mPlayer.team.opponent.mPlayers)
 				{
-					rigidbody2D.AddForce(mSteering.Evade(p.rigidbody2D, SEPARATION_DISTANCE)*0.5f);
+					GetComponent<Rigidbody2D>().AddForce(mSteering.Evade(p.GetComponent<Rigidbody2D>(), SEPARATION_DISTANCE)*0.5f);
 				}				
 			}
 		}

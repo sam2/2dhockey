@@ -8,14 +8,14 @@ public class PlayerFaceoffState : FSMState<Player> {
 	{
 	
 		p.gameObject.layer = 8; //fallen layer
-		p.collider2D.enabled = false;
-		p.collider2D.enabled = true;
+		p.GetComponent<Collider2D>().enabled = false;
+		p.GetComponent<Collider2D>().enabled = true;
 	}
 	
 	public override void Execute(Player p)
 	{
 
-		p.rigidbody2D.AddForce(p.steering.Arrive(p.destinationPosition, SteeringBehavior.Deceleration.fast)*2f);
+		p.GetComponent<Rigidbody2D>().AddForce(p.steering.Arrive(p.destinationPosition, SteeringBehavior.Deceleration.fast)*2f);
 
 
 	}
@@ -23,8 +23,8 @@ public class PlayerFaceoffState : FSMState<Player> {
 	public override void Exit(Player p)
 	{
 		p.gameObject.layer = 0; //fallen layer
-		p.collider2D.enabled = false;
-		p.collider2D.enabled = true;
+		p.GetComponent<Collider2D>().enabled = false;
+		p.GetComponent<Collider2D>().enabled = true;
 	}
 	
 }

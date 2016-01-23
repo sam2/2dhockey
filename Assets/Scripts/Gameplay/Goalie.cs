@@ -30,7 +30,7 @@ public class Goalie : PlayerBase {
 		}
 		else
 		{
-			float puckYSpeed = Puck.Instance.rigidbody2D.velocity.y;
+			float puckYSpeed = Puck.Instance.GetComponent<Rigidbody2D>().velocity.y;
 			float y = Mathf.Clamp(Puck.Instance.transform.position.y + (puckYSpeed * 0.25f), -1.5f, 1.5f)*0.9f;
 			desiredPos = new Vector2((26*side) + (side*-1), y);
 		}
@@ -38,7 +38,7 @@ public class Goalie : PlayerBase {
 
 
 
-		rigidbody2D.AddForce(steering.Arrive(desiredPos, SteeringBehavior.Deceleration.fast));
+		GetComponent<Rigidbody2D>().AddForce(steering.Arrive(desiredPos, SteeringBehavior.Deceleration.fast));
 
 
 

@@ -4,16 +4,15 @@ using System.Collections.Generic;
 
 public class DrawRinkTest : MonoBehaviour {
 
-	LineRenderer line;
+
 	EdgeCollider2D edge;
 	// Use this for initialization
 	void Start () 
 	{
-		line = GetComponent<LineRenderer>();
+	
 		edge = GetComponent<EdgeCollider2D>();
 
 		List<Vector2> vert = CreateVertices();
-		DrawVerts(vert);
 		edge.points = vert.ToArray();
 
 	}
@@ -27,17 +26,7 @@ public class DrawRinkTest : MonoBehaviour {
 
 	}
 
-	void DrawVerts(List<Vector2> verts)
-	{
-		line.SetVertexCount(verts.Count);
-		Vector2 pos = transform.position;
-		int i = 0;
-		foreach(Vector2 v in verts)
-		{
-			line.SetPosition(i,(v+pos));
-			i++;
-		}
-	}
+
 
 	List<Vector2> CreateVertices()
 	{

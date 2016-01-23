@@ -3,25 +3,20 @@ using System.Collections;
 
 public delegate void GameEndedHandler(LGame game);
 
-public class GameManager : MonoBehaviour {
-
-	//temp
-
-
-
-
+public class GameManager : MonoBehaviour
+{
 	public GameObject netPrefab;
 	public event GameEndedHandler GameEnded;
 
 	public static GoalZone leftGoal;
 	public static GoalZone rightGoal;
 
-	public LGame mScore;
+	public LGame Game;
 
-	public Team teamA; //left team
-	public Team teamB; //right team
-	public GameObject teamAPrefab;
-	public GameObject teamBPrefab;
+	public Team TeamA; //left team
+	public Team TeamB; //right team
+	public GameObject TeamAPrefab;
+	public GameObject TeamBPrefab;
 
 	public float mGameLength;
 	public float timeLeft;
@@ -42,20 +37,20 @@ public class GameManager : MonoBehaviour {
 
 	void CreateTeams(LTeam lteamA, LTeam lteamB)
 	{
-		GameObject gA = (GameObject)Instantiate(teamAPrefab);
-		teamA = gA.GetComponent<Team>();
+		GameObject gA = (GameObject)Instantiate(TeamAPrefab);
+		TeamA = gA.GetComponent<Team>();
 		gA.transform.parent = this.transform;
 
-		GameObject gB = (GameObject)Instantiate(teamBPrefab);
-		teamB = gB.GetComponent<Team>();
+		GameObject gB = (GameObject)Instantiate(TeamBPrefab);
+		TeamB = gB.GetComponent<Team>();
 		gB.transform.parent = this.transform;
 
-		teamA.opponent = teamB;
-		teamB.opponent = teamA;
-		teamA.SpawnPlayers(lteamA,5);
-		teamB.SpawnPlayers(lteamB,5);
-		teamA.GetComponent<TeamAI>().Init();
-		teamB.GetComponent<TeamAI>().Init();
+		TeamA.opponent = TeamB;
+		TeamB.opponent = TeamA;
+		TeamA.SpawnPlayers(lteamA,5);
+		TeamB.SpawnPlayers(lteamB,5);
+		TeamA.GetComponent<TeamAI>().Init();
+		TeamB.GetComponent<TeamAI>().Init();
 	}
 
 	void PlaceNets()
@@ -77,29 +72,29 @@ public class GameManager : MonoBehaviour {
 
 		view.goalText.gameObject.SetActive(true);
 		ChangeState(gmFaceoffState);
-		mScore.mScoreB++;
-		view.UpdateScores (mScore.mScoreA, mScore.mScoreB);
+		Game.TeamB_Score++;
+		view.UpdateScores (Game.TeamA_Score, Game.TeamB_Score);
 	}
 
 	void RighttGoalScoredOn()
 	{
 		view.goalText.gameObject.SetActive(true);
 		ChangeState(gmFaceoffState);
-		mScore.mScoreA++;
-		view.UpdateScores (mScore.mScoreA, mScore.mScoreB);
+		Game.TeamA_Score++;
+		view.UpdateScores (Game.TeamA_Score, Game.TeamB_Score);
 	}
 
 	// Use this for initialization
-	public void LoadGame(LGame game, LTeam teamA, LTeam teamB)
+	public void Start()
 	{
 		mLoading = true;
 		timeLeft = mGameLength;
-		mScore = new LGame();
-		mScore.mTeamA = game.mTeamA;
-		mScore.mTeamB = game.mTeamB;
-		mScore.mScoreA = 0;
-		mScore.mScoreB = 0;
-		CreateTeams(teamA, teamB);
+		Game = new LGame();
+        Game.TeamA_ID = GameData.Instance.Game.TeamA_ID;
+        Game.TeamB_ID = GameData.Instance.Game.TeamB_ID;
+		Game.TeamA_Score = 0;
+		Game.TeamB_Score = 0;
+		CreateTeams(GameData.Instance.TeamA, GameData.Instance.TeamB);
 		PlaceNets();
 		fsm = new FiniteStateMachine<GameManager>();
 		fsm.Init();
@@ -119,7 +114,7 @@ public class GameManager : MonoBehaviour {
 	public void EndGame()
 	{
 
-		GameEnded(mScore);
+		GameEnded(Game);
 	}
 
 	

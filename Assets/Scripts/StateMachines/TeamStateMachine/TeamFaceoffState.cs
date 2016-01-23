@@ -5,10 +5,10 @@ public class TeamFaceoffState : FSMState<TeamAI> {
 	
 	public override void Enter(TeamAI t)
 	{
-		TouchControls tc = t.GetComponent<TouchControls>();
+		PlayerControls tc = t.GetComponent<PlayerControls>();
 		if(tc!=null)
 		{
-			tc.Toggle(false);
+			tc.enabled = false;
 		}
 	
 		t.SetHomePositions(t.mDefensivePositions);
@@ -31,10 +31,10 @@ public class TeamFaceoffState : FSMState<TeamAI> {
 		{
 			p.ChangeState(p.playState);
 		}
-		TouchControls tc = t.GetComponent<TouchControls>();
+		PlayerControls tc = t.GetComponent<PlayerControls>();
 		if(tc!=null)
 		{
-			tc.Toggle(true);
+			tc.enabled = true;
 		}
 	
 	}

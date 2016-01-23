@@ -63,7 +63,7 @@ public class Player : PlayerBase {
 	void FixedUpdate () 
 	{	
 		FSM.UpdateStateMachine();
-		facing = rigidbody2D.velocity.normalized;
+		facing = GetComponent<Rigidbody2D>().velocity.normalized;
 
 
 
@@ -87,7 +87,7 @@ public class Player : PlayerBase {
 
 
 		if (Puck.Instance.controllingPlayer && !Puck.Instance.controllingPlayer.fallen 
-		    && !fallen && other.collider == Puck.Instance.controllingPlayer.collider2D
+		    && !fallen && other.collider == Puck.Instance.controllingPlayer.GetComponent<Collider2D>()
 		    && Puck.Instance.controllingPlayer.team != team )
 		{
 			Vector2 dir = other.collider.transform.position - transform.position;
@@ -151,20 +151,20 @@ public class Player : PlayerBase {
 	{
 		int init = gameObject.layer;
 		gameObject.layer = 8;
-		collider2D.enabled = false;
-		collider2D.enabled = true;
+		GetComponent<Collider2D>().enabled = false;
+		GetComponent<Collider2D>().enabled = true;
 		yield return new WaitForSeconds(time);
 		gameObject.layer = init;
-		collider2D.enabled = false;
-		collider2D.enabled = true;
+		GetComponent<Collider2D>().enabled = false;
+		GetComponent<Collider2D>().enabled = true;
 	}
 
 	public Vector2 GetPassVector(Player to)
 	{
-		float puckSpeed = (shotPower/1.5f)*Time.fixedDeltaTime/Puck.Instance.rigidbody2D.mass;
+		float puckSpeed = (shotPower/1.5f)*Time.fixedDeltaTime/Puck.Instance.GetComponent<Rigidbody2D>().mass;
 		float timeToReachPlayer = Vector2.Distance(transform.position, to.transform.position) / puckSpeed;
 		Vector2 pos2D = to.transform.position;
-		Vector2 futurePos = pos2D + to.rigidbody2D.velocity * timeToReachPlayer;
+		Vector2 futurePos = pos2D + to.GetComponent<Rigidbody2D>().velocity * timeToReachPlayer;
 		Vector2 puckPos2D = Puck.Instance.transform.position;
 		return ((futurePos - puckPos2D).normalized);
 	}
@@ -178,6 +178,11 @@ public class Player : PlayerBase {
 			return true;
 		}
 		return false;
+	}
+
+	public Vector2 GetPosition()
+	{
+		return transform.position;
 	}
 
 	//*****************************************************************************

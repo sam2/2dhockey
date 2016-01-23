@@ -30,8 +30,8 @@ public class SaveChecker : MonoBehaviour {
 
 	IEnumerator MakePassable()
 	{
-		goalie.collider2D.isTrigger = true;
+		goalie.GetComponent<Collider2D>().isTrigger = true;
 		yield return new WaitForSeconds(disableTime);
-		goalie.collider2D.isTrigger = false;
+		goalie.GetComponent<Collider2D>().isTrigger = false;
 	}
 }

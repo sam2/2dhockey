@@ -12,7 +12,7 @@ public class LeagueTestView : MonoBehaviour {
 	public void SetNextGame(LGame game)
 	{
 
-		nextGame.text = game.mTeamA+ " vs " +game.mTeamB;
+		nextGame.text = game.TeamA_ID+ " vs " +game.TeamB_ID;
 	}
 
 	public void SetStandings(List<LTeam> standings)
@@ -30,12 +30,12 @@ public class LeagueTestView : MonoBehaviour {
 		string text = "Team Schedule\n";
 		for(int  i = 0; i < games.Count; i++)
 		{
-			text+=teams[games[i].mTeamA].mName+ " vs " +teams[games[i].mTeamB].mName;
+			text+=teams[games[i].TeamA_ID].mName+ " vs " +teams[games[i].TeamB_ID].mName;
 			if(i == curGame)
 				text+=" <--- ";
 			else if(i < curGame)
 			{
-				text+=" ("+games[i].mScoreA+" - "+games[i].mScoreB+")";
+				text+=" ("+games[i].TeamA_Score+" - "+games[i].TeamB_Score+")";
 			}
 			text+='\n';
 		}
@@ -45,17 +45,17 @@ public class LeagueTestView : MonoBehaviour {
 	public void SetLeagueSchedule(League league)
 	{
 		string text = "League Schedule\n";
-		List<LGame> games = league.mCurrentSeason.mGames;
-		int curGame = league.mCurrentSeason.mCurGameIndex;
-		List<LTeam> teams = league.mCurrentSeason.mTeams;
+		List<LGame> games = league.CurrentSeason.mGames;
+		int curGame = league.CurrentSeason.mCurGameIndex;
+		List<LTeam> teams = league.CurrentSeason.mTeams;
 		for(int  i = 0; i < games.Count; i++)
 		{
-			text+=teams[games[i].mTeamA].mName+ " vs " +teams[games[i].mTeamB].mName;
+			text+=teams[games[i].TeamA_ID].mName+ " vs " +teams[games[i].TeamB_ID].mName;
 			if(i == curGame)
 				text+=" <--- ";
 			else if(i < curGame)
 			{
-				text+=" ("+games[i].mScoreA+" - "+games[i].mScoreB+")";
+				text+=" ("+games[i].TeamA_Score+" - "+games[i].TeamB_Score+")";
 			}
 			text+='\n';
 		}

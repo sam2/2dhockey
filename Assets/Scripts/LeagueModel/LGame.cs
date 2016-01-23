@@ -7,41 +7,41 @@ using System;
 public class LGame
 {
 	[ProtoMember(1)]
-	public int mTeamA;
+	public int TeamA_ID;
 	[ProtoMember(2)]
-	public int mTeamB;
+	public int TeamB_ID;
 	
 	[ProtoMember(3)]
-	public int mScoreA;
+	public int TeamA_Score;
 	[ProtoMember(4)]
-	public int mScoreB;
+	public int TeamB_Score;
 	
 	public LGame()
 	{
-		mTeamA = 0;
-		mTeamB = 0;
-		mScoreA = 0;
-		mScoreB = 0;
+		TeamA_ID = 0;
+		TeamB_ID = 0;
+		TeamA_Score = 0;
+		TeamB_Score = 0;
 	}
 
 	public LGame(int a, int b)
 	{
-		mTeamA = a;
-		mTeamB = b;
-		mScoreA = 0;
-		mScoreB = 0;
+		TeamA_ID = a;
+		TeamB_ID = b;
+		TeamA_Score = 0;
+		TeamB_Score = 0;
 	}
 	
 	
 	int GetWinner()
 	{
-		if(mScoreA > mScoreB)
+		if(TeamA_Score > TeamB_Score)
 		{
-			return mTeamA;
+			return TeamA_ID;
 		}
-		else if(mScoreB > mScoreA)
+		else if(TeamB_Score > TeamA_Score)
 		{
-			return mTeamB;
+			return TeamB_ID;
 		}
 		else
 			return -1;
@@ -49,13 +49,13 @@ public class LGame
 	
 	int GetLoser()
 	{
-		if(mScoreA < mScoreB)
+		if(TeamA_Score < TeamB_Score)
 		{
-			return mTeamA;
+			return TeamA_ID;
 		}
-		else if(mScoreB < mScoreA)
+		else if(TeamB_Score < TeamA_Score)
 		{
-			return mTeamB;
+			return TeamB_ID;
 		}
 		else
 			return -1;
@@ -63,8 +63,8 @@ public class LGame
 	
 	public void SimGame()
 	{
-		mScoreA = UnityEngine.Random.Range(0,6);
-		mScoreB = UnityEngine.Random.Range(0,6);
+		TeamA_Score = UnityEngine.Random.Range(0,6);
+		TeamB_Score = UnityEngine.Random.Range(0,6);
 	}
 	
 	

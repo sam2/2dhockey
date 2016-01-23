@@ -48,22 +48,22 @@ public class LSeason
 		if(mCurGameIndex < mGames.Count)
 		{
 			mGames[mCurGameIndex] = game;
-			if(mGames[mCurGameIndex].mScoreA > mGames[mCurGameIndex].mScoreB)
+			if(mGames[mCurGameIndex].TeamA_Score > mGames[mCurGameIndex].TeamB_Score)
 			{
-				mTeams[mGames[mCurGameIndex].mTeamA].mWins++;
-				mTeams[mGames[mCurGameIndex].mTeamB].mLosses++;
+				mTeams[mGames[mCurGameIndex].TeamA_ID].mWins++;
+				mTeams[mGames[mCurGameIndex].TeamB_ID].mLosses++;
 			}
-			else if(mGames[mCurGameIndex].mScoreA < mGames[mCurGameIndex].mScoreB)
+			else if(mGames[mCurGameIndex].TeamA_Score < mGames[mCurGameIndex].TeamB_Score)
 			{
-				mTeams[mGames[mCurGameIndex].mTeamB].mWins++;
-				mTeams[mGames[mCurGameIndex].mTeamA].mLosses++;
+				mTeams[mGames[mCurGameIndex].TeamB_ID].mWins++;
+				mTeams[mGames[mCurGameIndex].TeamA_ID].mLosses++;
 			}
 			else
 			{
-				mTeams[mGames[mCurGameIndex].mTeamA].mTies++;
-				mTeams[mGames[mCurGameIndex].mTeamB].mTies++;
+				mTeams[mGames[mCurGameIndex].TeamA_ID].mTies++;
+				mTeams[mGames[mCurGameIndex].TeamB_ID].mTies++;
 			}
-			Debug.Log ("Game played: "+mCurGameIndex+" "+mTeams[mGames[mCurGameIndex].mTeamA].mName+" vs "+mTeams[mGames[mCurGameIndex].mTeamB].mName);
+			Debug.Log ("Game played: "+mCurGameIndex+" "+mTeams[mGames[mCurGameIndex].TeamA_ID].mName+" vs "+mTeams[mGames[mCurGameIndex].TeamB_ID].mName);
 			mCurGameIndex++;
 		}
 		else
@@ -133,7 +133,7 @@ public class LSeason
 	{
 		for(int i = mCurGameIndex; i < mGames.Count; i++)
 		{
-			if(mGames[i].mTeamA == team || mGames[i].mTeamB == team)
+			if(mGames[i].TeamA_ID == team || mGames[i].TeamB_ID == team)
 				return i;
 		}
 		return -1;
