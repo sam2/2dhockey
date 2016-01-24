@@ -6,12 +6,9 @@ public delegate void GameEndedHandler(LGame game);
 public class GameManager : MonoBehaviour
 {
 	public GameObject netPrefab;
-	public event GameEndedHandler GameEnded;
 
 	public static GoalZone leftGoal;
 	public static GoalZone rightGoal;
-
-	public LGame Game;
 
 	public Team TeamA; //left team
 	public Team TeamB; //right team
@@ -72,29 +69,24 @@ public class GameManager : MonoBehaviour
 
 		view.goalText.gameObject.SetActive(true);
 		ChangeState(gmFaceoffState);
-		Game.TeamB_Score++;
-		view.UpdateScores (Game.TeamA_Score, Game.TeamB_Score);
+		GameData.Instance.Game.TeamB_Score++;
+		view.UpdateScores (GameData.Instance.Game.TeamA_Score, GameData.Instance.Game.TeamB_Score);
 	}
 
 	void RighttGoalScoredOn()
 	{
 		view.goalText.gameObject.SetActive(true);
 		ChangeState(gmFaceoffState);
-		Game.TeamA_Score++;
-		view.UpdateScores (Game.TeamA_Score, Game.TeamB_Score);
+        GameData.Instance.Game.TeamA_Score++;
+		view.UpdateScores (GameData.Instance.Game.TeamA_Score, GameData.Instance.Game.TeamB_Score);
 	}
 
 	// Use this for initialization
 	public void Start()
 	{
 		mLoading = true;
-		timeLeft = mGameLength;
-		Game = new LGame();
-        Game.TeamA_ID = GameData.Instance.Game.TeamA_ID;
-        Game.TeamB_ID = GameData.Instance.Game.TeamB_ID;
-		Game.TeamA_Score = 0;
-		Game.TeamB_Score = 0;
-		CreateTeams(GameData.Instance.TeamA, GameData.Instance.TeamB);
+		timeLeft = mGameLength;       
+        CreateTeams(GameData.Instance.TeamA, GameData.Instance.TeamB);
 		PlaceNets();
 		fsm = new FiniteStateMachine<GameManager>();
 		fsm.Init();
@@ -109,13 +101,5 @@ public class GameManager : MonoBehaviour
 	{
 		if(!mLoading)
 			fsm.UpdateStateMachine();
-	}
-
-	public void EndGame()
-	{
-
-		GameEnded(Game);
-	}
-
-	
+	}	
 }

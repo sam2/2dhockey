@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GMEndGameState : FSMState<GameManager> {
 	
@@ -22,12 +23,10 @@ public class GMEndGameState : FSMState<GameManager> {
 
 	public IEnumerator EndGamePresentation(GameManager manager)
 	{
-		manager.view.SetGoalText("GAME OVER\n"+manager.Game.TeamA_Score+" - "+manager.Game.TeamB_Score);
+		manager.view.SetGoalText("GAME OVER");
 		manager.view.goalText.gameObject.SetActive(true);
 		yield return new WaitForSeconds(5.0f);
-		manager.view.goalText.gameObject.SetActive(false);
-		manager.view.SetGoalText("GOAL!");
-		manager.EndGame();
+        SceneManager.LoadScene("FrontEnd");
 	}
 	
 }

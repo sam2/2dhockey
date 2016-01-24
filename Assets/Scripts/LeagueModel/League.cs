@@ -10,19 +10,19 @@ using System;
 public class League 
 {
 	[ProtoMember(1)]
-	public List<LSeason> mSeasons;
+	public List<LSeason> Seasons;
 	[ProtoMember(2)]
 	public LSeason CurrentSeason;
 
 	public League()
 	{
-		mSeasons = new List<LSeason>();
+		Seasons = new List<LSeason>();
 		CurrentSeason = new LSeason();
 	}
 
 	public League(List<LSeason> seasons, LSeason currentSeason)
 	{
-		mSeasons = seasons;
+		Seasons = seasons;
 		CurrentSeason = currentSeason;
 	}
 
@@ -54,28 +54,6 @@ public class League
 		return league;
 	}
 
-	public void Save()
-	{
-		MemoryStream msString = new MemoryStream();
-		Serializer.Serialize<League>(msString, this);
-		Debug.Log("Saving...");
-		string strbase64 = Convert.ToBase64String(msString.ToArray());
-		PlayerPrefs.SetString("save", strbase64);
-
-	}
-
-	public League Load()
-	{
-		League l = new League();
-		if(PlayerPrefs.GetString("save").Length > 5)
-		{
-			byte[] byteAfter64 = Convert.FromBase64String(PlayerPrefs.GetString("save"));
-			MemoryStream afterStream = new MemoryStream(byteAfter64);
-			Debug.Log("Loading...");
-			l = Serializer.Deserialize<League>(afterStream);
-		}
-		return l;
-
-	}
+	
 
 }

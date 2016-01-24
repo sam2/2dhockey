@@ -9,35 +9,35 @@ using System;
 public class LSeason
 {
 	[ProtoMember(1)]
-	public List<LTeam> mTeams;
+	public List<LTeam> Teams;
 	[ProtoMember(2)]
-	public List<LGame> mGames;
+	public List<LGame> Games;
 	[ProtoMember(3)]
-	public List<LTeam> mStandings;
+	public List<LTeam> Standings;
 	[ProtoMember(4)]
-	public int mCurGameIndex = 0;
+	public int CurGameIndex = 0;
 
 	public LSeason()
 	{
-		mTeams = new List<LTeam>();
-		mGames = new List<LGame>();
-		mStandings = new List<LTeam>();
-		mCurGameIndex = 0;
+		Teams = new List<LTeam>();
+		Games = new List<LGame>();
+		Standings = new List<LTeam>();
+		CurGameIndex = 0;
 	}
 
 	public LSeason(List<LTeam> teams, List<LGame> games)
 	{
-		mTeams = teams;
+		Teams = teams;
 		if(games != null && games.Count > 0)
-			mGames = games;
+			Games = games;
 		else
-			mGames = CreateRoundRobin(teams.Count);
-		mStandings = teams;
+			Games = CreateRoundRobin(teams.Count);
+		Standings = teams;
 	}
 
 	public bool HasNextGame()
 	{
-		if(mCurGameIndex >= mGames.Count)
+		if(CurGameIndex >= Games.Count)
 			return false;
 		return true;
 	}
@@ -45,26 +45,26 @@ public class LSeason
 	public void GamePlayed(LGame game)
 	{
 
-		if(mCurGameIndex < mGames.Count)
+		if(CurGameIndex < Games.Count)
 		{
-			mGames[mCurGameIndex] = game;
-			if(mGames[mCurGameIndex].TeamA_Score > mGames[mCurGameIndex].TeamB_Score)
+			Games[CurGameIndex] = game;
+			if(Games[CurGameIndex].TeamA_Score > Games[CurGameIndex].TeamB_Score)
 			{
-				mTeams[mGames[mCurGameIndex].TeamA_ID].mWins++;
-				mTeams[mGames[mCurGameIndex].TeamB_ID].mLosses++;
+				Teams[Games[CurGameIndex].TeamA_ID].mWins++;
+				Teams[Games[CurGameIndex].TeamB_ID].mLosses++;
 			}
-			else if(mGames[mCurGameIndex].TeamA_Score < mGames[mCurGameIndex].TeamB_Score)
+			else if(Games[CurGameIndex].TeamA_Score < Games[CurGameIndex].TeamB_Score)
 			{
-				mTeams[mGames[mCurGameIndex].TeamB_ID].mWins++;
-				mTeams[mGames[mCurGameIndex].TeamA_ID].mLosses++;
+				Teams[Games[CurGameIndex].TeamB_ID].mWins++;
+				Teams[Games[CurGameIndex].TeamA_ID].mLosses++;
 			}
 			else
 			{
-				mTeams[mGames[mCurGameIndex].TeamA_ID].mTies++;
-				mTeams[mGames[mCurGameIndex].TeamB_ID].mTies++;
+				Teams[Games[CurGameIndex].TeamA_ID].mTies++;
+				Teams[Games[CurGameIndex].TeamB_ID].mTies++;
 			}
-			Debug.Log ("Game played: "+mCurGameIndex+" "+mTeams[mGames[mCurGameIndex].TeamA_ID].mName+" vs "+mTeams[mGames[mCurGameIndex].TeamB_ID].mName);
-			mCurGameIndex++;
+			Debug.Log ("Game played: "+CurGameIndex+" "+Teams[Games[CurGameIndex].TeamA_ID].mName+" vs "+Teams[Games[CurGameIndex].TeamB_ID].mName);
+			CurGameIndex++;
 		}
 		else
 			Debug.Log("No Games left");
@@ -75,15 +75,15 @@ public class LSeason
 
 	public void UpdateStandings()
 	{
-		mStandings = new List<LTeam>();
-		foreach(LTeam t in mTeams)
+		Standings = new List<LTeam>();
+		foreach(LTeam t in Teams)
 		{
-			mStandings.Add (t);
+			Standings.Add (t);
 		}
-		mStandings.Sort( delegate(LTeam x, LTeam y) 
+		Standings.Sort( delegate(LTeam x, LTeam y) 
 		                { return (x.Points().CompareTo(y.Points())); }
 		);
-		mStandings.Reverse();
+		Standings.Reverse();
 	}
 
 	public static List<LGame> CreateRoundRobin(int numTeams)
@@ -114,26 +114,26 @@ public class LSeason
 	}
 	public LGame GetCurrentGame()
 	{
-		if(mGames.Count > mCurGameIndex)
-			return mGames[mCurGameIndex];
+		if(Games.Count > CurGameIndex)
+			return Games[CurGameIndex];
 		else return null;
 	}
 	
 	public LGame GetGame(int index)
 	{
-		return mGames[index];
+		return Games[index];
 	}
 	
 	public LTeam GetTeam(int index)
 	{
-		return mTeams[index];
+		return Teams[index];
 	}
 
 	public int GetNextGame(int team)
 	{
-		for(int i = mCurGameIndex; i < mGames.Count; i++)
+		for(int i = CurGameIndex; i < Games.Count; i++)
 		{
-			if(mGames[i].TeamA_ID == team || mGames[i].TeamB_ID == team)
+			if(Games[i].TeamA_ID == team || Games[i].TeamB_ID == team)
 				return i;
 		}
 		return -1;

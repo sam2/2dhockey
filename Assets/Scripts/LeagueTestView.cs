@@ -45,9 +45,9 @@ public class LeagueTestView : MonoBehaviour {
 	public void SetLeagueSchedule(League league)
 	{
 		string text = "League Schedule\n";
-		List<LGame> games = league.CurrentSeason.mGames;
-		int curGame = league.CurrentSeason.mCurGameIndex;
-		List<LTeam> teams = league.CurrentSeason.mTeams;
+		List<LGame> games = league.CurrentSeason.Games;
+		int curGame = league.CurrentSeason.CurGameIndex;
+		List<LTeam> teams = league.CurrentSeason.Teams;
 		for(int  i = 0; i < games.Count; i++)
 		{
 			text+=teams[games[i].TeamA_ID].mName+ " vs " +teams[games[i].TeamB_ID].mName;
