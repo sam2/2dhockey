@@ -50,18 +50,18 @@ public class LSeason
 			Games[CurGameIndex] = game;
 			if(Games[CurGameIndex].TeamA_Score > Games[CurGameIndex].TeamB_Score)
 			{
-				Teams[Games[CurGameIndex].TeamA_ID].mWins++;
-				Teams[Games[CurGameIndex].TeamB_ID].mLosses++;
+				Teams[Games[CurGameIndex].TeamA_ID].Wins++;
+				Teams[Games[CurGameIndex].TeamB_ID].Losses++;
 			}
 			else if(Games[CurGameIndex].TeamA_Score < Games[CurGameIndex].TeamB_Score)
 			{
-				Teams[Games[CurGameIndex].TeamB_ID].mWins++;
-				Teams[Games[CurGameIndex].TeamA_ID].mLosses++;
+				Teams[Games[CurGameIndex].TeamB_ID].Wins++;
+				Teams[Games[CurGameIndex].TeamA_ID].Losses++;
 			}
 			else
 			{
-				Teams[Games[CurGameIndex].TeamA_ID].mTies++;
-				Teams[Games[CurGameIndex].TeamB_ID].mTies++;
+				Teams[Games[CurGameIndex].TeamA_ID].Ties++;
+				Teams[Games[CurGameIndex].TeamB_ID].Ties++;
 			}
 			Debug.Log ("Game played: "+CurGameIndex+" "+Teams[Games[CurGameIndex].TeamA_ID].mName+" vs "+Teams[Games[CurGameIndex].TeamB_ID].mName);
 			CurGameIndex++;

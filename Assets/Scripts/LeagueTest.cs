@@ -4,39 +4,34 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class LeagueTest : MonoBehaviour {
-
-	public League LeagueData = new League();
-	public GameManager GameManager;
-
-	public LeagueTestView view;
-
-	bool inGame = false;
+        public LeagueTestView view;
 
 
 	int curGame = 0; //in schedule
 
 	void Awake()
 	{
-		DontDestroyOnLoad(gameObject);
+		
 	}
 
 	void UpdateView()
 	{
-		if(LeagueData.CurrentSeason.HasNextGame())
-			view.SetNextGame(LeagueData.CurrentSeason.Games[LeagueData.CurrentSeason.CurGameIndex]);
-		view.SetSchedule(GetSchedule(0), curGame, LeagueData.CurrentSeason.Teams);
-		view.SetStandings(LeagueData.CurrentSeason.Standings);
-		view.SetLeagueSchedule(LeagueData);
+		if(GameData.Instance.LeagueData.CurrentSeason.HasNextGame())
+			view.SetNextGame(GameData.Instance.LeagueData.CurrentSeason.Games[GameData.Instance.LeagueData.CurrentSeason.CurGameIndex]);
+		view.SetSchedule(GameData.Instance.GetSchedule(0), curGame, GameData.Instance.LeagueData.CurrentSeason.Teams);
+		view.SetStandings(GameData.Instance.LeagueData.CurrentSeason.Standings);
+		view.SetLeagueSchedule(GameData.Instance.LeagueData);
 	}
 
 	void Start()
 	{
-        LeagueData = GameData.Instance.Load("test");
-        if(LeagueData == null)
-            LeagueData = League.CreateNewLeague(8);
+        GameData.Instance.LeagueData = GameData.Instance.Load("test");
+        if(GameData.Instance.LeagueData == null)
+            GameData.Instance.LeagueData = League.CreateNewLeague(8);
         if(GameData.Instance.HasData)
         {
-            GetResult(GameData.Instance.Game);
+            GetResult(GameData.Instance.CurrentGame);
+            GameData.Instance.Save("test");
         }
 		UpdateView();
 		view.gameObject.SetActive(true);
@@ -44,84 +39,58 @@ public class LeagueTest : MonoBehaviour {
 	
 	void Update()
 	{
-		if(!inGame)
+		if((Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0) && GameData.Instance.LeagueData.CurrentSeason.GetCurrentGame()!=null)
 		{
-			if((Input.GetKeyDown(KeyCode.Space) || Input.touchCount > 0) && LeagueData.CurrentSeason.GetCurrentGame()!=null)
-			{
-				SimToNextGame();
-				inGame = true;
-				LoadGameLevel();
-				curGame++;
-			}
-			/*
-			if(Input.GetKeyDown(KeyCode.X) && al.mCurrentSeason.GetCurrentGame()!=null)
-			{
-				inGame = true;
-				al.mCurrentSeason.GetCurrentGame().SimGame();
-				GetResult(al.mCurrentSeason.GetCurrentGame());
-			}
-			*/
-			if(Input.GetKeyDown(KeyCode.L))
-			{
-                LeagueData = GameData.Instance.Load("test");
-				curGame = PlayerPrefs.GetInt("curGame");
-				UpdateView();
-			}
-			if(Input.GetKeyDown(KeyCode.S))
-			{
-                GameData.Instance.Save(LeagueData, "test");
-				PlayerPrefs.SetInt("curGame", curGame);
-			}
-		}
+			SimToNextGame();
 
+			LoadGameLevel();
+			curGame++;
+		}
+		/*
+		if(Input.GetKeyDown(KeyCode.X) && al.mCurrentSeason.GetCurrentGame()!=null)
+		{
+			inGame = true;
+			al.mCurrentSeason.GetCurrentGame().SimGame();
+			GetResult(al.mCurrentSeason.GetCurrentGame());
+		}
+		*/
+		if(Input.GetKeyDown(KeyCode.L))
+		{
+            GameData.Instance.LeagueData = GameData.Instance.Load("test");
+			curGame = PlayerPrefs.GetInt("curGame");
+			UpdateView();
+		}
+		if(Input.GetKeyDown(KeyCode.S))
+		{
+            GameData.Instance.Save("test");
+			PlayerPrefs.SetInt("curGame", curGame);
+		}
 	}
 
-	void GetResult(LGame lgame)
-	{
-		LeagueData.CurrentSeason.GamePlayed(lgame);
+	void GetResult(LGame lgame)	{
+		
 		UpdateView();		
 		SimToNextGame();
 	}
 
 	void LoadGameLevel()
 	{		
-		LGame lgame = LeagueData.CurrentSeason.GetCurrentGame();
-        GameData.Instance.SetGameData(lgame, LeagueData.CurrentSeason.GetTeam(lgame.TeamA_ID), LeagueData.CurrentSeason.GetTeam(lgame.TeamB_ID));     
+		LGame lgame = GameData.Instance.LeagueData.CurrentSeason.GetCurrentGame();
+        GameData.Instance.SetGameData(lgame, GameData.Instance.LeagueData.CurrentSeason.GetTeam(lgame.TeamA_ID), GameData.Instance.LeagueData.CurrentSeason.GetTeam(lgame.TeamB_ID));     
         SceneManager.LoadScene("Hockey");
 
 	}
 
-	int GetNextGame(int team)
-	{
-		for(int i = LeagueData.CurrentSeason.CurGameIndex; i < LeagueData.CurrentSeason.Games.Count; i++)
-		{
-			if(LeagueData.CurrentSeason.Games[i].TeamA_ID == team || LeagueData.CurrentSeason.Games[i].TeamB_ID == team)
-			{
-				return i;
-			}
-		}
-		return -1;
-	}
+	
 
-	List<LGame> GetSchedule(int team)
-	{
-		List<LGame> sched = new List<LGame>();
-		foreach(LGame game in LeagueData.CurrentSeason.Games)
-		{
-			if(game.TeamA_ID == team || game.TeamB_ID == team)
-			{
-				sched.Add(game);
-			}
-		}
-		return sched;
-	}
+	
 
 	void SimToNextGame()
 	{
-		while(LeagueData.CurrentSeason.CurGameIndex < GetNextGame(0))
+		while(GameData.Instance.LeagueData.CurrentSeason.CurGameIndex < GameData.Instance.GetNextGameIndex(0))
 		{
-			LeagueData.CurrentSeason.GetCurrentGame().SimGame();
-			GetResult(LeagueData.CurrentSeason.GetCurrentGame());
+			GameData.Instance.LeagueData.CurrentSeason.GetCurrentGame().SimGame();
+			GetResult(GameData.Instance.LeagueData.CurrentSeason.GetCurrentGame());
 		}
 	}
 }

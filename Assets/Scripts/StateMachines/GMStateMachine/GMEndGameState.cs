@@ -8,8 +8,9 @@ public class GMEndGameState : FSMState<GameManager> {
 	public override void Enter(GameManager gm)
 	{
 		gm.StartCoroutine(EndGamePresentation(gm));
-		gm.ChangeState(gm.gmFaceoffState);
-	}
+        gm.TeamA.GoToFaceoff();
+        gm.TeamB.GoToFaceoff();
+    }
 	
 	public override void Execute(GameManager gm)
 	{
@@ -25,7 +26,8 @@ public class GMEndGameState : FSMState<GameManager> {
 	{
 		manager.view.SetGoalText("GAME OVER");
 		manager.view.goalText.gameObject.SetActive(true);
-		yield return new WaitForSeconds(5.0f);
+        GameData.Instance.LeagueData.CurrentSeason.GamePlayed(GameData.Instance.CurrentGame);
+        yield return new WaitForSeconds(5.0f);
         SceneManager.LoadScene("FrontEnd");
 	}
 	

@@ -4,63 +4,66 @@ using System.Collections.Generic;
 
 public class PlayerControls : MonoBehaviour, IPlayerControls 
 {
-	Player mSelectedPlayer;
-	IGamePad mGamePad;
-	IPlayerControlsView mView;
+	Player m_SelectedPlayer;
+	IGamePad m_GamePad;
+	IPlayerControlsView m_View;
 
-	public Team mTeam;
+	private Team m_Team;	
 
-	Puck mPuck;
-
-	public float mChargeSpeed;
+	public float CHARGE_SPEED;
 	public float SELECTION_RESET_TIME;
 
 	List<Player> sortedPlayersByDistance = new List<Player>();
 	int mSelectIndex = 0;
 
+    void Awake()
+    {
+        m_GamePad = new WindowsGamePad(1, 0.1f);
+        m_View = GetComponent(typeof(IPlayerControlsView)) as IPlayerControlsView;
+        m_Team = GetComponent<Team>();
+    }
+
 	void Start()
-	{
-		mPuck = Puck.Instance;
-		mGamePad = new WindowsGamePad(1, 0.1f);
-		mView = GetComponent(typeof(IPlayerControlsView)) as IPlayerControlsView;
-		if(mTeam.mPlayers.Count > 0)
+	{	
+
+		if(m_Team.mPlayers.Count > 0)
 		{
-			SelectPlayer(mTeam.mPlayers[0]);
+			SelectPlayer(m_Team.mPlayers[0]);
 		}
 		else
 			Debug.LogError("Player: "+this.name+" has no team");
 
-		sortedPlayersByDistance = new List<Player>(mTeam.mPlayers);
-		sortedPlayersByDistance.Sort(delegate(Player x, Player y)
+		sortedPlayersByDistance = new List<Player>(m_Team.mPlayers);
+		sortedPlayersByDistance.Sort(delegate(Player a, Player b)
 		                             {
-			float distanceX = Vector2.Distance(x.GetPosition(), mPuck.transform.position);
-			float distanceY = Vector2.Distance(y.GetPosition(), mPuck.transform.position);
-			return distanceX.CompareTo(distanceY);
+			float distanceA = Vector2.Distance(a.GetPosition(), Puck.Instance.transform.position);
+			float distanceB = Vector2.Distance(b.GetPosition(), Puck.Instance.transform.position);
+			return distanceA.CompareTo(distanceB);
 		});
 
-		mPuck.PuckControlChanged += new PuckControlChangedHandler(OnPlayerRecievedPuck);
+		Puck.Instance.PuckControlChanged += new PuckControlChangedHandler(OnPlayerRecievedPuck);
 	
 	}
 
 	void OnPlayerRecievedPuck(Player p)
 	{
-		if(mTeam.mPlayers.Contains(p))		                     
+		if(m_Team.mPlayers.Contains(p))		                     
 			SelectPlayer(p);
 	}
 
 
 	void Update()
 	{
-		if(mSelectedPlayer != null)
+		if(m_SelectedPlayer != null)
 		{
 			MoveSelectedPlayer();
 			//release shot
-			if(mGamePad.IsButtonPressed(EGamePadButton.A))
+			if(m_GamePad.IsButtonPressed(EGamePadButton.A))
 			{
-				if(mSelectedPlayer == mPuck.controllingPlayer)
+				if(m_SelectedPlayer == Puck.Instance.controllingPlayer)
 					ChargeShot();
 			}
-			if(mGamePad.IsButtonPressed(EGamePadButton.RShoulder))
+			if(m_GamePad.IsButtonPressed(EGamePadButton.RShoulder))
 			{
 				Player newPlayer = ChangeSelection();
 				SelectPlayer(newPlayer);
@@ -82,50 +85,50 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 		Vector2 direction = Vector2.right;
 		float pwr = 0.0f;
 
-		while(mGamePad.IsButtonDown(EGamePadButton.A))
+		while(m_GamePad.IsButtonDown(EGamePadButton.A))
 		{
-			pwr += mChargeSpeed*Time.deltaTime/Time.timeScale;
+			pwr += CHARGE_SPEED*Time.deltaTime/Time.timeScale;
 			if(pwr > 1) pwr = 1;
-			if(mGamePad.GetLeftStick().normalized.magnitude > 0.5f)
+			if(m_GamePad.GetLeftStick().normalized.magnitude > 0.5f)
 			{
-				direction = mGamePad.GetLeftStick().normalized;
+				direction = m_GamePad.GetLeftStick().normalized;
 			}
-			mView.ShowChargeUpShot(pwr, mSelectedPlayer.transform.position, direction);
+			m_View.ShowChargeUpShot(pwr, m_SelectedPlayer.transform.position, direction);
 			yield return null;
 		}
 
 		Time.timeScale = 1f;
 		Time.fixedDeltaTime = Time.timeScale * fixedTimeScale;
 
-		mView.ShowChargeUpShot(0, Vector2.zero, Vector2.zero);
-		mPuck.Shoot(direction*pwr*mPuck.controllingPlayer.shotPower);
+		m_View.ShowChargeUpShot(0, Vector2.zero, Vector2.zero);
+		Puck.Instance.Shoot(direction*pwr*Puck.Instance.controllingPlayer.shotPower);
 	}
 
 	public void MoveSelectedPlayer()
 	{
 		Vector2 destination;
-		Vector2 axis = mGamePad.GetLeftStick();
+		Vector2 axis = m_GamePad.GetLeftStick();
 		
 		if(axis != Vector2.zero)
 		{
-			destination = mSelectedPlayer.GetPosition() + (axis*mSelectedPlayer.speed);
+			destination = m_SelectedPlayer.GetPosition() + (axis*m_SelectedPlayer.speed);
 			
-			Debug.DrawLine(mSelectedPlayer.GetPosition(), destination);
+			Debug.DrawLine(m_SelectedPlayer.GetPosition(), destination);
 		}
 		else
-			destination = mSelectedPlayer.GetPosition() - mSelectedPlayer.GetComponent<Rigidbody2D>().velocity/10f;
+			destination = m_SelectedPlayer.GetPosition() - m_SelectedPlayer.GetComponent<Rigidbody2D>().velocity/10f;
 		
-		mSelectedPlayer.destinationPosition = destination;
+		m_SelectedPlayer.destinationPosition = destination;
 	}
 
 	public Player GetSelectedPlayer()
 	{
-		return mSelectedPlayer;
+		return m_SelectedPlayer;
 	}
 
 	public void SelectPlayer(Player Player)
 	{
-		mSelectedPlayer = Player;
+		m_SelectedPlayer = Player;
 		//mView.ChangeSelected(mSelectedPlayer);
 	}
 	
@@ -134,11 +137,11 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 	IEnumerator ResetList(float time)
 	{
 		yield return new WaitForSeconds(time);
-		sortedPlayersByDistance = new List<Player>(mTeam.mPlayers);
+		sortedPlayersByDistance = new List<Player>(m_Team.mPlayers);
 		sortedPlayersByDistance.Sort(delegate(Player x, Player y)
 		{
-			float distanceX = Vector2.Distance(x.GetPosition(), mPuck.transform.position);
-			float distanceY = Vector2.Distance(y.GetPosition(), mPuck.transform.position);
+			float distanceX = Vector2.Distance(x.GetPosition(), Puck.Instance.transform.position);
+			float distanceY = Vector2.Distance(y.GetPosition(), Puck.Instance.transform.position);
 			return distanceX.CompareTo(distanceY);
 		});
 		mSelectIndex = 0;

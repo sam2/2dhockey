@@ -13,11 +13,11 @@ public class LTeam
 	[ProtoMember(2)]
 	public List<LPlayer> mRoster;
 	[ProtoMember(3)]
-	public int mWins;
+	public int Wins;
 	[ProtoMember(4)]
-	public int mLosses;
+	public int Losses;
 	[ProtoMember(5)]
-	public int mTies;
+	public int Ties;
 
 	public LTeam()
 	{
@@ -38,22 +38,22 @@ public class LTeam
 
 	public int Points()
 	{
-		return(mWins*2 + mTies);
+		return(Wins*2 + Ties);
 	}
 
 	public void WinGame()
 	{
-		mWins++;
+		Wins++;
 	}
 
 	public void LoseGame()
 	{
-		mLosses++;
+		Losses++;
 	}
 
 	public void TieGame()
 	{
-		mTies++;
+		Ties++;
 	}
 
 

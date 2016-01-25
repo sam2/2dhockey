@@ -20,7 +20,7 @@ public class LeagueTestView : MonoBehaviour {
 		string text = "Standings\n";
 		foreach(LTeam team in standings)
 		{
-			text+=team.mName+"    "+team.Points()+"  ("+team.mWins+"-"+team.mLosses+"-"+team.mTies+")\n";
+			text+=team.mName+"    "+team.Points()+"  ("+team.Wins+"-"+team.Losses+"-"+team.Ties+")\n";
 		}
 		standingsdisplay.text = text;
 	}

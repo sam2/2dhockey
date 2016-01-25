@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 	public GameObject TeamAPrefab;
 	public GameObject TeamBPrefab;
 
-	public float mGameLength;
+	public float GAME_LENGTH;
 	public float timeLeft;
 	public GameView view;
 
@@ -69,24 +69,24 @@ public class GameManager : MonoBehaviour
 
 		view.goalText.gameObject.SetActive(true);
 		ChangeState(gmFaceoffState);
-		GameData.Instance.Game.TeamB_Score++;
-		view.UpdateScores (GameData.Instance.Game.TeamA_Score, GameData.Instance.Game.TeamB_Score);
+		GameData.Instance.CurrentGame.TeamB_Score++;
+		view.UpdateScores (GameData.Instance.CurrentGame.TeamA_Score, GameData.Instance.CurrentGame.TeamB_Score);
 	}
 
 	void RighttGoalScoredOn()
 	{
 		view.goalText.gameObject.SetActive(true);
 		ChangeState(gmFaceoffState);
-        GameData.Instance.Game.TeamA_Score++;
-		view.UpdateScores (GameData.Instance.Game.TeamA_Score, GameData.Instance.Game.TeamB_Score);
+        GameData.Instance.CurrentGame.TeamA_Score++;
+		view.UpdateScores (GameData.Instance.CurrentGame.TeamA_Score, GameData.Instance.CurrentGame.TeamB_Score);
 	}
 
 	// Use this for initialization
-	public void Start()
+	public void Awake()
 	{
 		mLoading = true;
-		timeLeft = mGameLength;       
-        CreateTeams(GameData.Instance.TeamA, GameData.Instance.TeamB);
+		timeLeft = GAME_LENGTH;       
+        CreateTeams(GameData.Instance.GetTeam(GameData.Instance.CurrentGame.TeamA_ID), GameData.Instance.GetTeam(GameData.Instance.CurrentGame.TeamB_ID));
 		PlaceNets();
 		fsm = new FiniteStateMachine<GameManager>();
 		fsm.Init();
