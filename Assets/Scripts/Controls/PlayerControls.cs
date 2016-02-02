@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PlayerControls : MonoBehaviour, IPlayerControls 
 {
-	Player m_SelectedPlayer;
+	Skater m_SelectedPlayer;
 	IGamePad m_GamePad;
 	IPlayerControlsView m_View;
 
@@ -13,7 +13,7 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 	public float CHARGE_SPEED;
 	public float SELECTION_RESET_TIME;
 
-	List<Player> sortedPlayersByDistance = new List<Player>();
+	List<Skater> sortedPlayersByDistance = new List<Skater>();
 	int mSelectIndex = 0;
 
     void Awake()
@@ -33,8 +33,8 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 		else
 			Debug.LogError("Player: "+this.name+" has no team");
 
-		sortedPlayersByDistance = new List<Player>(m_Team.mPlayers);
-		sortedPlayersByDistance.Sort(delegate(Player a, Player b)
+		sortedPlayersByDistance = new List<Skater>(m_Team.mPlayers);
+		sortedPlayersByDistance.Sort(delegate(Skater a, Skater b)
 		                             {
 			float distanceA = Vector2.Distance(a.GetPosition(), Puck.Instance.transform.position);
 			float distanceB = Vector2.Distance(b.GetPosition(), Puck.Instance.transform.position);
@@ -45,7 +45,7 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 	
 	}
 
-	void OnPlayerRecievedPuck(Player p)
+	void OnPlayerRecievedPuck(Skater p)
 	{
 		if(m_Team.mPlayers.Contains(p))		                     
 			SelectPlayer(p);
@@ -65,7 +65,7 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 			}
 			if(m_GamePad.IsButtonPressed(EGamePadButton.RShoulder))
 			{
-				Player newPlayer = ChangeSelection();
+				Skater newPlayer = ChangeSelection();
 				SelectPlayer(newPlayer);
 			}
 		}
@@ -118,15 +118,15 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 		else
 			destination = m_SelectedPlayer.GetPosition() - m_SelectedPlayer.GetComponent<Rigidbody2D>().velocity/10f;
 		
-		m_SelectedPlayer.destinationPosition = destination;
+		m_SelectedPlayer.MoveTo(destination);
 	}
 
-	public Player GetSelectedPlayer()
+	public Skater GetSelectedPlayer()
 	{
 		return m_SelectedPlayer;
 	}
 
-	public void SelectPlayer(Player Player)
+	public void SelectPlayer(Skater Player)
 	{
 		m_SelectedPlayer = Player;
 		//mView.ChangeSelected(mSelectedPlayer);
@@ -137,8 +137,8 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 	IEnumerator ResetList(float time)
 	{
 		yield return new WaitForSeconds(time);
-		sortedPlayersByDistance = new List<Player>(m_Team.mPlayers);
-		sortedPlayersByDistance.Sort(delegate(Player x, Player y)
+		sortedPlayersByDistance = new List<Skater>(m_Team.mPlayers);
+		sortedPlayersByDistance.Sort(delegate(Skater x, Skater y)
 		{
 			float distanceX = Vector2.Distance(x.GetPosition(), Puck.Instance.transform.position);
 			float distanceY = Vector2.Distance(y.GetPosition(), Puck.Instance.transform.position);
@@ -147,12 +147,12 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 		mSelectIndex = 0;
 	}
 	
-	Player ChangeSelection()
+	Skater ChangeSelection()
 	{
 		StopCoroutine("ResetList");
 		StartCoroutine("ResetList", SELECTION_RESET_TIME);
 
-		Player result = sortedPlayersByDistance[mSelectIndex];
+		Skater result = sortedPlayersByDistance[mSelectIndex];
 
 		mSelectIndex++;
 		mSelectIndex %= sortedPlayersByDistance.Count;

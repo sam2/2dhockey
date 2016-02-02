@@ -9,7 +9,7 @@ public class PlayerControlsTestView : MonoBehaviour, IPlayerControlsView {
 
 	public GameObject mSelectCircle;
 
-	Player mSelectedPlayer;
+	Skater mSelectedPlayer;
 	 
 	void Start()
 	{
@@ -41,7 +41,7 @@ public class PlayerControlsTestView : MonoBehaviour, IPlayerControlsView {
 		}
 	}
 
-	public void ChangeSelected(Player player)
+	public void ChangeSelected(Skater player)
 	{
 		mSelectedPlayer = player;
 		if(player != null)

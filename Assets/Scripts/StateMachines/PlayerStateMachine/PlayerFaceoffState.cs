@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerFaceoffState : FSMState<Player> {
+public class PlayerFaceoffState : FSMState<Skater> {
 	
 	
-	public override void Enter(Player p)
+	public override void Enter(Skater p)
 	{
 	
 		p.gameObject.layer = 8; //fallen layer
@@ -12,15 +12,15 @@ public class PlayerFaceoffState : FSMState<Player> {
 		p.GetComponent<Collider2D>().enabled = true;
 	}
 	
-	public override void Execute(Player p)
+	public override void Execute(Skater p)
 	{
 
-		p.GetComponent<Rigidbody2D>().AddForce(p.steering.Arrive(p.destinationPosition, SteeringBehavior.Deceleration.fast)*2f);
+		
 
 
 	}
 	
-	public override void Exit(Player p)
+	public override void Exit(Skater p)
 	{
 		p.gameObject.layer = 0; //fallen layer
 		p.GetComponent<Collider2D>().enabled = false;

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerFallenState : FSMState<Player> {
+public class PlayerFallenState : FSMState<Skater> {
 
 
-	public override void Enter(Player p)
+	public override void Enter(Skater p)
 	{
 		p.fallen = true;
 		p.gameObject.layer = 8; //fallen layer
@@ -17,14 +17,14 @@ public class PlayerFallenState : FSMState<Player> {
 
 	}
 	
-	public override void Execute(Player p)
+	public override void Execute(Skater p)
 	{
 		p.gameObject.layer = 8; //fallen layer
 		p.GetComponent<Collider2D>().enabled = false;
 		p.GetComponent<Collider2D>().enabled = true;
 	}
 	
-	public override void Exit(Player p)
+	public override void Exit(Skater p)
 	{
 		p.fallen = false;
 		p.gameObject.layer = 0;
@@ -35,9 +35,9 @@ public class PlayerFallenState : FSMState<Player> {
 
 	}
 
-	public IEnumerator Fall(Player p)
+	public IEnumerator Fall(Skater p)
 	{
-		yield return new WaitForSeconds(p.checkedTime);
+		yield return new WaitForSeconds(p.CHECKED_TIME);
 		p.ChangeState(p.playState);
 	}
 	

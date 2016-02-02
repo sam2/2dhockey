@@ -4,51 +4,28 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-public class GameData : MonoBehaviour {
+public class GameData : Singleton<GameData> {
 
-    private static GameData _instance;
-    private static object _lock = new object();
-    public static GameData Instance
+    public League LeagueData; //TODO: make private once refactor done
+    public LGame CurrentGame;
+
+    void Awake()
     {
-        get
+        if(LeagueData == null)
         {
-            lock (_lock)
-            {
-                if (_instance == null)
-                {
-                    _instance = (GameData)FindObjectOfType(typeof(GameData));
-
-                    if (_instance == null)
-                    {
-                        GameObject singleton = new GameObject();
-                        _instance = singleton.AddComponent<GameData>();
-                        singleton.name = "GameData";
-                        _instance.CurrentGame = new LGame();
-                        _instance.LeagueData = League.CreateNewLeague(2);
-                        _instance.HasData = false;
-                        DontDestroyOnLoad(singleton);                        
-                    }                   
-                }
-                return _instance;
-            }
+            LeagueData = League.CreateNewLeague(2);
+            LoadCurrentGameData();
         }
     }
 
-    public League LeagueData;
-    public LGame CurrentGame;
-
-    public bool HasData;
-
-    public void SetGameData(LGame game, LTeam teamA, LTeam teamB)
+    public void LoadCurrentGameData()
     {
-        CurrentGame = game;
-        HasData = true;
+        CurrentGame = GameData.Instance.LeagueData.GetCurrentGame();
     }
 
     public void ClearGameData()
     {
         CurrentGame = null;
-        HasData = false;
     }
 
     public LTeam GetTeam(int teamID)
@@ -56,6 +33,7 @@ public class GameData : MonoBehaviour {
         return LeagueData.CurrentSeason.Teams[teamID];
     }
 
+    //using playerprefs not performant. TODO: write save system.
     public void Save(string leagueName)
     {
         MemoryStream msString = new MemoryStream();

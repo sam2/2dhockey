@@ -14,7 +14,7 @@ public class League
 	[ProtoMember(2)]
 	public LSeason CurrentSeason;
 
-	public League()
+    public League()
 	{
 		Seasons = new List<LSeason>();
 		CurrentSeason = new LSeason();
@@ -26,7 +26,14 @@ public class League
 		CurrentSeason = currentSeason;
 	}
 
-	public static League CreateNewLeague(int numTeams)
+    public LGame GetCurrentGame()
+    {
+        if (CurrentSeason.Games.Count > CurrentSeason.CurGameIndex)
+            return CurrentSeason.Games[CurrentSeason.CurGameIndex];
+        else return null;
+    }
+
+    public static League CreateNewLeague(int numTeams)
 	{
 		List<LTeam> teams = new List<LTeam>();
 		List<LPlayer> roster = new List<LPlayer>();

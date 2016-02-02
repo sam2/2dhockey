@@ -13,7 +13,7 @@ public class TeamFaceoffState : FSMState<TeamAI> {
 	
 		t.SetHomePositions(t.mDefensivePositions);
 		t.SetDestToHomePositions();
-		foreach(Player p in t.mTeam.mPlayers)
+		foreach(Skater p in t.mTeam.mPlayers)
 		{
 			p.ChangeState(p.faceoffState);
 		}
@@ -27,7 +27,7 @@ public class TeamFaceoffState : FSMState<TeamAI> {
 	
 	public override void Exit(TeamAI t)
 	{
-		foreach(Player p in t.mTeam.mPlayers)
+		foreach(Skater p in t.mTeam.mPlayers)
 		{
 			p.ChangeState(p.playState);
 		}

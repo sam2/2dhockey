@@ -6,13 +6,13 @@ public class TouchControls : MonoBehaviour {
 	Team mTeam;
 
 	bool mShoot;
-	Player mTarget;
+	Skater mTarget;
 
 	public float TOUCH_RANGE;
 
 	public float SNAP_RANGE;
 	bool mSnapped;
-	Player mSnappedTo;
+	Skater mSnappedTo;
 	// Use this for initialization
 	void Start () {
 		mTeam = GetComponent<Team>();
@@ -37,7 +37,7 @@ public class TouchControls : MonoBehaviour {
 	{
 		if(mTarget!=null)
 		{
-			mTarget.mView.ClearPlayerView();
+			mTarget.View.ClearPlayerView();
 			mShoot = false;
 			mTarget = null;
 		}
@@ -71,13 +71,13 @@ public class TouchControls : MonoBehaviour {
 				
 				if(mSnapped)
 				{
-					mTarget.mView.ChangeLineColor(Color.green);
-					mTarget.mView.DrawLine(mTarget.transform.position, mSnappedTo.transform.position);
+					mTarget.View.ChangeLineColor(Color.green);
+					mTarget.View.DrawLine(mTarget.transform.position, mSnappedTo.transform.position);
 				}
 				else
 				{
-					mTarget.mView.ChangeLineColor(Color.red);
-					mTarget.mView.DrawToMouse(mTarget.transform.position);
+					mTarget.View.ChangeLineColor(Color.red);
+					mTarget.View.DrawToMouse(mTarget.transform.position);
 				}
 				if(Input.GetKeyUp(KeyCode.Space))
 				{
@@ -93,7 +93,7 @@ public class TouchControls : MonoBehaviour {
 					{
 						Puck.Instance.Shoot(mTarget.GetPassVector(mSnappedTo)*mTarget.shotPower);
 					}
-					mTarget.mView.ClearPlayerView();
+					mTarget.View.ClearPlayerView();
 				}
 			}
 			else
@@ -105,9 +105,9 @@ public class TouchControls : MonoBehaviour {
 				}
 				else if(Input.GetMouseButton(0))
 				{
-					mTarget.mView.ChangeLineColor(Color.blue);
-					mTarget.mView.DrawToMouse(mTarget.transform.position);
-					mTarget.destinationPosition = mousePos;
+					mTarget.View.ChangeLineColor(Color.blue);
+					mTarget.View.DrawToMouse(mTarget.transform.position);
+					mTarget.MoveTo(mousePos);
 
 				}
 			}
@@ -128,7 +128,7 @@ public class TouchControls : MonoBehaviour {
 					if(mTarget != null)
 					{
 						mShoot = true;
-						mTarget.mView.ChangeLineColor(Color.red);
+						mTarget.View.ChangeLineColor(Color.red);
 						Time.timeScale = 0.25f;
 						Time.fixedDeltaTime = 0.02f * Time.timeScale;
 					}
@@ -166,13 +166,13 @@ public class TouchControls : MonoBehaviour {
 						
 						if(mSnapped)
 						{
-							mTarget.mView.ChangeLineColor(Color.green);
-							mTarget.mView.DrawLine(mTarget.transform.position, mSnappedTo.transform.position);
+							mTarget.View.ChangeLineColor(Color.green);
+							mTarget.View.DrawLine(mTarget.transform.position, mSnappedTo.transform.position);
 						}
 						else
 						{
-							mTarget.mView.ChangeLineColor(Color.red);
-							mTarget.mView.DrawToMouse(mTarget.transform.position);
+							mTarget.View.ChangeLineColor(Color.red);
+							mTarget.View.DrawToMouse(mTarget.transform.position);
 						}
 						
 						
@@ -193,7 +193,7 @@ public class TouchControls : MonoBehaviour {
 					mTarget = FindClosestPlayerToPoint(touchPos, TOUCH_RANGE);
 					if(mTarget != null)
 					{
-						mTarget.mView.ChangeLineColor(Color.blue);
+						mTarget.View.ChangeLineColor(Color.blue);
 						mTarget.ChangeState(mTarget.controlledState);
 					}
 					break;
@@ -206,8 +206,8 @@ public class TouchControls : MonoBehaviour {
 				case TouchPhase.Stationary:
 					if(mTarget != null)
 					{
-						mTarget.destinationPosition = touchPos;
-						mTarget.mView.DrawToMouse(mTarget.transform.position);
+						mTarget.MoveTo(touchPos);
+						mTarget.View.DrawToMouse(mTarget.transform.position);
 					}
 					break;
 				}
@@ -217,11 +217,11 @@ public class TouchControls : MonoBehaviour {
 	}
 
 
-	public Player FindClosestPlayerToPoint(Vector2 point, float minRange)
+	public Skater FindClosestPlayerToPoint(Vector2 point, float minRange)
 	{
-		Player closest = null;
+		Skater closest = null;
 
-		foreach(Player p in mTeam.mPlayers)
+		foreach(Skater p in mTeam.mPlayers)
 		{
 			float dist = Vector2.Distance(point, p.transform.position);
 

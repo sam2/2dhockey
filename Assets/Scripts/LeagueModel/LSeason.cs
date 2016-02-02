@@ -112,12 +112,6 @@ public class LSeason
 			list[n] = value;  
 		}  
 	}
-	public LGame GetCurrentGame()
-	{
-		if(Games.Count > CurGameIndex)
-			return Games[CurGameIndex];
-		else return null;
-	}
 	
 	public LGame GetGame(int index)
 	{

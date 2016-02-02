@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public delegate void PuckControlChangedHandler(Player p);
+public delegate void PuckControlChangedHandler(Skater p);
 
 public class Puck : MonoBehaviour {
 
@@ -10,8 +10,8 @@ public class Puck : MonoBehaviour {
 
 	public static Puck Instance;
 	public static bool beingShot;
-	public Player controllingPlayer;
-	public Player lastControllingPlayer;
+	public Skater controllingPlayer;
+	public Skater lastControllingPlayer;
 
 	public GameObject highlightCircle;
 	// Use this for initialization
@@ -33,7 +33,7 @@ public class Puck : MonoBehaviour {
 	void Update () {
 		if(controllingPlayer){
 
-			int flip = (int)Mathf.Sign(controllingPlayer.facing.x) * -(int)controllingPlayer.team.side;
+			int flip = (int)Mathf.Sign(controllingPlayer.Facing.x) * -(int)controllingPlayer.team.side;
 			transform.position = controllingPlayer.transform.position + new Vector3(flip*controllingPlayer.puckCtrl.x, controllingPlayer.puckCtrl.y, 0);
 
 		}
@@ -60,7 +60,7 @@ public class Puck : MonoBehaviour {
 	{
 		if(other.collider.tag == "Player"){
 
-			Player p = other.collider.GetComponent<Player>();
+			Skater p = other.collider.GetComponent<Skater>();
 			if(controllingPlayer == null && !p.fallen)
 			{
 				GetComponent<Rigidbody2D>().velocity = Vector2.zero;

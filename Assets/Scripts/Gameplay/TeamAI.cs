@@ -17,32 +17,30 @@ public class TeamAI : MonoBehaviour {
 
 	public Team mTeam;
 	public List<PlayerAI> mPlayerAIs = new List<PlayerAI>();
-	// Use this for initialization
-	void Awake () 
-	{
-
-
-	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
 		FSM.UpdateStateMachine();
 	}
 
-	public void Init()
+    void Awake()
+    {
+        FSM = new FiniteStateMachine<TeamAI>();
+        FSM.Init();
+        FSM.Configure(this, defendState);
+    }
+
+	void Start()
 	{
 		mTeam = GetComponent<Team>();
-		foreach(Player p in mTeam.mPlayers)
+		foreach(Skater p in mTeam.mPlayers)
 		{
 			mPlayerAIs.Add(p.GetComponent<PlayerAI>());
 		}
 		//SpawnPlayers();
 		Puck.Instance.PuckControlChanged += new PuckControlChangedHandler(OnPlayerRecievedPuck);
 
-		FSM = new FiniteStateMachine<TeamAI>();
-		FSM.Init();
-		FSM.Configure(this, defendState);
+		
 
 
 	}
@@ -93,21 +91,21 @@ public class TeamAI : MonoBehaviour {
 		return false;
 	}
 	
-	void OnPlayerRecievedPuck(Player p)
+	void OnPlayerRecievedPuck(Skater p)
 	{
 
 	}
 
-	public bool IsOnTeam(Player p)
+	public bool IsOnTeam(Skater p)
 	{
 		return p.team == mTeam;
 	}
 
-	Player ClosestToPuck()
+	Skater ClosestToPuck()
 	{
 		float distance = 9999;
-		Player closest = null;
-		foreach(Player p in mTeam.mPlayers)
+		Skater closest = null;
+		foreach(Skater p in mTeam.mPlayers)
 		{
 			float newDist = Vector2.Distance(p.transform.position, Puck.Instance.transform.position);
 			if( newDist < distance && !p.fallen)
@@ -127,7 +125,7 @@ public class TeamAI : MonoBehaviour {
 		RaycastHit2D ray = Physics2D.Linecast(Puck.Instance.transform.position, target);
 		if(ray)
 		{
-			Player hit = ray.collider.GetComponent<Player>();
+			Skater hit = ray.collider.GetComponent<Skater>();
 			if(hit && hit.team != this)
 			{
 				return false;

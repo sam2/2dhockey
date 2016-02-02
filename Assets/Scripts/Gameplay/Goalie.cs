@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Goalie : PlayerBase {
+public class Goalie : Player {
 
 
 	public float saveChance;
@@ -38,7 +38,7 @@ public class Goalie : PlayerBase {
 
 
 
-		GetComponent<Rigidbody2D>().AddForce(steering.Arrive(desiredPos, SteeringBehavior.Deceleration.fast));
+		GetComponent<Rigidbody2D>().AddForce(Steering.Arrive(desiredPos, SteeringBehavior.Deceleration.fast));
 
 
 
@@ -54,7 +54,7 @@ public class Goalie : PlayerBase {
 	{
 		if(collision.collider.tag == "Player")
 		{
-			Player p = collision.collider.GetComponent<Player>();
+			Skater p = collision.collider.GetComponent<Skater>();
 
 			if(p && p.team!= team)
 			{

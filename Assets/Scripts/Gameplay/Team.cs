@@ -19,7 +19,7 @@ public class Team : MonoBehaviour{
 
 	public Side side;
 
-	public List<Player> mPlayers;
+	public List<Skater> mPlayers;
 
 	public Team opponent;
 
@@ -47,15 +47,15 @@ public class Team : MonoBehaviour{
 
 	public void SpawnPlayers(LTeam team, int numPlayers)
 	{
-		mPlayers = new List<Player>();
+		mPlayers = new List<Skater>();
 		for(int i = 0; i < numPlayers; i++)
 		{
 			GameObject g = (GameObject) Instantiate(playerPrefab, new Vector2((int)side*5, -8), Quaternion.identity);
 			g.GetComponentInChildren<Animator>().runtimeAnimatorController = controller;
 			g.transform.parent = transform;
-			Player p = g.GetComponent<Player>();
+			Skater p = g.GetComponent<Skater>();
 			p.team = this;		
-			p.destinationPosition = p.transform.position;
+			p.MoveTo(p.transform.position);
 			mPlayers.Add(p);
 		}
 	}

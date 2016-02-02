@@ -5,10 +5,6 @@ public class TeamAttackingState : FSMState<TeamAI> {
 
 	public override void Enter(TeamAI t)
 	{
-		foreach(PlayerAI p in t.mPlayerAIs)
-		{
-			p.mTeamState = PlayerAI.TeamState.Attacking;
-		}
 		t.SetHomePositions(t.mOffensivePositions);
 	}
 

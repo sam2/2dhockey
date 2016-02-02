@@ -8,26 +8,15 @@ public class PlayerAI : MonoBehaviour {
 	public float WANDER_FACTOR;
 	public float UPDATE_FREQUENCY;
 
-	Player mPlayer;
-	SteeringBehavior mSteering;
+	Skater m_Player;
 
 	public Vector2 mHomePosition;
 	public Vector2 mDZoneSize;
 
-	public enum TeamState
-	{
-		Attacking,
-		Defending,
-		Neutral
-	}
-
-	public TeamState mTeamState;
-
 	void Awake()
 	{
 		WANDER_FACTOR = Random.Range(0.1f, 0.5f);
-		mPlayer = GetComponent<Player>();
-		mSteering = mPlayer.steering;
+		m_Player = GetComponent<Skater>();
 	}
 
 	float destinationTolerance = 1f;
@@ -41,9 +30,10 @@ public class PlayerAI : MonoBehaviour {
 		return false;
 	}
 
-	public void UpdateAI()
+	public void Update()
 	{
-		mPlayer.destinationPosition = DefensivePosition();
+		m_Player.MoveTo(DefensivePosition());
+
 		/*
 		switch(mTeamState)
 		{
@@ -62,24 +52,26 @@ public class PlayerAI : MonoBehaviour {
 		//AvoidPlayers();
 	}
 
+    /*
+
 	void AvoidPlayers()
 	{
-		if(!mPlayer.fallen)
+		if(!m_Player.fallen)
 		{
-			foreach(Player p in mPlayer.team.mPlayers)
+			foreach(Player p in m_Player.team.mPlayers)
 			{
 				GetComponent<Rigidbody2D>().AddForce(mSteering.Evade(p.GetComponent<Rigidbody2D>(), SEPARATION_DISTANCE)*0.50f);
 			}
 			
-			if(mPlayer.team.mTeamAI.InControl())
+			if(m_Player.team.mTeamAI.InControl())
 			{
-				foreach(Player p in mPlayer.team.opponent.mPlayers)
+				foreach(Player p in m_Player.team.opponent.mPlayers)
 				{
 					GetComponent<Rigidbody2D>().AddForce(mSteering.Evade(p.GetComponent<Rigidbody2D>(), SEPARATION_DISTANCE)*0.5f);
 				}				
 			}
 		}
-	}
+	}*/
 
 	Vector2 DefensivePosition()
 	{
@@ -113,7 +105,7 @@ public class PlayerAI : MonoBehaviour {
 
 	public void SetDestination(Vector2 pos)
 	{
-		mPlayer.destinationPosition = pos;
+		m_Player.MoveTo( pos );
 	}
 
 

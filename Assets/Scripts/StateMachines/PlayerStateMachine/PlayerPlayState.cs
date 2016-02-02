@@ -1,21 +1,19 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerPlayState : FSMState<Player> {
+public class PlayerPlayState : FSMState<Skater> {
 
-	PlayerAI pAI;
-	public override void Enter(Player p)
+	public override void Enter(Skater p)
 	{
-		pAI = p.GetComponent<PlayerAI>();
+		
 	}
 	
-	public override void Execute(Player p)
+	public override void Execute(Skater p)
 	{
-		p.GetComponent<Rigidbody2D>().AddForce(p.steering.Seek(p.destinationPosition));
-		pAI.UpdateAI();
+		
 	}
 	
-	public override void Exit(Player p)
+	public override void Exit(Skater p)
 	{
 		
 	}

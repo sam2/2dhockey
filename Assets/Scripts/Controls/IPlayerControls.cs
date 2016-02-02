@@ -3,6 +3,6 @@ using System.Collections;
 
 public interface IPlayerControls 
 {
-	Player GetSelectedPlayer();
-	void SelectPlayer(Player hockeyPlayer);
+	Skater GetSelectedPlayer();
+	void SelectPlayer(Skater hockeyPlayer);
 }

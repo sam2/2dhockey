@@ -5,10 +5,10 @@ public class PlayerAnimationHandler : MonoBehaviour {
 
 
 	Animator animator;
-	Player p;
+	Skater p;
 	// Use this for initialization
 	void Start () {
-		p = GetComponent<Player>();
+		p = GetComponent<Skater>();
 		animator = GetComponentInChildren<Animator>();
 	}
 
@@ -32,28 +32,28 @@ public class PlayerAnimationHandler : MonoBehaviour {
 
 	void UpdateFacing()
 	{
-		if(p.facing.x > 0.0f)
+		if(p.Facing.x > 0.0f)
 		{
 			face = Facing.right;
 			animator.transform.localScale = new Vector3((int)p.team.side*-1f, 1, 1);
-			if(p.facing.y >= 0.5f)
+			if(p.Facing.y >= 0.5f)
 			{
 				face = Facing.upRight;
 			}
-			else if ( p.facing.y < -0.5f)
+			else if ( p.Facing.y < -0.5f)
 			{
 				face = Facing.downRight;
 			}
 		}
-		else if(p.facing.x <= 0.0f)
+		else if(p.Facing.x <= 0.0f)
 		{
 			face = Facing.left;
 			animator.transform.localScale = new Vector3((int)p.team.side*1, 1, 1);
-			if(p.facing.y >= 0.5f)
+			if(p.Facing.y >= 0.5f)
 			{
 				face = Facing.upLeft;
 			}
-			else if ( p.facing.y < -0.5f)
+			else if ( p.Facing.y < -0.5f)
 			{
 				
 				face = Facing.downLeft;
