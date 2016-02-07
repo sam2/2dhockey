@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
 	public SteeringBehavior Steering;
 	
     protected Rigidbody2D m_Rigidbody;
-    protected Vector2 DestinationPosition;
+    public Vector2 DestinationPosition;
 
     // Use this for initialization
     public void Init () 

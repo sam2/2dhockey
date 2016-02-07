@@ -57,12 +57,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -78,17 +72,25 @@
     <Compile Include="Assets\Scripts\Controls\IPlayerControlsView.cs" />
     <Compile Include="Assets\Scripts\Controls\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\Controls\PlayerControlsTestView.cs" />
+    <Compile Include="Assets\Scripts\FrontEnd\Controllers\MainMenuController.cs" />
+    <Compile Include="Assets\Scripts\FrontEnd\Controllers\SeasonScreenController.cs" />
+    <Compile Include="Assets\Scripts\FrontEnd\FrontEndManager.cs" />
+    <Compile Include="Assets\Scripts\FrontEnd\ScreenController.cs" />
+    <Compile Include="Assets\Scripts\FrontEnd\ScreenView.cs" />
+    <Compile Include="Assets\Scripts\FrontEnd\Views\MainMenuView.cs" />
+    <Compile Include="Assets\Scripts\FrontEnd\Views\SeasonScreenView.cs" />
     <Compile Include="Assets\Scripts\Gameplay\ArenaGenerator.cs" />
     <Compile Include="Assets\Scripts\Gameplay\GameManager.cs" />
     <Compile Include="Assets\Scripts\Gameplay\GoalZone.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Goalie.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Player.cs" />
     <Compile Include="Assets\Scripts\Gameplay\PlayerAI.cs" />
-    <Compile Include="Assets\Scripts\Gameplay\PlayerBase.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Puck.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SaveChecker.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\Skater.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Team.cs" />
     <Compile Include="Assets\Scripts\Gameplay\TeamAI.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\TeamAIPositionEditor.cs" />
     <Compile Include="Assets\Scripts\Input\IGamePad.cs" />
     <Compile Include="Assets\Scripts\Input\WindowsGamePad.cs" />
     <Compile Include="Assets\Scripts\LeagueManager.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Assets\Scripts\LeagueTestView.cs" />
     <Compile Include="Assets\Scripts\PlayerAnimationHandler.cs" />
     <Compile Include="Assets\Scripts\PlayerControlsView.cs" />
+    <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\StateMachines\FSMState.cs" />
     <Compile Include="Assets\Scripts\StateMachines\FiniteStateMachine.cs" />
     <Compile Include="Assets\Scripts\StateMachines\GMStateMachine\GMEndGameState.cs" />

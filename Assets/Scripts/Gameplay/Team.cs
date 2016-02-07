@@ -19,8 +19,10 @@ public class Team : MonoBehaviour{
 
 	public Side side;
 
+    
 	public List<Skater> mPlayers;
 
+    /*
 	public Team opponent;
 
 	public TeamAI mTeamAI;
@@ -59,5 +61,6 @@ public class Team : MonoBehaviour{
 			mPlayers.Add(p);
 		}
 	}
+    */
 
 }

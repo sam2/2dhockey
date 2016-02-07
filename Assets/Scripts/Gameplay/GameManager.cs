@@ -8,8 +8,8 @@ public class GameManager : Singleton<GameManager>
 	public GoalZone LeftGoal;
 	public GoalZone RightGoal;
 
-	public Team TeamA; //left team
-	public Team TeamB; //right team
+	public TeamAI TeamA; //left team
+	public TeamAI TeamB; //right team
 
 	public float GAME_LENGTH;
 	public float timeLeft;
@@ -45,20 +45,27 @@ public class GameManager : Singleton<GameManager>
 	}
 
 	// Use this for initialization
-	void Start()
+	void Awake()
 	{
 		mLoading = true;
 		timeLeft = GAME_LENGTH;       
        // CreateTeams(GameData.Instance.GetTeam(GameData.Instance.CurrentGame.TeamA_ID), GameData.Instance.GetTeam(GameData.Instance.CurrentGame.TeamB_ID));
 		//PlaceNets();
 		fsm = new FiniteStateMachine<GameManager>();
-		fsm.Init();
-		fsm.Configure(this, gmFaceoffState);
-		gmFaceoffState.Enter(this);
+		
         LeftGoal.Goal += new GoalHandler(LeftGoalScoredOn);
         RightGoal.Goal += new GoalHandler(RighttGoalScoredOn);
+      
         mLoading = false;
 	}
+
+    void Start()
+    {
+        TeamA.Init();
+        TeamB.Init();
+        fsm.Init();
+        fsm.Configure(this, gmFaceoffState);
+    }
 
 
 	// Update is called once per frame
@@ -66,5 +73,7 @@ public class GameManager : Singleton<GameManager>
 	{
 		if(!mLoading)
 			fsm.UpdateStateMachine();
+        TeamA.UpdateAI();
+        TeamB.UpdateAI();
 	}	
 }

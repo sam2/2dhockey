@@ -30,7 +30,7 @@ public class Skater : Player {
 		base.Init();
 		m_FSM = new FiniteStateMachine<Skater>();
 		m_FSM.Init();
-		m_FSM.Configure(this, playState);
+		m_FSM.Configure(this, faceoffState);
 		View = GetComponentInChildren<PlayerControlsView>();
 	}
 

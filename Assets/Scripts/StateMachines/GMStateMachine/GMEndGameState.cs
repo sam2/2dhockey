@@ -3,16 +3,16 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class GMEndGameState : FSMState<GameManager> {
-	
-	
-	public override void Enter(GameManager gm)
-	{
-		gm.StartCoroutine(EndGamePresentation(gm));
-        gm.TeamA.GoToFaceoff();
-        gm.TeamB.GoToFaceoff();
+
+
+    public override void Enter(GameManager gm)
+    {
+        gm.StartCoroutine(EndGamePresentation(gm));
+        gm.TeamA.ChangeState(gm.TeamA.faceoffState);
+        gm.TeamB.ChangeState(gm.TeamB.faceoffState);
     }
-	
-	public override void Execute(GameManager gm)
+
+    public override void Execute(GameManager gm)
 	{
 
 	}

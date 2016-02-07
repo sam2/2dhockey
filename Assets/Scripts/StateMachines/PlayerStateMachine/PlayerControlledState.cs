@@ -15,8 +15,8 @@ public class PlayerControlledState : FSMState<Skater> {
 	{
 
 
-		if(Time.time > enterTime + 5)
-			p.ChangeState(p.playState);
+		//if(Time.time > enterTime + 5)
+			//p.ChangeState(p.playState);
 
 
 		

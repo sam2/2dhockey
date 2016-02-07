@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PlayerControls : MonoBehaviour, IPlayerControls 
 {
 	Skater m_SelectedPlayer;
-	IGamePad m_GamePad;
+	IGamePad m_Gamepads;
 	IPlayerControlsView m_View;
 
 	private Team m_Team;	
@@ -18,7 +18,7 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 
     void Awake()
     {
-        m_GamePad = new WindowsGamePad(1, 0.1f);
+        m_Gamepads = new WindowsGamePad(1, 0.1f);
         m_View = GetComponent(typeof(IPlayerControlsView)) as IPlayerControlsView;
         m_Team = GetComponent<Team>();
     }
@@ -58,12 +58,12 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 		{
 			MoveSelectedPlayer();
 			//release shot
-			if(m_GamePad.IsButtonPressed(EGamePadButton.A))
+			if(m_Gamepads.IsButtonPressed(EGamePadButton.A))
 			{
 				if(m_SelectedPlayer == Puck.Instance.controllingPlayer)
 					ChargeShot();
 			}
-			if(m_GamePad.IsButtonPressed(EGamePadButton.RShoulder))
+			if(m_Gamepads.IsButtonPressed(EGamePadButton.RShoulder))
 			{
 				Skater newPlayer = ChangeSelection();
 				SelectPlayer(newPlayer);
@@ -85,13 +85,13 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 		Vector2 direction = Vector2.right;
 		float pwr = 0.0f;
 
-		while(m_GamePad.IsButtonDown(EGamePadButton.A))
+		while(m_Gamepads.IsButtonDown(EGamePadButton.A))
 		{
 			pwr += CHARGE_SPEED*Time.deltaTime/Time.timeScale;
 			if(pwr > 1) pwr = 1;
-			if(m_GamePad.GetLeftStick().normalized.magnitude > 0.5f)
+			if(m_Gamepads.GetLeftStick().normalized.magnitude > 0.5f)
 			{
-				direction = m_GamePad.GetLeftStick().normalized;
+				direction = m_Gamepads.GetLeftStick().normalized;
 			}
 			m_View.ShowChargeUpShot(pwr, m_SelectedPlayer.transform.position, direction);
 			yield return null;
@@ -107,7 +107,8 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 	public void MoveSelectedPlayer()
 	{
 		Vector2 destination;
-		Vector2 axis = m_GamePad.GetLeftStick();
+		Vector2 axis = m_Gamepads.GetLeftStick();
+        Debug.Log(axis);
 		
 		if(axis != Vector2.zero)
 		{
@@ -126,10 +127,10 @@ public class PlayerControls : MonoBehaviour, IPlayerControls
 		return m_SelectedPlayer;
 	}
 
-	public void SelectPlayer(Skater Player)
+	public void SelectPlayer(Skater player)
 	{
-		m_SelectedPlayer = Player;
-		//mView.ChangeSelected(mSelectedPlayer);
+		m_SelectedPlayer = player;
+        player.ChangeState(player.controlledState);
 	}
 	
 
