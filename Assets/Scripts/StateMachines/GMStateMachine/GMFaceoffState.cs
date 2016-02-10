@@ -5,7 +5,7 @@ public class GMFaceoffState : FSMState<GameManager> {
 
 	public override void Enter(GameManager gm)
 	{
-
+        gm.FaceoffInProgress = true;
         gm.TeamA.ChangeState(gm.TeamA.faceoffState);
         gm.TeamB.ChangeState(gm.TeamB.faceoffState);
 
@@ -15,8 +15,6 @@ public class GMFaceoffState : FSMState<GameManager> {
 	{
 		if(gm.TeamA.TeamIsAtDest() && gm.TeamB.TeamIsAtDest())
 		{
-            gm.TeamA.ChangeState(gm.TeamA.defendState);
-            gm.TeamB.ChangeState(gm.TeamB.attackState);
             gm.ChangeState(gm.gmPlayState);
 		}
 	
@@ -24,7 +22,9 @@ public class GMFaceoffState : FSMState<GameManager> {
 	
 	public override void Exit(GameManager gm)
 	{	
-		gm.view.goalText.gameObject.SetActive(false);
-	}
+		gm.View.goalText.gameObject.SetActive(false);
+        Puck.Instance.InPlay(true);
+        gm.FaceoffInProgress = false;
+    }
 	
 }

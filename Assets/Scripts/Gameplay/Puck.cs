@@ -8,8 +8,7 @@ public class Puck : MonoBehaviour {
 	public event PuckControlChangedHandler PuckControlChanged;
 
 
-	public static Puck Instance;
-	public static bool beingShot;
+    public static Puck Instance;
 	public Skater controllingPlayer;
 	public Skater lastControllingPlayer;
 
@@ -21,7 +20,6 @@ public class Puck : MonoBehaviour {
 	}
 	void Start () {
 		
-		beingShot = false;
 	}
 
 	public void InPlay(bool inplay)
@@ -61,7 +59,7 @@ public class Puck : MonoBehaviour {
 		if(other.collider.tag == "Player"){
 
 			Skater p = other.collider.GetComponent<Skater>();
-			if(controllingPlayer == null && !p.fallen)
+			if(controllingPlayer == null && !p.Fallen)
 			{
 				GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 				GetComponent<Collider2D>().enabled = false;

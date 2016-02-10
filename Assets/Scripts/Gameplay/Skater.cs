@@ -15,15 +15,10 @@ public class Skater : Player {
 	public PlayerFallenState fallenState = new PlayerFallenState();
 	public PlayerFaceoffState faceoffState = new PlayerFaceoffState();
 	public PlayerControlledState controlledState = new PlayerControlledState();
-	public bool controlled = false;
 
-	public bool fallen;
-	public bool slapshot;
-    
-	void RandomizeAttributes()
-	{
-		speed = Random.Range(0.75f, 1.25f)*speed;
-	}
+    public bool Controlled = false;
+	public bool Fallen;
+	public bool Slapshot;
 
 	void Awake()
 	{
@@ -38,7 +33,6 @@ public class Skater : Player {
 	{
 		base.Init();
 		puckCtrl = new Vector2(puckCtrl.x*-(int)team.side, puckCtrl.y);
-		RandomizeAttributes();
 		Facing = transform.forward;	
 	}
 
@@ -46,7 +40,8 @@ public class Skater : Player {
 	{	
 		m_FSM.UpdateStateMachine();
 		Facing = m_Rigidbody.velocity.normalized;
-        m_Rigidbody.AddForce(Steering.Seek(DestinationPosition));
+        if(!Fallen)
+            m_Rigidbody.AddForce(Steering.Seek(DestinationPosition));
     }
 
 	void OnCollisionStay2D(Collision2D other)
@@ -57,8 +52,8 @@ public class Skater : Player {
 			other.rigidbody.AddForce(dir.normalized*speed*7.5f);
 		}
         
-		if (Puck.Instance.controllingPlayer && !Puck.Instance.controllingPlayer.fallen 
-		    && !fallen && other.collider == Puck.Instance.controllingPlayer.GetComponent<Collider2D>()
+		if (Puck.Instance.controllingPlayer && !Puck.Instance.controllingPlayer.Fallen 
+		    && !Fallen && other.collider == Puck.Instance.controllingPlayer.GetComponent<Collider2D>()
 		    && Puck.Instance.controllingPlayer.team != team )
 		{
 			Vector2 dir = other.collider.transform.position - transform.position;

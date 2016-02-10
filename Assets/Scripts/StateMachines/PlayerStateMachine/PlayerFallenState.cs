@@ -6,7 +6,7 @@ public class PlayerFallenState : FSMState<Skater> {
 
 	public override void Enter(Skater p)
 	{
-		p.fallen = true;
+		p.Fallen = true;
 		p.gameObject.layer = 8; //fallen layer
 		p.GetComponent<Collider2D>().enabled = false;
 		p.GetComponent<Collider2D>().enabled = true;
@@ -26,7 +26,7 @@ public class PlayerFallenState : FSMState<Skater> {
 	
 	public override void Exit(Skater p)
 	{
-		p.fallen = false;
+		p.Fallen = false;
 		p.gameObject.layer = 0;
 		p.GetComponent<Collider2D>().enabled = false;
 		p.GetComponent<Collider2D>().enabled = true;

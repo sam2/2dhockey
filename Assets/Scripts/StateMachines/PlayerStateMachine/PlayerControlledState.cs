@@ -3,30 +3,25 @@ using System.Collections;
 
 public class PlayerControlledState : FSMState<Skater> {
 	
-	float enterTime = Mathf.Infinity;
+	float m_EnterTime = Mathf.Infinity;
 	public override void Enter(Skater p)
 	{
-		enterTime = Time.time;
-		p.controlled = true;
+		m_EnterTime = Time.time;
+		p.Controlled = true;
 		Debug.Log("entering controlled state");
 	}
 	
 	public override void Execute(Skater p)
 	{
-
-
-		//if(Time.time > enterTime + 5)
-			//p.ChangeState(p.playState);
-
-
-		
+		if(Time.time > m_EnterTime + 3)
+			p.ChangeState(p.playState);	
 	}
 
 	//exit called by playerControls
 	public override void Exit(Skater p)
 	{
-		enterTime = Mathf.Infinity;
-		p.controlled = false;
+		m_EnterTime = Mathf.Infinity;
+		p.Controlled = false;
 		Debug.Log("exiting controlled state");
 	}
 	

@@ -16,21 +16,21 @@ public class TeamAI : MonoBehaviour {
 	public TeamDefendingState defendState = new TeamDefendingState();
 	public TeamFaceoffState faceoffState = new TeamFaceoffState();
 	
-	private FiniteStateMachine<TeamAI> FSM;
+	private FiniteStateMachine<TeamAI> m_FSM;
 
 	public Team Team;
     public List<PlayerAI> mPlayerAIs;
 	
 	public void UpdateAI () 
 	{
-		FSM.UpdateStateMachine();
+		m_FSM.UpdateStateMachine();
 	}
 
     public void Init()
     {
-        FSM = new FiniteStateMachine<TeamAI>();
-        FSM.Init();
-        FSM.Configure(this, faceoffState);
+        m_FSM = new FiniteStateMachine<TeamAI>();
+        m_FSM.Init();
+        m_FSM.Configure(this, faceoffState);
         Team = GetComponent<Team>();        
     }
 
@@ -53,8 +53,7 @@ public class TeamAI : MonoBehaviour {
 
 	public void ChangeState(FSMState<TeamAI> state)
 	{
-        Debug.Log(name + "->" + state.ToString());
-		FSM.ChangeState(state);
+		m_FSM.ChangeState(state);
 	}
 	
 	public bool InControl()
@@ -86,7 +85,7 @@ public class TeamAI : MonoBehaviour {
 		foreach(Skater p in Team.mPlayers)
 		{
 			float newDist = Vector2.Distance(p.transform.position, Puck.Instance.transform.position);
-			if( newDist < distance && !p.fallen)
+			if( newDist < distance && !p.Fallen)
 			{
 				closest = p;
 				distance = newDist;
@@ -117,17 +116,16 @@ public class TeamAI : MonoBehaviour {
         Vector2 puckVector = (Vector2)Puck.Instance.transform.position - homePos;
         Vector2 pos = Vector2.zero;
 
-        if (PointIsInRectangle(Puck.Instance.transform.position, homePos, mDZoneSize)
-            || (Puck.Instance.controllingPlayer != null))
+        if (PointIsInRectangle(Puck.Instance.transform.position, homePos, mDZoneSize))
             pos = Puck.Instance.transform.position;
         else
         {
-            pos = homePos + (puckVector * WANDER_FACTOR);
+            pos = homePos + (puckVector.normalized * WANDER_FACTOR);
         }
-
-        if (!PointIsInRectangle(pos, homePos, mDZoneSize))
+        
+        //if (!PointIsInRectangle(pos, homePos, mDZoneSize))
         {
-            pos = (Vector2)homePos + pos.normalized * mDZoneSize.x / 2;
+          //  pos = (Vector2)homePos + pos.normalized * mDZoneSize.x / 2;
         }
         return pos;
     }
@@ -138,19 +136,18 @@ public class TeamAI : MonoBehaviour {
         Vector2 puckVector = (Vector2)Puck.Instance.transform.position - homePos;
         Vector2 pos = Vector2.zero;
 
-        if (PointIsInRectangle(Puck.Instance.transform.position, homePos, mDZoneSize)
-            || (Puck.Instance.controllingPlayer != null))
+        if (PointIsInRectangle(Puck.Instance.transform.position, homePos, mDZoneSize))
             pos = Puck.Instance.transform.position;
         else
         {
             pos = homePos + (puckVector * WANDER_FACTOR);
         }
 
-        if (!PointIsInRectangle(pos, homePos, mDZoneSize))
+        //if (!PointIsInRectangle(pos, homePos, mDZoneSize))
         {
-            pos = (Vector2)homePos + pos.normalized * mDZoneSize.x / 2;
+          //  pos = (Vector2)homePos + pos.normalized * mDZoneSize.x / 2;
         }
-        return pos;
+        return homePos;
     }
 
     public Vector2 CalculateFaceOffPosition(int playerIndex)

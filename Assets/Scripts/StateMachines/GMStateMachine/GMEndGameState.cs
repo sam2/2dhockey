@@ -24,8 +24,8 @@ public class GMEndGameState : FSMState<GameManager> {
 
 	public IEnumerator EndGamePresentation(GameManager manager)
 	{
-		manager.view.SetGoalText("GAME OVER");
-		manager.view.goalText.gameObject.SetActive(true);
+		manager.View.SetGoalText("GAME OVER");
+		manager.View.goalText.gameObject.SetActive(true);
         GameData.Instance.LeagueData.CurrentSeason.GamePlayed(GameData.Instance.CurrentGame);
         yield return new WaitForSeconds(5.0f);
         SceneManager.LoadScene("FrontEnd");

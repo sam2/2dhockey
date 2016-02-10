@@ -45,11 +45,6 @@ public class Goalie : Player {
 	
 	}
 
-	void OnDrawGizmosSelected()
-	{
-		Gizmos.DrawWireSphere(GetRearInterposeTarget(), attackDistance);
-	}
-
 	void OnCollisionEnter2D(Collision2D collision)
 	{
 		if(collision.collider.tag == "Player")

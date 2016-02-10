@@ -18,7 +18,7 @@ public class PlayerAnimationHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		UpdateFacing();
-		if(p.fallen && face != Facing.fallen)
+		if(p.Fallen && face != Facing.fallen)
 		{
 			face = Facing.fallen;
 			animator.SetInteger("Facing", (int)Facing.fallen);
@@ -26,7 +26,7 @@ public class PlayerAnimationHandler : MonoBehaviour {
 		else
 			animator.SetInteger("Facing", (int)face%3);
 
-		animator.SetBool("slapshot", p.slapshot);
+		animator.SetBool("slapshot", p.Slapshot);
 	
 	}
 

@@ -12,68 +12,76 @@ public class GameManager : Singleton<GameManager>
 	public TeamAI TeamB; //right team
 
 	public float GAME_LENGTH;
-	public float timeLeft;
-	public GameView view;
+	private float m_TimeLeft;
+	public GameView View;
 
-	FiniteStateMachine<GameManager> fsm;
+	FiniteStateMachine<GameManager> m_FSM;
 	public GMFaceoffState gmFaceoffState = new GMFaceoffState();
 	public GMPlayState gmPlayState = new GMPlayState();
 	public GMEndGameState gmEndGameState = new GMEndGameState();
 
-	bool mLoading = false;
+    public bool FaceoffInProgress;
 
 	public void ChangeState(FSMState<GameManager> state)
 	{
-		fsm.ChangeState(state);
+		m_FSM.ChangeState(state);
 	}
 
 	void LeftGoalScoredOn()
 	{
-
-		view.goalText.gameObject.SetActive(true);
+		View.goalText.gameObject.SetActive(true);
 		ChangeState(gmFaceoffState);
 		GameData.Instance.CurrentGame.TeamB_Score++;
-		view.UpdateScores (GameData.Instance.CurrentGame.TeamA_Score, GameData.Instance.CurrentGame.TeamB_Score);
-	}
+		View.UpdateScores (GameData.Instance.CurrentGame.TeamA_Score, GameData.Instance.CurrentGame.TeamB_Score);
+        StartCoroutine(DelayedFaceoff(1));
+    }
 
 	void RighttGoalScoredOn()
 	{
-		view.goalText.gameObject.SetActive(true);
+		View.goalText.gameObject.SetActive(true);
 		ChangeState(gmFaceoffState);
         GameData.Instance.CurrentGame.TeamA_Score++;
-		view.UpdateScores (GameData.Instance.CurrentGame.TeamA_Score, GameData.Instance.CurrentGame.TeamB_Score);
-	}
+		View.UpdateScores (GameData.Instance.CurrentGame.TeamA_Score, GameData.Instance.CurrentGame.TeamB_Score);
+        StartCoroutine(DelayedFaceoff(1));
+    }
 
-	// Use this for initialization
 	void Awake()
 	{
-		mLoading = true;
-		timeLeft = GAME_LENGTH;       
-       // CreateTeams(GameData.Instance.GetTeam(GameData.Instance.CurrentGame.TeamA_ID), GameData.Instance.GetTeam(GameData.Instance.CurrentGame.TeamB_ID));
-		//PlaceNets();
-		fsm = new FiniteStateMachine<GameManager>();
-		
+		m_TimeLeft = GAME_LENGTH;
+		m_FSM = new FiniteStateMachine<GameManager>();		
         LeftGoal.Goal += new GoalHandler(LeftGoalScoredOn);
         RightGoal.Goal += new GoalHandler(RighttGoalScoredOn);
-      
-        mLoading = false;
 	}
 
     void Start()
     {
         TeamA.Init();
         TeamB.Init();
-        fsm.Init();
-        fsm.Configure(this, gmFaceoffState);
+        m_FSM.Init();
+        m_FSM.Configure(this, gmFaceoffState);
     }
 
 
-	// Update is called once per frame
 	void Update () 
 	{
-		if(!mLoading)
-			fsm.UpdateStateMachine();
+        m_FSM.UpdateStateMachine();
         TeamA.UpdateAI();
         TeamB.UpdateAI();
-	}	
+	}
+
+    public void UpdateGameTime()
+    {
+        m_TimeLeft -= Time.deltaTime;
+        if (m_TimeLeft <= 0)
+        {
+            ChangeState(gmEndGameState);
+        }
+        View.UpdateTimer(m_TimeLeft);
+    }
+
+    IEnumerator DelayedFaceoff(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Puck.Instance.Reset();
+    }
 }

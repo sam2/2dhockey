@@ -27,17 +27,16 @@ public class GoalZone : MonoBehaviour {
 			score++;
 			Goal();
 			goalLight.Play();
-			StartCoroutine(ResetPuck(1));
+			StartCoroutine(DisableCollision(1));
 		}
 	}
 
-	IEnumerator ResetPuck(float delay)
+	IEnumerator DisableCollision(float delay)
 	{
 		colder.enabled = false;
-
 		yield return new WaitForSeconds(delay);
 		colder.enabled = true;
-		Puck.Instance.Reset();
+		
 	}
 
 

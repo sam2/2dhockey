@@ -17,7 +17,7 @@ public class TeamDefendingState : FSMState<TeamAI> {
 
         for(int i = 0; i < t.mPlayerAIs.Count; i++)
         {
-            if(!t.Team.mPlayers[i].controlled)
+            if(!t.Team.mPlayers[i].Controlled)
                 t.Team.mPlayers[i].MoveTo(t.CalculateDefensivePosition(i));
         }
 		if(t.InControl())

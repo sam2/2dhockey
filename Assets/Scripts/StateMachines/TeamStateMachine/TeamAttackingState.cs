@@ -18,7 +18,7 @@ public class TeamAttackingState : FSMState<TeamAI> {
         //calculate best support spot
         for(int i = 0; i < t.mPlayerAIs.Count; i++)
         {
-            if (!t.Team.mPlayers[i].controlled)
+            if (!t.Team.mPlayers[i].Controlled)
                 t.Team.mPlayers[i].MoveTo(t.CalculateOffensivePosition(i));
         }
         if (Puck.Instance.controllingPlayer != null && !t.IsOnTeam(Puck.Instance.controllingPlayer))

@@ -5,23 +5,9 @@ public class TeamFaceoffState : FSMState<TeamAI> {
 	
 	public override void Enter(TeamAI t)
 	{
-		PlayerControls tc = t.GetComponent<PlayerControls>();
-		if(tc!=null)
-		{
-			tc.enabled = false;
-		}	
-
-		foreach(Skater p in t.Team.mPlayers)
-		{
-			p.ChangeState(p.faceoffState);
-		}
-        foreach(PlayerAI pai in t.mPlayerAIs)
-        {
-            pai.enabled = false;
-        }
         for (int i = 0; i < t.Team.mPlayers.Count; i++)
         {
-            Debug.Log(t.Team.mPlayers[i].name + "->" + t.CalculateFaceOffPosition(i));
+            t.Team.mPlayers[i].ChangeState(t.Team.mPlayers[i].faceoffState);
             t.Team.mPlayers[i].MoveTo(t.CalculateFaceOffPosition(i));
         }
 
@@ -29,6 +15,10 @@ public class TeamFaceoffState : FSMState<TeamAI> {
 	
 	public override void Execute(TeamAI t)
 	{
+        if(!GameManager.Instance.FaceoffInProgress)
+        {
+            t.ChangeState(t.attackState);
+        }
         
     }
 	
@@ -38,17 +28,6 @@ public class TeamFaceoffState : FSMState<TeamAI> {
 		{
 			p.ChangeState(p.playState);
 		}
-		PlayerControls tc = t.GetComponent<PlayerControls>();
-		if(tc!=null)
-		{
-			tc.enabled = true;
-		}
-        foreach (PlayerAI pai in t.mPlayerAIs)
-        {
-            pai.enabled = true;
-        }
-
-
     }
 
 

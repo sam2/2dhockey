@@ -50,7 +50,7 @@ public class TouchControls : MonoBehaviour {
 		if(Input.GetMouseButtonDown(0))
 		{
 			mTarget = FindClosestPlayerToPoint(mousePos, TOUCH_RANGE);
-			if(mTarget != null && !mTarget.controlled)
+			if(mTarget != null && !mTarget.Controlled)
 			{
 				mTarget.ChangeState(mTarget.controlledState);
 			}
