@@ -65,13 +65,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DrawRinkTest.cs" />
-    <Compile Include="Assets\PlayerColorizer.cs" />
-    <Compile Include="Assets\Profile.cs" />
     <Compile Include="Assets\Scripts\Controls\IPlayerControls.cs" />
     <Compile Include="Assets\Scripts\Controls\IPlayerControlsView.cs" />
     <Compile Include="Assets\Scripts\Controls\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\Controls\PlayerControlsTestView.cs" />
+    <Compile Include="Assets\Scripts\DrawRinkTest.cs" />
     <Compile Include="Assets\Scripts\FrontEnd\Controllers\MainMenuController.cs" />
     <Compile Include="Assets\Scripts\FrontEnd\Controllers\SeasonScreenController.cs" />
     <Compile Include="Assets\Scripts\FrontEnd\FrontEndManager.cs" />
@@ -88,6 +86,7 @@
     <Compile Include="Assets\Scripts\Gameplay\Puck.cs" />
     <Compile Include="Assets\Scripts\Gameplay\SaveChecker.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Skater.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\SteeringBehavior.cs" />
     <Compile Include="Assets\Scripts\Gameplay\Team.cs" />
     <Compile Include="Assets\Scripts\Gameplay\TeamAI.cs" />
     <Compile Include="Assets\Scripts\Gameplay\TeamAIPositionEditor.cs" />
@@ -103,6 +102,7 @@
     <Compile Include="Assets\Scripts\LeagueTest.cs" />
     <Compile Include="Assets\Scripts\LeagueTestView.cs" />
     <Compile Include="Assets\Scripts\PlayerAnimationHandler.cs" />
+    <Compile Include="Assets\Scripts\PlayerColorizer.cs" />
     <Compile Include="Assets\Scripts\PlayerControlsView.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\StateMachines\FSMState.cs" />
@@ -123,8 +123,6 @@
     <Compile Include="Assets\Scripts\UI\GameView.cs" />
     <Compile Include="Assets\Scripts\UI\LineDrawer.cs" />
     <Compile Include="Assets\Scripts\VectorLine.cs" />
-    <Compile Include="Assets\SteeringBehavior.cs" />
-    <Compile Include="Assets\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Art\Bauer.txt" />
